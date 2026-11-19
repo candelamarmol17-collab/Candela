@@ -120,27 +120,44 @@ Estos puntos no salieron de las preguntas, así que los dejo explícitos para qu
 
 ## Criterios de aceptación
 
-- [ ] `catalogos.js` tiene las listas copiadas tal cual del formulario.
-- [ ] Una solicitud válida pasa, y los campos de más se descartan.
-- [ ] Una solicitud con un motivo o tipo de profesional que no está en la lista pasa igual.
-- [ ] Se rechazan: campos obligatorios faltantes, textos vacíos o solo con espacios, textos de más de 300 caracteres, tipos incorrectos (por ejemplo, edad como texto), edad decimal o fuera de 0 a 120, fecha mal escrita y nulos en campos obligatorios.
-- [ ] Una respuesta de IA válida pasa, incluida una con `alertas` vacía.
-- [ ] Las alertas repetidas se eliminan sin rechazar la respuesta.
-- [ ] Se rechazan: alerta desconocida, profesional fuera de la lista, prioridad o confianza fuera de alta/media/baja, justificación vacía o de más de 300 caracteres y campos de más.
-- [ ] Los mensajes de error están en español e indican el campo.
-- [ ] `npm test` y `npm run lint` pasan.
-- [ ] Decisión técnica 004 escrita.
-- [ ] Sin `console.log`.
-- [ ] `TASKS.md` actualizado y rama unida a `main` por Pull Request.
+- [x] `catalogos.js` tiene las listas copiadas tal cual del formulario.
+- [x] Una solicitud válida pasa, y los campos de más se descartan.
+- [x] Una solicitud con un motivo o tipo de profesional que no está en la lista pasa igual.
+- [x] Se rechazan: campos obligatorios faltantes, textos vacíos o solo con espacios, textos de más de 300 caracteres, tipos incorrectos (por ejemplo, edad como texto), edad decimal o fuera de 0 a 120, fecha mal escrita y nulos en campos obligatorios.
+- [x] Una respuesta de IA válida pasa, incluida una con `alertas` vacía.
+- [x] Las alertas repetidas se eliminan sin rechazar la respuesta.
+- [x] Se rechazan: alerta desconocida, profesional fuera de la lista, prioridad o confianza fuera de alta/media/baja, justificación vacía o de más de 300 caracteres y campos de más.
+- [x] Los mensajes de error están en español e indican el campo.
+- [x] `npm test` y `npm run lint` pasan.
+- [x] Decisión técnica 004 escrita.
+- [x] Sin `console.log`.
+- [x] `TASKS.md` actualizado.
+- [ ] Rama unida a `main` por Pull Request.
 
 ## Archivos modificados/creados
 
-(se completa al implementar)
+**Archivos creados**:
+
+- `src/schemas/catalogos.js`: listas de valores permitidos. Además de lo planeado, tiene `EDAD` (mínimo 0 y máximo 120), para que esos límites también queden en un solo lugar.
+- `src/schemas/utilidades.js`: **no estaba en el plan.** Tiene las piezas que usan los dos esquemas: la regla de "texto no vacío", la regla de "valor de la lista" y la función que convierte los errores en la lista `{ campo, mensaje }`. Lo separé para no repetir el mismo código en dos archivos.
+- `src/schemas/solicitud.schema.js`: esquema de entrada y `validarSolicitud`.
+- `src/schemas/clasificacion.schema.js`: esquema de salida y `validarClasificacion`.
+- `tests/schemas/catalogos.test.js`, `tests/schemas/solicitud.schema.test.js` y `tests/schemas/clasificacion.schema.test.js`: 95 pruebas nuevas (97 en total con las de la tarea 001).
+- `docs/decisiones/004-entrada-flexible-salida-estricta.md`
+
+**Archivos modificados**: `package.json` y `package-lock.json` (se agregó `zod` 4.6.7), `TASKS.md`.
+
+**Cómo funcionan dos detalles aprobados**:
+
+- A. `edad` o `especificidad_consulta` con `null`: la solicitud se acepta y el campo se quita de los datos limpios.
+- B. Fecha: se acepta `2026-11-19T10:30:00` o `2026-11-19T10:30`. Se rechazan las fechas con zona horaria, con milisegundos y las que no existen (por ejemplo, 30 de febrero o las 25:00).
+
+**Algo que encontré y no corregí (está fuera de esta tarea)**: Git en este computador convierte los saltos de línea al formato de Windows al descargar archivos. Por eso, Prettier marca `tests/configuracion.test.js` como "mal formateado", aunque el contenido está bien. No afecta a las pruebas ni a ESLint. Se puede corregir en una tarea aparte, con un archivo `.gitattributes` (que le dice a Git qué formato de salto de línea usar).
 
 ## Cómo probarlo
 
 1. Descargar la rama y ejecutar `npm install`.
-2. Ejecutar `npm test`: todas las pruebas deben pasar.
+2. Ejecutar `npm test`: deben pasar las 97 pruebas (puede aparecer un aviso "ExperimentalWarning", es normal).
 3. Ejecutar `npm run lint`: no debe mostrar errores.
 
 ## Notas de cierre
