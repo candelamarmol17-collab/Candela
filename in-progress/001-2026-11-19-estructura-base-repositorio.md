@@ -1,6 +1,6 @@
 # [001] Estructura base del repositorio
 
-**Estado**: backlog
+**Estado**: in-progress
 **Fecha creación**: 2026-11-19
 **Rama asociada**: `chore/001-estructura-base`
 
