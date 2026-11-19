@@ -1,0 +1,22 @@
+{
+  "name": "bandeja-priorizada-telesalud",
+  "version": "0.1.0",
+  "description": "MVP: bandeja priorizada de solicitudes de Telesalud con sugerencias de IA (solo datos sintéticos).",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
+    "jest": "^30.5.2",
+    "prettier": "^3.10.1"
+  }
+}
