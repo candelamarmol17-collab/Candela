@@ -1,6 +1,6 @@
 # [002] Esquemas de entrada y salida
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-19
 **Rama asociada**: `feat/002-esquemas`
 
@@ -132,7 +132,7 @@ Estos puntos no salieron de las preguntas, así que los dejo explícitos para qu
 - [x] Decisión técnica 004 escrita.
 - [x] Sin `console.log`.
 - [x] `TASKS.md` actualizado.
-- [ ] Rama unida a `main` por Pull Request.
+- [x] Rama unida a `main` por Pull Request (#3).
 
 ## Archivos modificados/creados
 
@@ -162,4 +162,24 @@ Estos puntos no salieron de las preguntas, así que los dejo explícitos para qu
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Fecha de cierre**: 2026-11-19
+
+**Resumen**: el MVP ya tiene los moldes que dicen qué datos son válidos. El de entrada revisa las solicitudes de Telesalud y es flexible con las etiquetas. El de salida revisa las respuestas de la IA y es estricto. Las listas de valores permitidos están en un solo archivo (`catalogos.js`). Pasan las 97 pruebas y ESLint no muestra errores. La rama se unió a `main` con el Pull Request #3.
+
+**Checklist de "Terminado"**:
+
+- [x] Pruebas escritas y pasando
+- [x] Sin `console.log` en el código
+- [x] Documentación de la tarea actualizada
+- [x] Rama mergeada (Pull Request #3)
+- [x] Índice general (`TASKS.md`) actualizado
+
+**Pendientes para tareas futuras**:
+
+- Validar con la gestora de Telesalud del CESFAM Boris Soler: los campos reales de la exportación, la categoría "Otros", los valores de `especificidad_consulta` y las prioridades 1 a 4. Con esa información se ajustan `catalogos.js` y la decisión 004.
+- El largo máximo de `especificidad_consulta` (300) es provisional.
+- Tareas 4 y 5: si viene la edad, la alerta de 60 años o más la calcula el código, no la IA. Su nombre puede cambiar según el alcance de la Ley 21.168.
+- Tarea 5: maneja el estado "no clasificada" cuando `validarClasificacion` rechaza una respuesta.
+- Saltos de línea: Git en este computador los convierte al formato de Windows. Se puede corregir con un `.gitattributes` en una tarea aparte.
+
+**Uso de IA (para la pregunta 52 del formulario)**: se usó Claude Code (modelo Claude Opus 5.5) para hacer las preguntas de alcance, escribir el archivo de la tarea y el plan técnico, programar los esquemas y sus 95 pruebas nuevas, redactar la decisión técnica 004, ejecutar las pruebas y hacer los commits. Candela entregó las listas reales del formulario de Telesalud, respondió las preguntas, aprobó el plan y revisó y unió el Pull Request.
