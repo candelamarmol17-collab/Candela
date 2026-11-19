@@ -1,0 +1,21 @@
+# Dependencias
+node_modules/
+
+# Secretos y configuración local (R7: nunca se suben)
+.env
+.env.*
+!.env.example
+
+# Registros
+logs/
+*.log
+npm-debug.log*
+
+# Resultados de pruebas
+coverage/
+
+# Archivos del sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
