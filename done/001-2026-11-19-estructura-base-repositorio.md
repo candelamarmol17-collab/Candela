@@ -1,6 +1,6 @@
 # [001] Estructura base del repositorio
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-19
 **Rama asociada**: `chore/001-estructura-base`
 
@@ -70,7 +70,7 @@ No se instala Zod todavía: se agrega en la tarea 2, que es la que lo usa.
 - [x] Las tres decisiones técnicas quedan escritas en `/docs/decisiones`.
 - [x] `TASKS.md` está actualizado.
 - [x] No hay `console.log` en el código.
-- [ ] La rama se junta con `main` mediante Pull Request.
+- [x] La rama se junta con `main` mediante Pull Request (#1).
 
 ## Archivos modificados/creados
 
@@ -100,4 +100,24 @@ No se instala Zod todavía: se agrega en la tarea 2, que es la que lo usa.
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Fecha de cierre**: 2026-11-19
+
+**Resumen**: el proyecto ya tiene sus carpetas de trabajo y de código, la configuración básica, el README y Node.js listo con pruebas (Jest) y revisión de estilo (ESLint y Prettier). Las 2 pruebas pasan y la revisión de estilo no muestra errores. La rama se unió a `main` con el Pull Request #1.
+
+**Checklist de "Terminado"**:
+
+- [x] Pruebas escritas y pasando
+- [x] Sin `console.log` en el código
+- [x] Documentación de la tarea actualizada
+- [x] Rama mergeada (Pull Request #1)
+- [x] Índice general (`TASKS.md`) actualizado
+
+**Pendientes para tareas futuras**:
+
+- La licencia abierta sigue pendiente; se define con la UAI (regla R6).
+- Zod se instala en la tarea 2 (esquemas).
+- Las variables del proveedor de IA se agregan a `.env.example` en la tarea 4.
+- La herramienta de GitHub para la terminal (`gh`) no está instalada. Por eso, los Pull Requests se abren a mano desde la página de GitHub.
+- Mover esta tarea a `/done` necesitó un segundo Pull Request, porque el contrato no permite trabajar directo en `main`.
+
+**Uso de IA (para la pregunta 52 del formulario)**: se usó Claude Code (modelo Claude Opus 5.5) para hacer las preguntas de alcance, escribir el archivo de la tarea, crear las carpetas y los archivos de configuración, redactar el README y las decisiones técnicas, ejecutar las pruebas y hacer los commits. Candela respondió las preguntas, aprobó el plan y revisó y unió el Pull Request.
