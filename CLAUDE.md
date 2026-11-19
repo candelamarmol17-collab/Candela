@@ -122,3 +122,10 @@ Todo archivo en `/backlog`, `/in-progress` o `/done` sigue este formato:
 | 001 | Crear login | done | 2026-08-25 |
 
 - Se actualiza cada vez que una tarea cambia de estado.
+
+
+## 11. Requerimientos del Proyecto
+
+- Qué se construye, el alcance y las reglas del proyecto están en `docs/requerimientos.md`. Léelo antes de iniciar cualquier tarea.
+- Las marcas [PENDIENTE] e [INFERENCIA] de ese documento activan la Regla 0: se pregunta antes de usarlas.
+- Si `docs/requerimientos.md` contradice este contrato, manda este contrato y se avisa de la contradicción.
