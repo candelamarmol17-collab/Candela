@@ -1,6 +1,6 @@
 # [002] Esquemas de entrada y salida
 
-**Estado**: backlog
+**Estado**: in-progress
 **Fecha creación**: 2026-11-19
 **Rama asociada**: `feat/002-esquemas`
 
