@@ -61,26 +61,41 @@ No se instala Zod todavía: se agrega en la tarea 2, que es la que lo usa.
 
 ## Criterios de aceptación
 
-- [ ] Existen todas las carpetas del plan y quedan guardadas en git.
-- [ ] `.env` está en `.gitignore` y `.env.example` no tiene secretos.
-- [ ] `npm install` funciona sin errores.
-- [ ] `npm test` pasa.
-- [ ] `npm run lint` no muestra errores.
-- [ ] El README explica el proyecto, avisa que solo usa datos sintéticos y deja la licencia como pendiente.
-- [ ] Las tres decisiones técnicas quedan escritas en `/docs/decisiones`.
-- [ ] `TASKS.md` está actualizado.
-- [ ] No hay `console.log` en el código.
+- [x] Existen todas las carpetas del plan y quedan guardadas en git.
+- [x] `.env` está en `.gitignore` y `.env.example` no tiene secretos.
+- [x] `npm install` funciona sin errores.
+- [x] `npm test` pasa.
+- [x] `npm run lint` no muestra errores.
+- [x] El README explica el proyecto, avisa que solo usa datos sintéticos y deja la licencia como pendiente.
+- [x] Las tres decisiones técnicas quedan escritas en `/docs/decisiones`.
+- [x] `TASKS.md` está actualizado.
+- [x] No hay `console.log` en el código.
 - [ ] La rama se junta con `main` mediante Pull Request.
 
 ## Archivos modificados/creados
 
-(se completa al implementar)
+**Carpetas** (con `.gitkeep` para que git las guarde aunque estén vacías): `backlog/`, `in-progress/`, `done/`, `docs/decisiones/`, `src/controllers/`, `src/services/`, `src/repositories/`.
+
+**Archivos creados**:
+
+- `TASKS.md`: índice de tareas.
+- `.gitignore`: además de lo planeado, ignora archivos del sistema (`.DS_Store`, `Thumbs.db`) y carpetas de editores (`.vscode/`, `.idea/`).
+- `.env.example`: `MODO_IA=simulado` y `PUERTO=3000`.
+- `README.md`
+- `package.json` y `package-lock.json` (este último guarda las versiones exactas instaladas).
+- `jest.config.js`, `eslint.config.js` (con la regla que prohíbe `console.log`) y `.prettierrc`.
+- `tests/configuracion.test.js`: 2 pruebas. Una confirma que Jest funciona y la otra, que `.env.example` usa el modo simulado y no trae claves.
+- `docs/decisiones/001-javascript-con-zod.md`, `002-modulos-esm.md` y `003-eslint-y-prettier.md`.
+
+**Archivos modificados**: `CLAUDE.md` y `docs/requerimientos.md` (cambios que estaban pendientes, guardados en un commit aparte).
+
+**Versiones instaladas**: jest 30.5, eslint 10.15, @eslint/js 10.0, globals 17.14, prettier 3.10.
 
 ## Cómo probarlo
 
 1. Descargar la rama y abrir una terminal en la carpeta del proyecto.
 2. Ejecutar `npm install`.
-3. Ejecutar `npm test`: debe decir que la prueba pasó.
+3. Ejecutar `npm test`: debe decir que las 2 pruebas pasaron (puede aparecer un aviso "ExperimentalWarning", es normal).
 4. Ejecutar `npm run lint`: no debe mostrar errores.
 
 ## Notas de cierre
