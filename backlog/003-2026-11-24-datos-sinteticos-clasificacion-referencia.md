@@ -17,12 +17,12 @@ Además, se genera una tabla para Excel donde Candela puede revisar los 60 casos
 | 1 | ¿Nombre de la rama? | `feat/003-datos-sinteticos`. |
 | 2 | ¿Cuántas solicitudes? | **60.** Candela las revisa todas a mano y el plazo es corto. Hay que verificar que con 60 se cumplan los mínimos de las preguntas 3 a 9 (ver "Revisión de los mínimos con 60 solicitudes"). |
 | 3 | ¿Reparto de la prioridad de referencia? | Sin una regla fija, pero con al menos 15 de cada nivel (alta, media y baja). |
-| 4 | ¿Casos mínimos por alerta? | Al menos 5 de cada alerta (urgencia, violencia, ideación suicida, descompensación, 60 años o más y GES). Además, al menos 20 casos sin ninguna alerta. |
+| 4 | ¿Casos mínimos por alerta? | Al menos 5 de cada alerta (urgencia, violencia, ideación suicida, descompensación, 60 años o más y GES). Además, al menos 20 casos **sin ninguna alerta que decida la IA** (urgencia, violencia, ideación suicida, descompensación y GES). **Corrección de Candela**: esos 20 casos sí pueden tener la alerta de 60 años o más, porque esa la calcula el código y no la IA (acordado en la tarea 002). Por lo tanto, no sirve para medir falsas alertas de la IA. |
 | 5 | ¿Casos ambiguos? | Al menos 10 casos con motivo "Otros" y una urgencia escondida en el texto libre. |
 | 6 | ¿Proporción de "Otros"? | Cerca de un 30%, no el 56% real, para no quitarle espacio a los motivos de la lista. |
 | 7 | ¿Profesional mal elegido? | Sí, al menos 8 casos donde la referencia sugiere un profesional distinto al que eligió el vecino. |
 | 8 | ¿Tipos de profesional en las solicitudes? | Solo los 10 de la lista. |
-| 9 | ¿Edad? | 80% con edad y 20% sin edad. |
+| 9 | ¿Edad? | 80% con edad y 20% sin edad. **Corrección de Candela**: entre 15 y 20 de las 60 solicitudes tienen 60 años o más. |
 | 10 | ¿`especificidad_consulta`? | Se deja fuera de todas las solicitudes: sus valores siguen [PENDIENTE]. |
 | 11 | ¿Fechas? | Dos semanas de noviembre de 2026, entre las 8:00 y las 22:00. |
 | 12 | ¿Identificadores? | `SINT-0001` a `SINT-0060`. |
@@ -38,12 +38,20 @@ Además, se genera una tabla para Excel donde Candela puede revisar los 60 casos
 | 22 | ¿Archivo fijo o script generador? | Archivo fijo, escrito por Claude en esta sesión. |
 | 23 | ¿Cómo revisa Candela? | Con una tabla CSV (archivo de planilla que abre Excel) con solicitud y referencia lado a lado. Candela marca lo que cambiaría y Claude aplica los cambios antes de cerrar la tarea. **El CSV tiene que abrirse bien en Excel configurado en español: separador punto y coma (`;`) y codificación UTF-8 con BOM (una marca invisible al inicio que le avisa a Excel que el archivo trae tildes y ñ).** |
 | 24 | ¿Aviso de método? | Sí, en el README: la referencia la definimos nosotras y no los triajistas, así que la evaluación demuestra el método y no la calidad real de la IA. **Además: los textos sintéticos los escribió una IA, así que la evaluación podría mostrar resultados mejores que con textos reales escritos por vecinos.** |
-| 25 | ¿Qué revisan las pruebas? | Que cada solicitud cumpla el esquema de entrada; que cada solicitud tenga exactamente una referencia, y al revés; que la referencia use valores permitidos; que se cumplan los mínimos de las preguntas 3 a 9; que la alerta de 60 años o más calce con la edad; y que no haya números parecidos a RUT o teléfonos. |
-| — | (Pedido nuevo) Criterios de prioridad | Antes de escribir los casos, dejar escritos los criterios para decidir la prioridad de referencia, anotados como criterio nuestro y no clínico. Ver la sección siguiente. |
+| 25 | ¿Qué revisan las pruebas? | Que cada solicitud cumpla el esquema de entrada; que cada solicitud tenga exactamente una referencia, y al revés; que la referencia use valores permitidos; que se cumplan los mínimos de las preguntas 3 a 9 (con la corrección de la pregunta 4); que la alerta de 60 años o más calce con la edad; y que no haya números parecidos a RUT o teléfonos. |
+| — | (Pedido nuevo) Criterios de prioridad | Antes de escribir los casos, dejar escritos los criterios para decidir la prioridad de referencia, anotados como criterio nuestro y no clínico. **Son PROVISIONALES y están pendientes de validar con Fernanda Mena.** Ver la sección siguiente, que es el único lugar donde están escritos. |
 
-## Criterios para decidir la prioridad de referencia
+## Criterios para decidir la prioridad de referencia [PROVISIONALES]
 
-> **Importante: estos criterios son nuestros, no clínicos.** No los definió ni validó un profesional de salud. Sirven solo para armar la "respuesta correcta" de los datos sintéticos, y así demostrar el método de evaluación. Antes de cualquier uso real, los tienen que revisar los triajistas.
+> **Importante: estos criterios son PROVISIONALES, nuestros y no clínicos.** No los definió ni validó un profesional de salud. Sirven solo para armar la "respuesta correcta" de los datos sintéticos, y así demostrar el método de evaluación.
+>
+> **Este es el único lugar donde están escritos.** Si hay que ajustarlos, se cambian solo aquí y después se revisan las referencias afectadas.
+
+**[PENDIENTE] Por validar con Fernanda Mena, gestora de Telesalud del CESFAM Boris Soler**, en especial:
+
+- (a) Los criterios de alta, media y baja.
+- (b) Si las alertas de 60 años o más y GES deben subir la prioridad.
+- (c) Qué cuenta como "medicamento que no se puede suspender" y como "síntomas de alarma en el embarazo".
 
 Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; baja, en 30 días.
 
@@ -80,18 +88,21 @@ Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; b
 
 ## Revisión de los mínimos con 60 solicitudes
 
-Revisé que todos los mínimos caben en 60 solicitudes. **Se cumplen.**
+Revisé que todos los mínimos caben en 60 solicitudes, con las correcciones de Candela a las preguntas 4 y 9. **Se cumplen todos.**
+
+En esta tabla, "alertas de la IA" son las 5 alertas que decide la IA: urgencia, violencia, ideación suicida, descompensación y GES. La alerta de 60 años o más la calcula el código.
 
 | Mínimo | Cuánto se necesita | Cómo cabe en 60 |
 |---|---|---|
 | 15 de cada prioridad | 45 | Quedan 15 libres, que se reparten entre los tres niveles. |
-| 5 de cada alerta (6 alertas) | 30 alertas | Una solicitud puede tener más de una alerta, así que bastan como máximo 30 solicitudes con alerta. |
-| 20 sin ninguna alerta | 20 | Quedan hasta 40 solicitudes para las 30 alertas. Alcanza. |
+| 5 de cada alerta de la IA (5 alertas) | 25 alertas | Una solicitud puede tener más de una alerta, así que bastan como máximo 25 solicitudes con alerta de la IA. |
+| 20 sin ninguna alerta de la IA | 20 | Quedan hasta 40 solicitudes para las 25 alertas de la IA. Alcanza con holgura. |
+| Entre 15 y 20 personas de 60 años o más | 15 a 20 | Salen de las 48 solicitudes con edad. Cada una lleva la alerta de 60 años o más, así que esa alerta queda con 15 a 20 casos y supera el mínimo de 5. Como ya no bloquean el grupo "sin alerta de la IA", pueden estar en cualquier grupo. |
 | 10 "Otros" con urgencia escondida | 10 | Caben dentro de las ~18 solicitudes con "Otros" (30% de 60). También aportan a las 5 de urgencia y a las 15 de alta. |
 | 8 con profesional mal elegido | 8 | Se mezclan con cualquiera de los grupos anteriores. |
-| 80% con edad | 48 con edad y 12 sin edad | Ver la restricción de abajo. |
+| 80% con edad | 48 con edad y 12 sin edad | De las 48 con edad, entre 15 y 20 tienen 60 años o más y entre 28 y 33 tienen menos de 60. |
 
-**Una restricción que conviene conocer**: como la alerta de 60 años o más se marca siempre que la edad es 60 o más, una solicitud con edad 60+ nunca puede estar en el grupo "sin ninguna alerta". Por eso, entre las 48 solicitudes con edad, entre 5 y 15 tendrán 60 años o más. Las demás tendrán menos de 60. Así se pueden juntar los 20 casos sin alerta. La bandeja quedará con menos personas mayores de lo que probablemente tiene un CESFAM real.
+**Para la tarea de evaluación (tarea 8)**: como la alerta de 60 años o más no la decide la IA, la métrica de falsas alertas tiene que dejarla fuera. Si no, culparía a la IA de algo que calcula el código.
 
 ## Plan técnico
 
@@ -116,7 +127,7 @@ Revisé que todos los mínimos caben en 60 solicitudes. **Se cumplen.**
 - Números parecidos a un RUT (por ejemplo `12.345.678-9` o `12345678-9`).
 - Números parecidos a un teléfono chileno (por ejemplo `+56 9 1234 5678` o `912345678`).
 - Correos electrónicos.
-- Una lista de palabras prohibidas: `Melipilla`, `Boris Soler`, `Rayén` y `CESFAM`, para que no aparezcan nombres de lugares o centros reales.
+- Una lista de palabras prohibidas: `Melipilla`, `Boris Soler`, `Rayén` y `El Gueta`, para que no aparezcan nombres de lugares, centros o sistemas reales. La búsqueda no distingue entre mayúsculas y minúsculas: por ejemplo, también encuentra `MELIPILLA` o `el gueta`. "CESFAM" no está en la lista porque es una palabra general que escribiría cualquier vecino y no identifica a ningún centro.
 
 La prueba no puede detectar un nombre de persona inventado. Eso se cuida al escribir los textos y en la revisión de Candela.
 
@@ -124,14 +135,14 @@ La prueba no puede detectar un nombre de persona inventado. Eso se cuida al escr
 
 **Sin dependencias nuevas.**
 
-### Detalles que necesito que apruebes
+### Detalles fuera de las preguntas
 
-Estos puntos no salieron de las preguntas:
+Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como están, y corrigió D:
 
 - **A. Esquema de la referencia** (`src/schemas/referencia.schema.js`): hace falta para que la prueba revise que la referencia use valores permitidos.
 - **B. El CSV se guarda en el repositorio**: así lo puedes descargar desde GitHub. La alternativa es generarlo solo en tu computador con `npm run revision:csv`.
 - **C. Mensaje del script**: el contrato prohíbe `console.log`. El script avisa que terminó escribiendo una línea en la terminal con `process.stdout.write`. ESLint no bloquea esa forma. Si prefieres que el script no muestre nada, lo dejo en silencio.
-- **D. Palabras prohibidas**: la lista de la prueba de datos personales (`Melipilla`, `Boris Soler`, `Rayén` y `CESFAM`). Si conoces otros nombres de centros o lugares que deban quedar fuera, agrégalos.
+- **D. Palabras prohibidas**: **corregido por Candela**. La lista es `Melipilla`, `Boris Soler`, `Rayén` y `El Gueta`, y la búsqueda no distingue entre mayúsculas y minúsculas. Se sacó "CESFAM".
 - **E. Protección del CSV en Excel**: si un texto empieza con `=`, `+`, `-` o `@`, Excel podría tratarlo como fórmula. Propongo anteponerle un apóstrofo (`'`) en el CSV. Solo cambia la tabla de revisión, no el JSON.
 
 ## Criterios de aceptación
