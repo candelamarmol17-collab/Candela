@@ -159,27 +159,61 @@ Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 
 
 ## Criterios de aceptación
 
-- [ ] Sin clave, todo funciona en modo simulado.
-- [ ] Con `MODO_IA=simulado`, se usa el modo simulado aunque haya clave.
-- [ ] Cambiar de proveedor es solo editar el `.env`.
-- [ ] La clave no aparece en pantalla, en errores ni en resultados.
-- [ ] El prompt tiene versión, la regla R3 y los criterios [PROVISIONALES].
-- [ ] Una respuesta que no cumple el esquema queda "no clasificada", sin inventar datos.
-- [ ] Cada resultado indica su origen: modelo real, simulado o repetición.
-- [ ] El script clasifica los 60 casos de a uno, con pausa, y guarda los resultados.
-- [ ] Hay un CSV con BOM para la revisión R3 después de la primera corrida real.
-- [ ] `npm test` y `npm run lint` pasan, sin llamadas a internet en las pruebas.
-- [ ] Sin `console.log`.
-- [ ] Decisiones técnicas 005 y 006 escritas.
+- [x] Sin clave, todo funciona en modo simulado.
+- [x] Con `MODO_IA=simulado`, se usa el modo simulado aunque haya clave.
+- [x] Cambiar de proveedor es solo editar el `.env`.
+- [x] La clave no aparece en pantalla, en errores ni en resultados.
+- [x] El prompt tiene versión, la regla R3 y los criterios [PROVISIONALES].
+- [x] Una respuesta que no cumple el esquema queda "no clasificada", sin inventar datos.
+- [x] Cada resultado indica su origen: modelo real, simulado o repetición.
+- [x] El script clasifica los 60 casos de a uno, con pausa, y guarda los resultados. (Probado en modo simulado; falta la corrida con el modelo real.)
+- [ ] Hay un CSV con BOM para la revisión R3 después de la primera corrida real. (El comando está listo; falta la corrida real, que necesita la clave de Candela.)
+- [x] `npm test` y `npm run lint` pasan, sin llamadas a internet en las pruebas (13 grupos, 237 pruebas).
+- [x] Sin `console.log`.
+- [x] Decisiones técnicas 005 y 006 escritas.
 - [ ] `TASKS.md` actualizado y rama unida a `main` por Pull Request.
 
 ## Archivos modificados/creados
 
-(se completa al implementar)
+**Nuevos**
+
+- `src/config/ia.js`: lee el `.env` y decide el modo (real, simulado o repetición). Nunca muestra la clave.
+- `src/prompts/clasificacion.js`: el prompt (las instrucciones para el modelo), versión 1, con la regla R3 y los criterios [PROVISIONALES].
+- `src/adaptadores/adaptador-compatible-openai.js`: habla con el proveedor real (NVIDIA u otro compatible con OpenAI).
+- `src/adaptadores/adaptador-simulado.js`: el modo simulado por palabras clave.
+- `src/adaptadores/adaptador-repeticion.js`: repite las respuestas de una corrida real guardada.
+- `src/services/clasificacion.service.js`: valida la respuesta con el esquema y procesa las solicitudes de a una, con pausa.
+- `src/utilidades/esperar.js`: la pausa entre solicitudes.
+- `scripts/probar-ia.js` (`npm run ia:probar`), `scripts/clasificar-sinteticos.js` (`npm run clasificar:sinteticos`) y `scripts/generar-csv-revision-r3.js` (`npm run revision:r3`).
+- `data/resultados/clasificaciones-simulado.json`: corrida de prueba en modo simulado.
+- Pruebas: `tests/config/`, `tests/prompts/`, `tests/adaptadores/`, `tests/services/` y `tests/scripts/clasificar-y-revision-r3.test.js`.
+- `docs/decisiones/005-adaptador-compatible-openai.md` y `006-modos-de-clasificacion.md`.
+
+**Modificados**
+
+- `.env.example`: variables de la IA, sin valores, con la línea que indica dónde pegar la clave.
+- `package.json`: los tres comandos nuevos.
+- `README.md`: sección "Cómo se conecta con la IA" y los comandos nuevos.
+- `tests/configuracion.test.js`: se reescribió para el nuevo `.env.example` (revisa que la clave y `MODO_IA` estén vacíos).
+- `src/schemas/catalogos.js`: nueva lista `ALERTAS_CRITICAS`.
+- `data/sinteticos/referencia.json`, `revision.csv`, `tests/datos/sinteticos.test.js` y `done/003-...md`: ajustes de coherencia y criterios por área (ver más arriba).
+
+**Cosas que no estaban en el plan** (se avisan para que no sorprendan)
+
+- `MODO_IA=repeticion`: permite elegir la repetición desde el `.env`, igual que los otros modos (ver decisión 006).
+- `ALERTAS_CRITICAS` y el mínimo de "Otros" redefinido, que Candela aprobó.
+- **Advertencia del simulado**: sus palabras clave se escribieron conociendo los 60 textos, por eso coincide 54 de 60 veces en prioridad con la referencia. Ese número no mide nada y nunca debe mostrarse como calidad de la IA.
 
 ## Cómo probarlo
 
-(se completa al implementar)
+1. Sin clave (modo simulado):
+   - `npm test` y `npm run lint`: todo debe pasar.
+   - `npm run clasificar:sinteticos`: crea `data/resultados/clasificaciones-simulado.json`. Cada resultado dice `"origen": "simulado_reglas"` y su justificación empieza con "SIMULADO".
+2. Con la clave en el `.env` (modo real):
+   - `npm run ia:probar`: manda un solo caso sintético. Debe mostrar "Modo: MODELO REAL", "Clave: configurada (oculta)" y una clasificación.
+   - `npm run clasificar:sinteticos`: clasifica los 60 casos (tarda unos 3 a 5 minutos por las pausas) y crea `data/resultados/clasificaciones-meta-llama-3.3-70b-instruct.json`.
+   - `npm run revision:r3 -- data/resultados/clasificaciones-meta-llama-3.3-70b-instruct.json`: crea el CSV para revisar las justificaciones en Excel.
+3. Repetición: en el `.env`, poner `MODO_IA=repeticion` e `IA_ARCHIVO_REPETICION=` con la ruta del archivo de la corrida real. Las respuestas salen sin internet y con `"origen": "repeticion"`.
 
 ## Notas de cierre
 

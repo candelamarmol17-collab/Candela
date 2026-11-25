@@ -49,6 +49,20 @@ Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
    npm test
    ```
 
+## Cómo se conecta con la IA
+
+El MVP clasifica de tres formas. Cada resultado dice de cuál viene (su `origen`), para que nunca parezca real algo que es simulado:
+
+| Modo | Cuándo se usa | Qué hace |
+|---|---|---|
+| **Simulado** (predeterminado) | No hay clave, o `MODO_IA=simulado` | Busca palabras clave. **No es un modelo de IA**, y su justificación lo dice. |
+| **Modelo real** | Hay una clave en `IA_API_KEY` y `MODO_IA` está vacío | Llama al proveedor configurado en el `.env`. |
+| **Repetición** | `MODO_IA=repeticion` | Muestra las respuestas guardadas de una corrida real anterior, sin internet. |
+
+Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta con editar `IA_URL_BASE`, `IA_MODELO` e `IA_API_KEY` en el `.env`. La clave nunca se muestra en pantalla ni se guarda en los resultados.
+
+**Aviso**: las palabras clave del modo simulado se escribieron conociendo los 60 textos sintéticos. Por eso, sobre esos casos coincide mucho con la referencia, pero ese número no mide nada. Solo los resultados del modelo real sirven para evaluar.
+
 ## Comandos disponibles
 
 | Comando | Qué hace |
@@ -57,6 +71,9 @@ Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
 | `npm run lint` | Revisa que el código no tenga errores ni malas prácticas. |
 | `npm run format` | Ordena el formato del código. |
 | `npm run revision:csv` | Genera la tabla de revisión de los datos sintéticos para Excel. |
+| `npm run ia:probar` | Manda una solicitud sintética al modelo real para confirmar que la clave y el modelo funcionan. |
+| `npm run clasificar:sinteticos` | Clasifica las 60 solicitudes sintéticas de a una y guarda los resultados en `data/resultados/`. |
+| `npm run revision:r3 -- <archivo>` | Genera una tabla para Excel con las justificaciones del modelo, para revisar a mano que no den indicaciones clínicas (regla R3). |
 
 ## Cómo está organizado
 
@@ -65,6 +82,7 @@ Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
 | `src/` | Código de la aplicación, separado por capas (controladores, servicios y repositorios). |
 | `tests/` | Pruebas automáticas. |
 | `data/sinteticos/` | Solicitudes inventadas, su clasificación de referencia y la tabla de revisión. |
+| `data/resultados/` | Resultados de cada corrida de clasificación, con su origen, modelo, versión del prompt y fecha. |
 | `scripts/` | Programas de apoyo que se ejecutan con un comando (por ejemplo, el que genera la tabla de revisión). |
 | `docs/` | Requerimientos del proyecto y decisiones técnicas. |
 | `backlog/`, `in-progress/`, `done/` | Tareas por hacer, en curso y terminadas. |
