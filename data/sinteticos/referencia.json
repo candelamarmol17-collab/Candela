@@ -1,0 +1,511 @@
+[
+  {
+    "id_solicitud": "SINT-0001",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia"
+    ],
+    "nota": "Dolor de pecho que se extiende al brazo y falta de aire: señal de urgencia escondida en \"Otros\"."
+  },
+  {
+    "id_solicitud": "SINT-0002",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia"
+    ],
+    "nota": "Lactante con fiebre alta, decaído y sin alimentarse: señal de urgencia escondida en \"Otros\"."
+  },
+  {
+    "id_solicitud": "SINT-0003",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia"
+    ],
+    "nota": "Herida con sangrado que no se detiene: urgencia. Requiere evaluación médica, no solo de enfermería."
+  },
+  {
+    "id_solicitud": "SINT-0004",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia",
+      "persona_mayor_60"
+    ],
+    "nota": "Cambios bruscos al hablar y debilidad de un brazo: señal de urgencia. Edad 71: alerta de persona mayor."
+  },
+  {
+    "id_solicitud": "SINT-0005",
+    "prioridad": "alta",
+    "profesional": "Matrona",
+    "alertas": [
+      "urgencia"
+    ],
+    "nota": "Embarazo con sangrado y dolor fuerte: síntoma de alarma en el embarazo."
+  },
+  {
+    "id_solicitud": "SINT-0006",
+    "prioridad": "alta",
+    "profesional": "Dental",
+    "alertas": [
+      "urgencia"
+    ],
+    "nota": "Hinchazón de la cara con fiebre y dificultad para tragar: señal de urgencia de origen dental."
+  },
+  {
+    "id_solicitud": "SINT-0007",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia",
+      "descompensacion",
+      "persona_mayor_60",
+      "ges"
+    ],
+    "nota": "EPOC que empeora rápido con labios morados: urgencia y descompensación. Requiere evaluación médica. EPOC es GES. Edad 66."
+  },
+  {
+    "id_solicitud": "SINT-0008",
+    "prioridad": "alta",
+    "profesional": "Psicología",
+    "alertas": [
+      "urgencia",
+      "ideacion_suicida"
+    ],
+    "nota": "Expresa deseo de no vivir y pensamientos de hacerse daño: ideación suicida y urgencia."
+  },
+  {
+    "id_solicitud": "SINT-0009",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia",
+      "descompensacion",
+      "ges"
+    ],
+    "nota": "Diabetes con glicemia muy alta, vómitos y confusión: urgencia y descompensación. Requiere evaluación médica. Diabetes es GES."
+  },
+  {
+    "id_solicitud": "SINT-0010",
+    "prioridad": "alta",
+    "profesional": "Asistente Social",
+    "alertas": [
+      "urgencia",
+      "violencia"
+    ],
+    "nota": "Violencia de pareja con amenaza de muerte y riesgo de volver a la casa: violencia y urgencia."
+  },
+  {
+    "id_solicitud": "SINT-0011",
+    "prioridad": "alta",
+    "profesional": "Psicología",
+    "alertas": [
+      "ideacion_suicida",
+      "ges"
+    ],
+    "nota": "Persona en control por depresión que expresa que otros estarían mejor sin ella: ideación suicida. Depresión es GES."
+  },
+  {
+    "id_solicitud": "SINT-0012",
+    "prioridad": "alta",
+    "profesional": "Psicología",
+    "alertas": [
+      "ideacion_suicida"
+    ],
+    "nota": "Adolescente que se hace daño y dice querer desaparecer: ideación suicida."
+  },
+  {
+    "id_solicitud": "SINT-0013",
+    "prioridad": "alta",
+    "profesional": "Psicología",
+    "alertas": [
+      "ideacion_suicida",
+      "persona_mayor_60"
+    ],
+    "nota": "Persona mayor que dice no tener para qué vivir: ideación suicida. Corresponde salud mental, no enfermería. Edad 81."
+  },
+  {
+    "id_solicitud": "SINT-0014",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "urgencia",
+      "ideacion_suicida"
+    ],
+    "nota": "Relata un intento reciente de hacerse daño con pastillas: ideación suicida y urgencia."
+  },
+  {
+    "id_solicitud": "SINT-0015",
+    "prioridad": "alta",
+    "profesional": "Asistente Social",
+    "alertas": [
+      "violencia",
+      "persona_mayor_60"
+    ],
+    "nota": "Persona mayor que sufre maltrato económico y físico en su casa: violencia. Edad 74."
+  },
+  {
+    "id_solicitud": "SINT-0016",
+    "prioridad": "alta",
+    "profesional": "Matrona",
+    "alertas": [
+      "violencia"
+    ],
+    "nota": "Embarazada que relata golpes de su pareja: violencia."
+  },
+  {
+    "id_solicitud": "SINT-0017",
+    "prioridad": "alta",
+    "profesional": "Psicología",
+    "alertas": [
+      "violencia"
+    ],
+    "nota": "Adolescente agredido físicamente de forma repetida en el colegio: violencia."
+  },
+  {
+    "id_solicitud": "SINT-0018",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "violencia"
+    ],
+    "nota": "Niño con moretones que relata golpes de un adulto: violencia. Requiere evaluación médica."
+  },
+  {
+    "id_solicitud": "SINT-0019",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "descompensacion",
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Hipertensión con presión muy alta, dolor de cabeza y visión borrosa: descompensación. Hipertensión es GES. Edad 63."
+  },
+  {
+    "id_solicitud": "SINT-0020",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "ges"
+    ],
+    "nota": "Se queda sin insulina en 2 días (medicamento que no se puede suspender): alta. La receta la hace medicina. Diabetes es GES."
+  },
+  {
+    "id_solicitud": "SINT-0021",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "descompensacion",
+      "persona_mayor_60"
+    ],
+    "nota": "Insuficiencia cardíaca con hinchazón y ahogo al acostarse: descompensación. Edad 77."
+  },
+  {
+    "id_solicitud": "SINT-0022",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": [
+      "descompensacion",
+      "ges"
+    ],
+    "nota": "Niño asmático con síntomas que no ceden con su inhalador: descompensación. Requiere evaluación médica. Asma en menores de 15 es GES."
+  },
+  {
+    "id_solicitud": "SINT-0023",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Exámenes que la persona dice que salieron alterados, sin síntomas de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0024",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Receta que se acaba en menos de 2 semanas. Hipertensión es GES. Edad 68."
+  },
+  {
+    "id_solicitud": "SINT-0025",
+    "prioridad": "media",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Ingreso de embarazo sin síntomas de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0026",
+    "prioridad": "media",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Control prenatal pendiente, sin síntomas de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0027",
+    "prioridad": "media",
+    "profesional": "Kinesiología",
+    "alertas": [],
+    "nota": "Lesión que le impide trabajar, sin señales de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0028",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Síntoma que dura varios días, sin señales de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0029",
+    "prioridad": "media",
+    "profesional": "Dental",
+    "alertas": [],
+    "nota": "Dolor dental de una semana, sin hinchazón ni fiebre."
+  },
+  {
+    "id_solicitud": "SINT-0030",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Caídas repetidas sin lesión grave: conviene evaluación médica pronto. Edad 79."
+  },
+  {
+    "id_solicitud": "SINT-0031",
+    "prioridad": "media",
+    "profesional": "Psicología",
+    "alertas": [],
+    "nota": "Síntomas de ansiedad persistentes que le impiden trabajar, sin señales de riesgo."
+  },
+  {
+    "id_solicitud": "SINT-0032",
+    "prioridad": "media",
+    "profesional": "Enfermería",
+    "alertas": [
+      "ges"
+    ],
+    "nota": "Herida persistente en el pie de una persona diabética, sin señales de alarma. Diabetes es GES."
+  },
+  {
+    "id_solicitud": "SINT-0033",
+    "prioridad": "media",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Síntoma que dura varios días, sin señales de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0034",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Dolor persistente que dificulta el trabajo, sin señales de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0035",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Síntoma que dura varios días, sin señales de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0036",
+    "prioridad": "media",
+    "profesional": "Enfermería",
+    "alertas": [],
+    "nota": "Herida operatoria con signos de posible infección, sin fiebre: requiere evaluación de enfermería, no solo retiro de puntos."
+  },
+  {
+    "id_solicitud": "SINT-0037",
+    "prioridad": "media",
+    "profesional": "Kinesiología",
+    "alertas": [
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Dolor que le impide hacer sus actividades diarias. Artrosis de rodilla en mayores de 55 es GES. Edad 72."
+  },
+  {
+    "id_solicitud": "SINT-0038",
+    "prioridad": "media",
+    "profesional": "Nutrición",
+    "alertas": [],
+    "nota": "Embarazo con diagnóstico reciente que requiere orientación pronto, sin síntomas de alarma."
+  },
+  {
+    "id_solicitud": "SINT-0039",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Receta que se acaba en menos de 2 semanas."
+  },
+  {
+    "id_solicitud": "SINT-0040",
+    "prioridad": "media",
+    "profesional": "Terapia Ocupacional",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Problemas de memoria que afectan su vida diaria, sin señales de urgencia. Edad 76."
+  },
+  {
+    "id_solicitud": "SINT-0041",
+    "prioridad": "media",
+    "profesional": "Medicina",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Síntoma de varios días, sin fiebre ni señales de alarma. Edad 65."
+  },
+  {
+    "id_solicitud": "SINT-0042",
+    "prioridad": "baja",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Trámite: certificado."
+  },
+  {
+    "id_solicitud": "SINT-0043",
+    "prioridad": "baja",
+    "profesional": "Asistente Social",
+    "alertas": [],
+    "nota": "Trámite: informe social."
+  },
+  {
+    "id_solicitud": "SINT-0044",
+    "prioridad": "baja",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Solicitud informativa, sin problema de salud."
+  },
+  {
+    "id_solicitud": "SINT-0045",
+    "prioridad": "baja",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Cambio de método anticonceptivo sin problemas."
+  },
+  {
+    "id_solicitud": "SINT-0046",
+    "prioridad": "baja",
+    "profesional": "Dental",
+    "alertas": [],
+    "nota": "Control preventivo sin síntomas."
+  },
+  {
+    "id_solicitud": "SINT-0047",
+    "prioridad": "baja",
+    "profesional": "Medicina",
+    "alertas": [
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Receta con medicamento suficiente para más de 2 semanas. Diabetes es GES. Edad 70."
+  },
+  {
+    "id_solicitud": "SINT-0048",
+    "prioridad": "baja",
+    "profesional": "Medicina",
+    "alertas": [
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Consulta por el estado de una interconsulta: baja según el criterio provisional. Sospecha de cáncer de mama es GES. Caso útil para revisar el criterio con la gestora. Edad 61."
+  },
+  {
+    "id_solicitud": "SINT-0049",
+    "prioridad": "baja",
+    "profesional": "Kinesiología",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Ayuda técnica sin riesgo inmediato. Edad 83."
+  },
+  {
+    "id_solicitud": "SINT-0050",
+    "prioridad": "baja",
+    "profesional": "Enfermería",
+    "alertas": [],
+    "nota": "Control de rutina sin síntomas."
+  },
+  {
+    "id_solicitud": "SINT-0051",
+    "prioridad": "baja",
+    "profesional": "Nutrición",
+    "alertas": [],
+    "nota": "Control sin un problema que requiera atención pronto."
+  },
+  {
+    "id_solicitud": "SINT-0052",
+    "prioridad": "baja",
+    "profesional": "Psicología",
+    "alertas": [],
+    "nota": "Trámite: informe."
+  },
+  {
+    "id_solicitud": "SINT-0053",
+    "prioridad": "baja",
+    "profesional": "Técnico en enfermería",
+    "alertas": [],
+    "nota": "Control preventivo sin síntomas."
+  },
+  {
+    "id_solicitud": "SINT-0054",
+    "prioridad": "baja",
+    "profesional": "Enfermería",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Consulta informativa sobre vacunas: corresponde a enfermería. Edad 67."
+  },
+  {
+    "id_solicitud": "SINT-0055",
+    "prioridad": "baja",
+    "profesional": "Dental",
+    "alertas": [],
+    "nota": "Problema dental sin dolor ni urgencia."
+  },
+  {
+    "id_solicitud": "SINT-0056",
+    "prioridad": "baja",
+    "profesional": "Medicina",
+    "alertas": [],
+    "nota": "Trámite: orden de exámenes de rutina."
+  },
+  {
+    "id_solicitud": "SINT-0057",
+    "prioridad": "baja",
+    "profesional": "Asistente Social",
+    "alertas": [
+      "persona_mayor_60"
+    ],
+    "nota": "Solicitud informativa. Edad 62."
+  },
+  {
+    "id_solicitud": "SINT-0058",
+    "prioridad": "baja",
+    "profesional": "Terapia Ocupacional",
+    "alertas": [],
+    "nota": "Trámite: evaluación de discapacidad, sin problema nuevo."
+  },
+  {
+    "id_solicitud": "SINT-0059",
+    "prioridad": "baja",
+    "profesional": "Matrona",
+    "alertas": [],
+    "nota": "Control preventivo sin síntomas."
+  },
+  {
+    "id_solicitud": "SINT-0060",
+    "prioridad": "baja",
+    "profesional": "Nutrición",
+    "alertas": [
+      "ges",
+      "persona_mayor_60"
+    ],
+    "nota": "Control de rutina sin problema activo. Diabetes es GES. Edad 64."
+  }
+]

@@ -1,0 +1,470 @@
+[
+  {
+    "id_solicitud": "SINT-0001",
+    "fecha_ingreso": "2026-11-12T13:13:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "tengo un dolor en el pecho q se me pasa al brazo izquierdo desde anoche, me falta el aire cuando camino un poco",
+    "edad": 58
+  },
+  {
+    "id_solicitud": "SINT-0002",
+    "fecha_ingreso": "2026-11-15T18:26:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "mi guagua de 8 meses tiene fiebre de 39,5 desde ayer y no quiere tomar pecho, esta muy decaida"
+  },
+  {
+    "id_solicitud": "SINT-0003",
+    "fecha_ingreso": "2026-11-18T09:39:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Otros",
+    "texto_libre": "me corte la mano con un vidrio en la casa, sangra harto y no para aunque aprieto con un paño",
+    "edad": 45
+  },
+  {
+    "id_solicitud": "SINT-0004",
+    "fecha_ingreso": "2026-11-21T14:52:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "mi mama se cayo ayer y ahora habla raro, tiene la boca chueca y no puede mover bien el brazo derecho",
+    "edad": 71
+  },
+  {
+    "id_solicitud": "SINT-0005",
+    "fecha_ingreso": "2026-11-10T19:05:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Otros",
+    "texto_libre": "tengo 30 semanas de embarazo y desde la mañana estoy sangrando y con dolor fuerte de guata",
+    "edad": 27
+  },
+  {
+    "id_solicitud": "SINT-0006",
+    "fecha_ingreso": "2026-11-13T10:18:00",
+    "tipo_profesional": "Dental",
+    "motivo": "Otros",
+    "texto_libre": "se me hincho la cara por una muela, ahora tengo fiebre y me cuesta tragar y abrir la boca",
+    "edad": 34
+  },
+  {
+    "id_solicitud": "SINT-0007",
+    "fecha_ingreso": "2026-11-16T15:31:00",
+    "tipo_profesional": "Kinesiología",
+    "motivo": "Otros",
+    "texto_libre": "mi esposo tiene epoc, desde ayer respira muy rapido, se le ponen morados los labios y el inhalador no le hace nada",
+    "edad": 66
+  },
+  {
+    "id_solicitud": "SINT-0008",
+    "fecha_ingreso": "2026-11-19T20:44:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Otros",
+    "texto_libre": "ya no quiero seguir viviendo, estos dias he pensado en hacerme daño. necesito hablar con alguien",
+    "edad": 19
+  },
+  {
+    "id_solicitud": "SINT-0009",
+    "fecha_ingreso": "2026-11-22T11:57:00",
+    "tipo_profesional": "Nutrición",
+    "motivo": "Otros",
+    "texto_libre": "soy diabetica, hoy la glicemia me marca 450 y tengo mucha sed, vomitos y me siento muy confundida"
+  },
+  {
+    "id_solicitud": "SINT-0010",
+    "fecha_ingreso": "2026-11-11T16:10:00",
+    "tipo_profesional": "Asistente Social",
+    "motivo": "Otros",
+    "texto_libre": "mi pareja me pego anoche y me amenazo con matarme si lo denuncio, tengo miedo de volver a la casa",
+    "edad": 38
+  },
+  {
+    "id_solicitud": "SINT-0011",
+    "fecha_ingreso": "2026-11-14T21:23:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Control salud mental",
+    "texto_libre": "estoy en control por depresion, ultimamente pienso que todos estarian mejor sin mi",
+    "edad": 42
+  },
+  {
+    "id_solicitud": "SINT-0012",
+    "fecha_ingreso": "2026-11-17T12:36:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Consulta",
+    "texto_libre": "mi hija de 16 se esta haciendo cortes en los brazos y dice que quiere desaparecer",
+    "edad": 16
+  },
+  {
+    "id_solicitud": "SINT-0013",
+    "fecha_ingreso": "2026-11-20T17:49:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Consulta de Enfermería",
+    "texto_libre": "mi papa anda muy triste desde que murio mi mama, dice que ya no tiene para que vivir y casi no come",
+    "edad": 81
+  },
+  {
+    "id_solicitud": "SINT-0014",
+    "fecha_ingreso": "2026-11-09T08:02:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Atención Medicina General",
+    "texto_libre": "desde que perdi la pega no duermo. el fin de semana tome hartas pastillas para no despertar, ahora estoy mejor pero no le he contado a nadie"
+  },
+  {
+    "id_solicitud": "SINT-0015",
+    "fecha_ingreso": "2026-11-12T13:15:00",
+    "tipo_profesional": "Asistente Social",
+    "motivo": "Consulta Social",
+    "texto_libre": "vivo con mi hijo y me quita la pension, me grita y a veces me empuja. no tengo a donde ir",
+    "edad": 74
+  },
+  {
+    "id_solicitud": "SINT-0016",
+    "fecha_ingreso": "2026-11-15T18:28:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Control prenatal",
+    "texto_libre": "tengo 20 semanas, mi pareja me controla todo y me ha pegado en la guata, no se a quien decirle",
+    "edad": 23
+  },
+  {
+    "id_solicitud": "SINT-0017",
+    "fecha_ingreso": "2026-11-18T09:41:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Consulta",
+    "texto_libre": "en el colegio unos compañeros le pegan a mi hijo casi todos los dias y ahora no quiere salir de la pieza",
+    "edad": 14
+  },
+  {
+    "id_solicitud": "SINT-0018",
+    "fecha_ingreso": "2026-11-21T14:54:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Control de Salud Infantil",
+    "texto_libre": "mi sobrino de 4 años llego con moretones en la espalda y dice que el tio le pega",
+    "edad": 4
+  },
+  {
+    "id_solicitud": "SINT-0019",
+    "fecha_ingreso": "2026-11-10T19:07:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Control Crónico",
+    "texto_libre": "soy hipertensa, hoy me tome la presion y tengo 190/115, con dolor de cabeza fuerte y veo borroso",
+    "edad": 63
+  },
+  {
+    "id_solicitud": "SINT-0020",
+    "fecha_ingreso": "2026-11-13T10:20:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Control Crónico",
+    "texto_libre": "soy diabetico y uso insulina, me quedan para 2 dias y no me alcanzo a llegar la receta nueva",
+    "edad": 55
+  },
+  {
+    "id_solicitud": "SINT-0021",
+    "fecha_ingreso": "2026-11-16T15:33:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Control Crónico",
+    "texto_libre": "mi mama tiene insuficiencia cardiaca, se le hincharon mucho las piernas y en la noche se ahoga acostada",
+    "edad": 77
+  },
+  {
+    "id_solicitud": "SINT-0022",
+    "fecha_ingreso": "2026-11-19T20:46:00",
+    "tipo_profesional": "Kinesiología",
+    "motivo": "Problema respiratorio descompensado",
+    "texto_libre": "mi hijo es asmatico, lleva 2 dias con tos y silbido en el pecho y el puff le dura poco",
+    "edad": 6
+  },
+  {
+    "id_solicitud": "SINT-0023",
+    "fecha_ingreso": "2026-11-22T11:59:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Resultado de exámenes",
+    "texto_libre": "me llegaron los examenes y salio el colesterol y los trigliceridos altos, quiero que me los vean",
+    "edad": 52
+  },
+  {
+    "id_solicitud": "SINT-0024",
+    "fecha_ingreso": "2026-11-11T16:12:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Renovación de receta",
+    "texto_libre": "necesito renovar la receta de la losartan, me quedan pastillas para una semana",
+    "edad": 68
+  },
+  {
+    "id_solicitud": "SINT-0025",
+    "fecha_ingreso": "2026-11-14T21:25:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Ingreso de Embarazo",
+    "texto_libre": "me hice un test y salio positivo, creo que tengo como 7 semanas, no tengo molestias",
+    "edad": 29
+  },
+  {
+    "id_solicitud": "SINT-0026",
+    "fecha_ingreso": "2026-11-17T12:38:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Control prenatal",
+    "texto_libre": "tengo 24 semanas, me toca control y todavia no me dan hora. me siento bien"
+  },
+  {
+    "id_solicitud": "SINT-0027",
+    "fecha_ingreso": "2026-11-20T17:51:00",
+    "tipo_profesional": "Kinesiología",
+    "motivo": "Atención rehabilitación física",
+    "texto_libre": "me torci el tobillo hace 2 semanas jugando a la pelota, todavia me duele y cojeo, no he podido ir a trabajar",
+    "edad": 47
+  },
+  {
+    "id_solicitud": "SINT-0028",
+    "fecha_ingreso": "2026-11-09T08:04:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "tengo tos con flema hace 10 dias, sin fiebre, pero no se me quita con nada",
+    "edad": 33
+  },
+  {
+    "id_solicitud": "SINT-0029",
+    "fecha_ingreso": "2026-11-12T13:17:00",
+    "tipo_profesional": "Dental",
+    "motivo": "Consulta de Atención Odontológica",
+    "texto_libre": "me duele una muela hace una semana cuando tomo cosas heladas, no esta hinchado",
+    "edad": 40
+  },
+  {
+    "id_solicitud": "SINT-0030",
+    "fecha_ingreso": "2026-11-15T18:30:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Control adulto mayor (mayor a 65 años)",
+    "texto_libre": "mi abuelita se ha caido 2 veces este mes en la casa, no se ha pegado fuerte pero anda inestable",
+    "edad": 79
+  },
+  {
+    "id_solicitud": "SINT-0031",
+    "fecha_ingreso": "2026-11-18T09:43:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Control salud mental",
+    "texto_libre": "hace un mes que ando con mucha ansiedad, me cuesta dormir y lloro seguido, no he podido ir a trabajar"
+  },
+  {
+    "id_solicitud": "SINT-0032",
+    "fecha_ingreso": "2026-11-21T14:56:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Consulta de Enfermería",
+    "texto_libre": "me salio una herida en el pie que no se cierra hace 3 semanas, soy diabetico",
+    "edad": 58
+  },
+  {
+    "id_solicitud": "SINT-0033",
+    "fecha_ingreso": "2026-11-10T19:09:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Consulta Ginecológica",
+    "texto_libre": "tengo flujo con mal olor y picazon hace una semana",
+    "edad": 31
+  },
+  {
+    "id_solicitud": "SINT-0034",
+    "fecha_ingreso": "2026-11-13T10:22:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "me duele la espalda baja hace 3 semanas, me cuesta agacharme en la pega",
+    "edad": 44
+  },
+  {
+    "id_solicitud": "SINT-0035",
+    "fecha_ingreso": "2026-11-16T15:35:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "ando con mucho mareo cuando me paro, desde hace unos 5 dias"
+  },
+  {
+    "id_solicitud": "SINT-0036",
+    "fecha_ingreso": "2026-11-19T20:48:00",
+    "tipo_profesional": "Técnico en enfermería",
+    "motivo": "Curaciones y/o extracciones de puntos",
+    "texto_libre": "me operaron de la vesicula hace 10 dias y la herida esta roja y le sale un poco de liquido",
+    "edad": 50
+  },
+  {
+    "id_solicitud": "SINT-0037",
+    "fecha_ingreso": "2026-11-22T11:01:00",
+    "tipo_profesional": "Kinesiología",
+    "motivo": "Control crónico adulto",
+    "texto_libre": "tengo artrosis de rodilla, ultimamente me duele tanto que casi no salgo de la casa",
+    "edad": 72
+  },
+  {
+    "id_solicitud": "SINT-0038",
+    "fecha_ingreso": "2026-11-11T16:14:00",
+    "tipo_profesional": "Nutrición",
+    "motivo": "Control embarazadas",
+    "texto_libre": "estoy embarazada de 16 semanas y me dijeron que tengo diabetes del embarazo, necesito saber que comer",
+    "edad": 26
+  },
+  {
+    "id_solicitud": "SINT-0039",
+    "fecha_ingreso": "2026-11-14T21:27:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Renovación de receta",
+    "texto_libre": "se me acaban las pastillas de la tiroides en 10 dias, necesito la receta"
+  },
+  {
+    "id_solicitud": "SINT-0040",
+    "fecha_ingreso": "2026-11-17T12:40:00",
+    "tipo_profesional": "Terapia Ocupacional",
+    "motivo": "Problemas de memoria",
+    "texto_libre": "mi papa se esta olvidando de todo, la semana pasada se perdio volviendo del almacen",
+    "edad": 76
+  },
+  {
+    "id_solicitud": "SINT-0041",
+    "fecha_ingreso": "2026-11-20T17:53:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "tengo ardor al orinar y voy muchas veces al baño hace 3 dias, no tengo fiebre",
+    "edad": 65
+  },
+  {
+    "id_solicitud": "SINT-0042",
+    "fecha_ingreso": "2026-11-09T08:06:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Certificado o Informe médico",
+    "texto_libre": "necesito un certificado de salud compatible para un trabajo nuevo",
+    "edad": 35
+  },
+  {
+    "id_solicitud": "SINT-0043",
+    "fecha_ingreso": "2026-11-12T13:19:00",
+    "tipo_profesional": "Asistente Social",
+    "motivo": "Certificado",
+    "texto_libre": "necesito un informe social para postular a un beneficio"
+  },
+  {
+    "id_solicitud": "SINT-0044",
+    "fecha_ingreso": "2026-11-15T18:32:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Solicitud de preservativos (condones)",
+    "texto_libre": "quiero retirar condones",
+    "edad": 20
+  },
+  {
+    "id_solicitud": "SINT-0045",
+    "fecha_ingreso": "2026-11-18T09:45:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Método anticonceptivo",
+    "texto_libre": "me toca cambiar el implante porque ya cumplio los años, me siento bien"
+  },
+  {
+    "id_solicitud": "SINT-0046",
+    "fecha_ingreso": "2026-11-21T14:58:00",
+    "tipo_profesional": "Dental",
+    "motivo": "Control Preventivo Odontológico",
+    "texto_libre": "control dental para mi hijo de 9, no tiene dolor ni nada",
+    "edad": 9
+  },
+  {
+    "id_solicitud": "SINT-0047",
+    "fecha_ingreso": "2026-11-10T19:11:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Renovación de receta",
+    "texto_libre": "renovacion de receta de la metformina, todavia tengo para 2 meses",
+    "edad": 70
+  },
+  {
+    "id_solicitud": "SINT-0048",
+    "fecha_ingreso": "2026-11-13T10:24:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Estado de Interconsulta",
+    "texto_libre": "me derivaron al hospital por un nodulo en la mama hace 2 meses y todavia no me llaman",
+    "edad": 61
+  },
+  {
+    "id_solicitud": "SINT-0049",
+    "fecha_ingreso": "2026-11-16T15:37:00",
+    "tipo_profesional": "Kinesiología",
+    "motivo": "Entrega de ayudas técnicas (bastón, sillas de rueda, andador, etc)",
+    "texto_libre": "mi mama necesita un andador, ahora camina con baston pero ya le cuesta",
+    "edad": 83
+  },
+  {
+    "id_solicitud": "SINT-0050",
+    "fecha_ingreso": "2026-11-19T20:50:00",
+    "tipo_profesional": "Enfermería",
+    "motivo": "Control de Salud Infantil",
+    "texto_libre": "control sano de mi guagua de 2 meses, todo bien"
+  },
+  {
+    "id_solicitud": "SINT-0051",
+    "fecha_ingreso": "2026-11-22T11:03:00",
+    "tipo_profesional": "Nutrición",
+    "motivo": "Sobrepeso y obesidad",
+    "texto_libre": "mi hija de 12 años ha subido harto de peso este año y quiero que la vea la nutricionista",
+    "edad": 12
+  },
+  {
+    "id_solicitud": "SINT-0052",
+    "fecha_ingreso": "2026-11-11T16:16:00",
+    "tipo_profesional": "Psicología",
+    "motivo": "Certificado o Informe médico",
+    "texto_libre": "necesito un informe psicologico que me pidieron en el tribunal de familia",
+    "edad": 41
+  },
+  {
+    "id_solicitud": "SINT-0053",
+    "fecha_ingreso": "2026-11-14T21:29:00",
+    "tipo_profesional": "Técnico en enfermería",
+    "motivo": "Examen de medicina preventiva del adulto",
+    "texto_libre": "quiero hacerme el examen preventivo, hace años que no me lo hago"
+  },
+  {
+    "id_solicitud": "SINT-0054",
+    "fecha_ingreso": "2026-11-17T12:42:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "quiero saber si me corresponde la vacuna de la influenza este año",
+    "edad": 67
+  },
+  {
+    "id_solicitud": "SINT-0055",
+    "fecha_ingreso": "2026-11-20T17:55:00",
+    "tipo_profesional": "Dental",
+    "motivo": "Otros",
+    "texto_libre": "se me salio una tapadura hace un mes, no me duele"
+  },
+  {
+    "id_solicitud": "SINT-0056",
+    "fecha_ingreso": "2026-11-09T08:08:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "necesito la orden para hacerme los examenes de rutina",
+    "edad": 49
+  },
+  {
+    "id_solicitud": "SINT-0057",
+    "fecha_ingreso": "2026-11-12T13:21:00",
+    "tipo_profesional": "Asistente Social",
+    "motivo": "Otros",
+    "texto_libre": "quiero informacion para inscribirme en el registro social de hogares",
+    "edad": 62
+  },
+  {
+    "id_solicitud": "SINT-0058",
+    "fecha_ingreso": "2026-11-15T18:34:00",
+    "tipo_profesional": "Terapia Ocupacional",
+    "motivo": "Evaluación de discapacidad",
+    "texto_libre": "necesito la evaluacion para sacar la credencial de discapacidad, tengo una lesion en la mano de hace años",
+    "edad": 30
+  },
+  {
+    "id_solicitud": "SINT-0059",
+    "fecha_ingreso": "2026-11-18T09:47:00",
+    "tipo_profesional": "Matrona",
+    "motivo": "Control ginecológico (incluye PAP o VPH)",
+    "texto_libre": "me toca el pap, el ultimo me lo hice hace 3 años",
+    "edad": 37
+  },
+  {
+    "id_solicitud": "SINT-0060",
+    "fecha_ingreso": "2026-11-21T14:00:00",
+    "tipo_profesional": "Nutrición",
+    "motivo": "Control Crónico",
+    "texto_libre": "soy diabetica y estoy controlada, me toca el control con nutricionista",
+    "edad": 64
+  }
+]
