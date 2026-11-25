@@ -1,6 +1,6 @@
 # [003] Datos sintéticos con clasificación de referencia
 
-**Estado**: backlog
+**Estado**: in-progress
 **Fecha creación**: 2026-11-24
 **Rama asociada**: `feat/003-datos-sinteticos`
 
