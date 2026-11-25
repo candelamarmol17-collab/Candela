@@ -84,6 +84,10 @@ Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; b
 2. Las alertas de **60 años o más** y **GES** no suben la prioridad por sí solas. Sirven para avisar al triajista, pero la prioridad se decide por las señales de arriba.
 3. Si el texto libre no dice nada útil (por ejemplo "necesito hora"), la prioridad se decide por el motivo elegido.
 
+**Cuándo se agrega la alerta "urgencia"** (agregado por Candela en la revisión, 2026-11-25):
+
+Se agrega la alerta "urgencia" cuando hay riesgo inmediato: intento reciente o autolesión activa, señales de alarma vital en una descompensación, o violencia con amenaza grave o víctima vulnerable (embarazada, niño). La alerta "urgencia" indica gestión inmediata por la gestora, fuera del plazo de la prioridad.
+
 **Criterio para elegir el profesional de referencia** (también nuestro, no clínico): el profesional del formulario que mejor calza con lo que pide el texto libre. Si el texto no aporta nada, se mantiene el que eligió el vecino.
 
 ## Revisión de los mínimos con 60 solicitudes
@@ -153,8 +157,8 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 - [x] Se cumplen los mínimos de las preguntas 3 a 9.
 - [x] La alerta de 60 años o más está exactamente en las solicitudes con edad 60 o más.
 - [x] La prueba de datos personales no encuentra nada.
-- [ ] El CSV se abre bien en Excel en español: columnas separadas, tildes y ñ visibles. *(pendiente: lo confirma Candela al abrirlo)*
-- [ ] Candela revisó los 60 casos y sus cambios están aplicados.
+- [x] El CSV se abre bien en Excel en español: columnas separadas, tildes y ñ visibles (confirmado por Candela el 2026-11-25).
+- [ ] Candela revisó los 60 casos y sus cambios están aplicados. *(revisión hecha el 2026-11-25; falta resolver dónde se guardan los comentarios de revisión)*
 - [x] El README tiene los dos avisos de método.
 - [x] `npm test` y `npm run lint` pasan.
 - [x] Sin `console.log`.
@@ -187,14 +191,14 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 
 | Mínimo | Pedido | Resultado |
 |---|---|---|
-| Prioridad alta / media / baja | 15 de cada una | 22 / 19 / 19 |
-| Urgencia | 5 | 11 |
+| Prioridad alta / media / baja | 15 de cada una | 22 / 20 / 18 |
+| Urgencia | 5 | 16 |
 | Violencia | 5 | 5 |
 | Ideación suicida | 5 | 5 |
 | Descompensación | 5 | 5 |
-| GES | 5 | 12 |
+| GES | 5 | 13 |
 | 60 años o más | 15 a 20 | 17 |
-| Sin ninguna alerta de la IA | 20 | 32 |
+| Sin ninguna alerta de la IA | 20 | 31 |
 | "Otros" | ~30% | 18 (30%) |
 | "Otros" con urgencia escondida | 10 | 10 |
 | Profesional mal elegido | 8 | 10 |
@@ -204,7 +208,7 @@ Ojo: violencia, ideación suicida y descompensación están justo en el mínimo 
 
 **Casos útiles para conversar con Fernanda Mena**:
 
-- `SINT-0048`: nódulo en la mama a la espera de una interconsulta. Según el criterio provisional, es prioridad baja (consulta por el estado de una interconsulta) y GES no sube la prioridad. Sirve para conversar el punto (b).
+- `SINT-0048`: nódulo en la mama con una interconsulta atrasada. En la revisión, Candela lo subió de baja a media por ser GES con garantía de oportunidad. **Esto no calza con la regla 2 de los criterios provisionales** (GES no sube la prioridad por sí sola). Sirve para conversar el punto (b) con Fernanda Mena.
 - `SINT-0020`: se queda sin insulina en 2 días. Es el ejemplo de "medicamento que no se puede suspender" (punto c).
 - `SINT-0005`: embarazo con sangrado y dolor fuerte. Es el ejemplo de "síntomas de alarma en el embarazo" (punto c).
 
