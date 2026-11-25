@@ -71,10 +71,9 @@
     "prioridad": "alta",
     "profesional": "Psicología",
     "alertas": [
-      "urgencia",
       "ideacion_suicida"
     ],
-    "nota": "Expresa deseo de no vivir y pensamientos de hacerse daño: ideación suicida y urgencia."
+    "nota": "Expresa deseo de no vivir y pensamientos de hacerse daño, sin intento ni autolesión activa: ideación suicida (alerta crítica, prioridad alta), sin urgencia."
   },
   {
     "id_solicitud": "SINT-0009",

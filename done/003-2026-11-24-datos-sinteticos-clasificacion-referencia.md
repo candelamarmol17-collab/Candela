@@ -60,7 +60,8 @@ Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; b
 - Alguna alerta crítica: urgencia, violencia, ideación suicida o descompensación.
 - Un síntoma que empeora rápido o que suena a urgencia, aunque el motivo elegido no lo diga. Por ejemplo, fiebre alta en una guagua, dolor fuerte en el pecho o dificultad para respirar.
 - Embarazo con síntomas de alarma, por ejemplo sangrado o dolor fuerte.
-- La persona se queda sin un medicamento que no puede suspender (por ejemplo insulina o anticonvulsivantes) en 3 días o menos.
+- La persona se queda sin un medicamento que no puede suspender (insulina, anticonvulsivantes, anticoagulantes o corticoides) en 3 días o menos. *(Lista ampliada en la tarea 004.)*
+- Ante la duda entre dos prioridades, se elige la más alta. *(Agregado en la tarea 004.)*
 
 **Media**: no hay señales de alta, pero hay un problema de salud que conviene ver pronto.
 
@@ -87,6 +88,19 @@ Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; b
 **Cuándo se agrega la alerta "urgencia"** (agregado por Candela en la revisión, 2026-11-25; texto ajustado el mismo día):
 
 Se agrega la alerta "urgencia" cuando hay riesgo inmediato: intento reciente o autolesión activa; señales de alarma vital en una descompensación; o violencia con amenaza grave, o contra una víctima vulnerable (embarazada, niño o niña, o persona mayor) que convive con quien la agrede o depende de esa persona. La alerta "urgencia" indica gestión inmediata por la gestora, fuera del plazo de la prioridad.
+
+**Señales de alarma que activan la alerta "urgencia"** (agregadas en la tarea 004, 2026-11-25). Son **ejemplos**, no una lista cerrada: también cuentan otras señales de igual gravedad. Son las mismas que usa el prompt del modelo.
+
+- **Cardiovascular**: dolor de pecho opresivo o que se irradia a brazo, cuello o mandíbula; palpitaciones con mareo o desmayo.
+- **Neurológico**: debilidad o parálisis de un lado del cuerpo o de la cara, dificultad repentina para hablar, confusión aguda, convulsiones, dolor de cabeza explosivo, visión borrosa con presión muy alta.
+- **Respiratorio**: falta de aire en reposo, labios o uñas morados, no poder hablar de corrido.
+- **Digestivo**: vómitos con sangre, deposiciones negras, dolor abdominal intenso y súbito.
+- **Metabólico**: glicemia muy alta o muy baja con confusión o vómitos.
+- **Sistémico**: fiebre alta con confusión, manchas que no desaparecen al presionar, hinchazón rápida de labios, lengua o garganta, hinchazón de la cara o del cuello con fiebre y dificultad para tragar o abrir la boca.
+- **Trauma**: sangrado que no se detiene.
+- **Grupos de mayor riesgo**: lactante con fiebre, embarazada con sangrado o dolor fuerte.
+
+**Ideación suicida sin intento ni autolesión activa** (aclarado en la tarea 004): es una alerta crítica, así que la prioridad es alta, pero no lleva "urgencia". Por eso, en la tarea 004 se le quitó "urgencia" a `SINT-0008`.
 
 **Criterio para elegir el profesional de referencia** (también nuestro, no clínico): el profesional del formulario que mejor calza con lo que pide el texto libre. Si el texto no aporta nada, se mantiene el que eligió el vecino.
 
@@ -192,7 +206,7 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 | Mínimo | Pedido | Resultado |
 |---|---|---|
 | Prioridad alta / media / baja | 15 de cada una | 22 / 20 / 18 |
-| Urgencia | 5 | 17 |
+| Urgencia | 5 | 16 (era 17; en la tarea 004 se le quitó a SINT-0008) |
 | Violencia | 5 | 5 |
 | Ideación suicida | 5 | 5 |
 | Descompensación | 5 | 5 |
