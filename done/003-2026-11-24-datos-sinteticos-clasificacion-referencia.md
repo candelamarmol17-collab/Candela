@@ -1,6 +1,6 @@
 # [003] Datos sintéticos con clasificación de referencia
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-24
 **Rama asociada**: `feat/003-datos-sinteticos`
 
@@ -163,7 +163,7 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 - [x] `npm test` y `npm run lint` pasan.
 - [x] Sin `console.log`.
 - [x] `TASKS.md` actualizado.
-- [ ] Rama unida a `main` por Pull Request.
+- [x] Rama unida a `main` por Pull Request (#5).
 
 ## Archivos modificados/creados
 
@@ -248,4 +248,36 @@ Candela revisó los 60 casos en el CSV. Estos son los cambios que pidió, ya apl
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Fecha de cierre**: 2026-11-25
+
+**Resumen**: el MVP ya tiene 60 solicitudes inventadas, cada una con su clasificación de referencia (la "respuesta correcta"), y una tabla CSV para revisarlas en Excel. Candela revisó los 60 casos y sus cambios están aplicados. Se cumplen todos los mínimos acordados. Pasan las 160 pruebas y ESLint no muestra errores. La rama se unió a `main` con el Pull Request #5.
+
+**Checklist de "Terminado"**:
+
+- [x] Pruebas escritas y pasando
+- [x] Sin `console.log` en el código
+- [x] Documentación de la tarea actualizada
+- [x] Rama mergeada (Pull Request #5)
+- [x] Índice general (`TASKS.md`) actualizado
+
+**Pendientes para tareas futuras**:
+
+- **Validar con Fernanda Mena** (gestora de Telesalud del CESFAM Boris Soler):
+  - los criterios provisionales de prioridad;
+  - si las alertas GES y de 60 años o más deben subir la prioridad (caso `SINT-0048`);
+  - los criterios de "medicamento que no se puede suspender" (`SINT-0020`) y de "síntomas de alarma en el embarazo" (`SINT-0005`);
+  - la regla de la alerta "urgencia";
+  - los casos que Candela marcó para validar: `SINT-0015`, `SINT-0021` y `SINT-0049`.
+- **Tarea 8 (evaluación)**: la métrica de falsas alertas tiene que dejar fuera la alerta de 60 años o más, porque la calcula el código. Para eso está `ALERTAS_IA` en `catalogos.js`.
+- **Tareas 4 y 5**: la alerta "urgencia" indica gestión inmediata por la gestora, fuera del plazo de la prioridad. Hay que decidir cómo se muestra en la bandeja.
+- **Mínimos justos**: violencia, ideación suicida y descompensación tienen exactamente 5 casos. Si se quita una de esas alertas, hay que agregar otro caso.
+- **Si cambian los criterios**: se cambian solo en la sección de criterios [PROVISIONALES] de esta tarea, se revisan las referencias afectadas y se vuelve a generar el CSV con `npm run revision:csv`.
+
+**Uso de IA (para la pregunta 52 del formulario)**: se usó Claude Code (modelo Claude Opus 5.5) para:
+- hacer las preguntas de alcance;
+- proponer los criterios provisionales de prioridad;
+- **escribir los 60 textos sintéticos y su clasificación de referencia** (inventados desde cero, sin usar solicitudes reales);
+- programar el esquema de la referencia, el script del CSV y las pruebas;
+- aplicar los cambios de la revisión y hacer los commits.
+
+Candela respondió las preguntas, corrigió la especificación, revisó a mano los 60 casos, definió la regla de la alerta "urgencia" y revisó y unió el Pull Request. Como los textos los escribió una IA, el README advierte que la evaluación podría mostrar resultados mejores que con textos reales.
