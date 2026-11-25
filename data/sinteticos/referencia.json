@@ -112,7 +112,8 @@
     "prioridad": "alta",
     "profesional": "Psicología",
     "alertas": [
-      "ideacion_suicida"
+      "ideacion_suicida",
+      "urgencia"
     ],
     "nota": "Adolescente que se hace daño y dice querer desaparecer: ideación suicida."
   },
@@ -151,7 +152,8 @@
     "prioridad": "alta",
     "profesional": "Matrona",
     "alertas": [
-      "violencia"
+      "violencia",
+      "urgencia"
     ],
     "nota": "Embarazada que relata golpes de su pareja: violencia."
   },
@@ -169,7 +171,8 @@
     "prioridad": "alta",
     "profesional": "Medicina",
     "alertas": [
-      "violencia"
+      "violencia",
+      "urgencia"
     ],
     "nota": "Niño con moretones que relata golpes de un adulto: violencia. Requiere evaluación médica."
   },
@@ -180,7 +183,8 @@
     "alertas": [
       "descompensacion",
       "ges",
-      "persona_mayor_60"
+      "persona_mayor_60",
+      "urgencia"
     ],
     "nota": "Hipertensión con presión muy alta, dolor de cabeza y visión borrosa: descompensación. Hipertensión es GES. Edad 63."
   },
@@ -199,7 +203,8 @@
     "profesional": "Medicina",
     "alertas": [
       "descompensacion",
-      "persona_mayor_60"
+      "persona_mayor_60",
+      "urgencia"
     ],
     "nota": "Insuficiencia cardíaca con hinchazón y ahogo al acostarse: descompensación. Edad 77."
   },
@@ -407,20 +412,21 @@
   },
   {
     "id_solicitud": "SINT-0048",
-    "prioridad": "baja",
+    "prioridad": "media",
     "profesional": "Medicina",
     "alertas": [
       "ges",
       "persona_mayor_60"
     ],
-    "nota": "Consulta por el estado de una interconsulta: baja según el criterio provisional. Sospecha de cáncer de mama es GES. Caso útil para revisar el criterio con la gestora. Edad 61."
+    "nota": "Sospecha de cáncer de mama con interconsulta atrasada; GES con garantía de oportunidad. Validar criterio con Fernanda Mena."
   },
   {
     "id_solicitud": "SINT-0049",
     "prioridad": "baja",
     "profesional": "Kinesiología",
     "alertas": [
-      "persona_mayor_60"
+      "persona_mayor_60",
+      "ges"
     ],
     "nota": "Ayuda técnica sin riesgo inmediato. Edad 83."
   },
