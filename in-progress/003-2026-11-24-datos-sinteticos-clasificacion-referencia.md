@@ -158,7 +158,7 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 - [x] La alerta de 60 años o más está exactamente en las solicitudes con edad 60 o más.
 - [x] La prueba de datos personales no encuentra nada.
 - [x] El CSV se abre bien en Excel en español: columnas separadas, tildes y ñ visibles (confirmado por Candela el 2026-11-25).
-- [ ] Candela revisó los 60 casos y sus cambios están aplicados. *(revisión hecha el 2026-11-25; falta resolver dónde se guardan los comentarios de revisión)*
+- [x] Candela revisó los 60 casos y sus cambios están aplicados (2026-11-25). Los comentarios de revisión están en "Revisión de Candela".
 - [x] El README tiene los dos avisos de método.
 - [x] `npm test` y `npm run lint` pasan.
 - [x] Sin `console.log`.
@@ -211,6 +211,27 @@ Ojo: violencia, ideación suicida y descompensación están justo en el mínimo 
 - `SINT-0048`: nódulo en la mama con una interconsulta atrasada. En la revisión, Candela lo subió de baja a media por ser GES con garantía de oportunidad. **Esto no calza con la regla 2 de los criterios provisionales** (GES no sube la prioridad por sí sola). Sirve para conversar el punto (b) con Fernanda Mena.
 - `SINT-0020`: se queda sin insulina en 2 días. Es el ejemplo de "medicamento que no se puede suspender" (punto c).
 - `SINT-0005`: embarazo con sangrado y dolor fuerte. Es el ejemplo de "síntomas de alarma en el embarazo" (punto c).
+
+**Revisión de Candela (2026-11-25)**
+
+Candela revisó los 60 casos en el CSV. Estos son los cambios que pidió, ya aplicados en `referencia.json`:
+
+| Caso | Cambio |
+|---|---|
+| `SINT-0012` | Se agregó la alerta "urgencia". |
+| `SINT-0016` | Se agregó la alerta "urgencia". |
+| `SINT-0018` | Se agregó la alerta "urgencia". |
+| `SINT-0019` | Se agregó la alerta "urgencia". |
+| `SINT-0021` | Se agregó la alerta "urgencia". |
+| `SINT-0048` | La prioridad pasó de baja a media. La nota quedó: "Sospecha de cáncer de mama con interconsulta atrasada; GES con garantía de oportunidad. Validar criterio con Fernanda Mena." |
+| `SINT-0049` | Se agregó la alerta "ges". |
+
+**Comentarios de revisión**: por decisión de Candela, se guardan solo aquí, en el archivo de la tarea. La columna `comentario_revision` del CSV queda vacía, porque los JSON no tienen un campo para comentarios.
+
+| Caso | Comentario de Candela |
+|---|---|
+| `SINT-0021` | Validar con Fernanda Mena. |
+| `SINT-0049` | Verificar GES de ayudas técnicas para personas de 65 años o más. |
 
 **Cómo se armaron los archivos**: los 60 casos se escribieron en una sola lista dentro de un ayudante temporal (fuera del repositorio), que generó los dos JSON. Así cada solicitud y su referencia no se desalinean. Las fechas se repartieron entre el 9 y el 22 de noviembre de 2026, de 8:00 a 21:59.
 
