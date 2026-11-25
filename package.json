@@ -14,7 +14,8 @@
     "revision:csv": "node scripts/generar-csv-revision.js",
     "clasificar:sinteticos": "node scripts/clasificar-sinteticos.js",
     "ia:probar": "node scripts/probar-ia.js",
-    "revision:r3": "node scripts/generar-csv-revision-r3.js"
+    "revision:r3": "node scripts/generar-csv-revision-r3.js",
+    "ia:modelos": "node scripts/listar-modelos.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
 import {
   crearAdaptadorCompatibleOpenAI,
+  listarModelos,
   ORIGEN_MODELO_REAL,
 } from '../../src/adaptadores/adaptador-compatible-openai.js';
 
@@ -108,6 +109,50 @@ describe('adaptador compatible con OpenAI', () => {
     const error = await crear(fetchFn)
       .completar(MENSAJES)
       .catch((e) => e);
+    expect(error.message).not.toContain(CLAVE);
+    expect(error.message).toContain('[clave oculta]');
+  });
+});
+
+describe('listarModelos', () => {
+  const listar = (fetchFn) =>
+    listarModelos({
+      urlBase: 'https://proveedor.test/v1',
+      apiKey: CLAVE,
+      tiempoEsperaMs: 1000,
+      fetchFn,
+    });
+
+  test('consulta GET /models con la clave y devuelve los id ordenados y sin repetir', async () => {
+    const fetchFn = jest.fn(async () =>
+      respuestaJson(200, {
+        data: [{ id: 'b/modelo' }, { id: 'a/modelo' }, { id: 'b/modelo' }, {}],
+      }),
+    );
+    expect(await listar(fetchFn)).toEqual(['a/modelo', 'b/modelo']);
+    const [url, opciones] = fetchFn.mock.calls[0];
+    expect(url).toBe('https://proveedor.test/v1/models');
+    expect(opciones.method).toBe('GET');
+    expect(opciones.headers.Authorization).toBe(`Bearer ${CLAVE}`);
+  });
+
+  test('avisa si la clave es rechazada', async () => {
+    await expect(listar(jest.fn(async () => respuestaJson(401, {})))).rejects.toThrow(
+      'rechazó la clave',
+    );
+  });
+
+  test('falla con un mensaje claro si no viene la lista', async () => {
+    await expect(listar(jest.fn(async () => respuestaJson(200, { otra: 1 })))).rejects.toThrow(
+      'lista de modelos',
+    );
+  });
+
+  test('no muestra la clave en los errores de conexión', async () => {
+    const fetchFn = jest.fn(async () => {
+      throw new Error(`fallo con ${CLAVE}`);
+    });
+    const error = await listar(fetchFn).catch((e) => e);
     expect(error.message).not.toContain(CLAVE);
     expect(error.message).toContain('[clave oculta]');
   });

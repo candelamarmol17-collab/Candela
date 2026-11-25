@@ -25,6 +25,55 @@ export class ErrorProveedor extends Error {
 const ocultarClave = (texto, apiKey) =>
   apiKey ? String(texto).replaceAll(apiKey, '[clave oculta]') : String(texto);
 
+/**
+ * Consulta GET <urlBase>/models y devuelve los identificadores de los modelos disponibles hoy,
+ * ordenados alfabéticamente. Sirve para elegir IA_MODELO, porque los catálogos retiran modelos.
+ */
+export const listarModelos = async ({
+  urlBase,
+  apiKey,
+  tiempoEsperaMs,
+  fetchFn = globalThis.fetch,
+}) => {
+  let respuesta;
+  try {
+    respuesta = await fetchFn(`${urlBase}/models`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${apiKey}`, Accept: 'application/json' },
+      signal: AbortSignal.timeout(tiempoEsperaMs),
+    });
+  } catch (error) {
+    throw new ErrorProveedor(
+      `No se pudo conectar con el proveedor: ${ocultarClave(error?.message, apiKey)}`,
+    );
+  }
+
+  if (respuesta.status === 401 || respuesta.status === 403) {
+    throw new ErrorProveedor(
+      `El proveedor rechazó la clave (HTTP ${respuesta.status}). Revisa IA_API_KEY en el .env.`,
+    );
+  }
+  if (respuesta.status !== 200) {
+    throw new ErrorProveedor(`El proveedor respondió HTTP ${respuesta.status}.`);
+  }
+
+  let cuerpo;
+  try {
+    cuerpo = await respuesta.json();
+  } catch {
+    throw new ErrorProveedor('El proveedor devolvió una respuesta que no es JSON.');
+  }
+  if (!Array.isArray(cuerpo?.data)) {
+    throw new ErrorProveedor('La respuesta del proveedor no trae la lista de modelos.');
+  }
+
+  return [
+    ...new Set(
+      cuerpo.data.map((modelo) => modelo?.id).filter((id) => typeof id === 'string' && id !== ''),
+    ),
+  ].sort((a, b) => a.localeCompare(b));
+};
+
 export const crearAdaptadorCompatibleOpenAI = ({
   urlBase,
   apiKey,
