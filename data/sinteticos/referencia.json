@@ -143,7 +143,8 @@
     "profesional": "Asistente Social",
     "alertas": [
       "violencia",
-      "persona_mayor_60"
+      "persona_mayor_60",
+      "urgencia"
     ],
     "nota": "Persona mayor que sufre maltrato económico y físico en su casa: violencia. Edad 74."
   },
