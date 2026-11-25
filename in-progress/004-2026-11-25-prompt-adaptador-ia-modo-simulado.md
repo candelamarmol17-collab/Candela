@@ -1,6 +1,6 @@
 # [004] Prompt del modelo y adaptador de IA con modo simulado
 
-**Estado**: backlog
+**Estado**: in-progress
 **Fecha creación**: 2026-11-25
 **Rama asociada**: `feat/004-prompt-adaptador-ia`
 
@@ -58,25 +58,34 @@ Solo se usan datos sintéticos. Nunca datos reales (regla R1).
 
 > Criterio propio, no clínico. Pendiente de validación con Fernanda Mena, gestora de Telesalud del CESFAM Boris Soler.
 
-**Señales de alarma que activan la alerta "urgencia"**:
+**Señales de alarma que activan la alerta "urgencia"**. Son **ejemplos**, no una lista cerrada (decisión A): el prompt dice "por ejemplo", y el modelo puede reconocer otras señales de igual gravedad.
 
 - **Cardiovascular**: dolor de pecho opresivo o que se irradia a brazo, cuello o mandíbula; palpitaciones con mareo o desmayo.
 - **Neurológico**: debilidad o parálisis de un lado del cuerpo o de la cara, dificultad repentina para hablar, confusión aguda, convulsiones, dolor de cabeza explosivo, visión borrosa con presión muy alta.
 - **Respiratorio**: falta de aire en reposo, labios o uñas morados, no poder hablar de corrido.
 - **Digestivo**: vómitos con sangre, deposiciones negras, dolor abdominal intenso y súbito.
 - **Metabólico**: glicemia muy alta o muy baja con confusión o vómitos.
-- **Sistémico**: fiebre alta con confusión, manchas que no desaparecen al presionar, hinchazón rápida de labios, lengua o garganta.
+- **Sistémico**: fiebre alta con confusión, manchas que no desaparecen al presionar, hinchazón rápida de labios, lengua o garganta, hinchazón de la cara o del cuello con fiebre y dificultad para tragar o abrir la boca (este último ejemplo lo agregó Candela por `SINT-0006`).
 - **Trauma**: sangrado que no se detiene.
 - **Grupos de mayor riesgo**: lactante con fiebre, embarazada con sangrado o dolor fuerte.
 
 **Otras reglas**:
 
-- **Medicamentos que no se pueden suspender** (insulina, anticonvulsivantes, anticoagulantes, corticoides): si la persona se queda sin ellos en pocos días, la prioridad es "alta".
-- **Texto vago o sin síntomas descritos**: confianza "baja", para revisión humana.
+- **Medicamentos que no se pueden suspender** (insulina, anticonvulsivantes, anticoagulantes, corticoides): si la persona se queda sin ellos en **3 días o menos**, la prioridad es "alta" (decisión B: la misma frase que en la tarea 3).
+- **Texto vago**: confianza "baja", para revisión humana, **solo cuando no se entiende qué pide la persona**. Un trámite claro, aunque no describa síntomas, no queda con confianza baja (decisión C).
 - **Ante la duda entre dos prioridades**: se elige la más alta.
-- **Justificación**: describe solo lo que dice el texto. Nunca nombra diagnósticos posibles.
+- **Justificación**: describe solo lo que dice el texto. Puede repetir una enfermedad **solo si la persona la menciona**. Nunca supone una que no dijo ni nombra diagnósticos posibles (decisión D).
+- **Ideación suicida** es una alerta crítica: el caso queda en prioridad alta aunque no tenga "urgencia".
 
-## Revisión de coherencia con la tarea 3 [PENDIENTE: decisión de Candela]
+## Revisión de coherencia con la tarea 3 [RESUELTA el 2026-11-25]
+
+**Decisiones de Candela**:
+
+- `SINT-0006`: se mantiene en alta + urgencia. Se agregó a las señales de alarma el ejemplo "hinchazón de la cara o del cuello con fiebre y dificultad para tragar o abrir la boca".
+- `SINT-0008`: se quita "urgencia" y queda en alta + ideación suicida, igual que `SINT-0011` y `SINT-0013`. Ideación suicida es alerta crítica, así que el caso sigue arriba en la bandeja.
+- A: la lista de señales son ejemplos. B: "3 días o menos". C: confianza "baja" solo cuando no se entiende qué pide la persona. D: la justificación repite una enfermedad solo si la persona la menciona.
+
+Lo que sigue es la revisión original, tal como se le mostró a Candela.
 
 Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 y contra la referencia de los 60 casos. **No cambié nada todavía.**
 
