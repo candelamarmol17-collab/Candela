@@ -84,9 +84,9 @@ Los plazos son los de Telesalud: alta, cierre en 72 horas; media, en 14 días; b
 2. Las alertas de **60 años o más** y **GES** no suben la prioridad por sí solas. Sirven para avisar al triajista, pero la prioridad se decide por las señales de arriba.
 3. Si el texto libre no dice nada útil (por ejemplo "necesito hora"), la prioridad se decide por el motivo elegido.
 
-**Cuándo se agrega la alerta "urgencia"** (agregado por Candela en la revisión, 2026-11-25):
+**Cuándo se agrega la alerta "urgencia"** (agregado por Candela en la revisión, 2026-11-25; texto ajustado el mismo día):
 
-Se agrega la alerta "urgencia" cuando hay riesgo inmediato: intento reciente o autolesión activa, señales de alarma vital en una descompensación, o violencia con amenaza grave o víctima vulnerable (embarazada, niño). La alerta "urgencia" indica gestión inmediata por la gestora, fuera del plazo de la prioridad.
+Se agrega la alerta "urgencia" cuando hay riesgo inmediato: intento reciente o autolesión activa; señales de alarma vital en una descompensación; o violencia con amenaza grave, o contra una víctima vulnerable (embarazada, niño o niña, o persona mayor) que convive con quien la agrede o depende de esa persona. La alerta "urgencia" indica gestión inmediata por la gestora, fuera del plazo de la prioridad.
 
 **Criterio para elegir el profesional de referencia** (también nuestro, no clínico): el profesional del formulario que mejor calza con lo que pide el texto libre. Si el texto no aporta nada, se mantiene el que eligió el vecino.
 
@@ -192,7 +192,7 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 | Mínimo | Pedido | Resultado |
 |---|---|---|
 | Prioridad alta / media / baja | 15 de cada una | 22 / 20 / 18 |
-| Urgencia | 5 | 16 |
+| Urgencia | 5 | 17 |
 | Violencia | 5 | 5 |
 | Ideación suicida | 5 | 5 |
 | Descompensación | 5 | 5 |
@@ -225,6 +225,9 @@ Candela revisó los 60 casos en el CSV. Estos son los cambios que pidió, ya apl
 | `SINT-0021` | Se agregó la alerta "urgencia". |
 | `SINT-0048` | La prioridad pasó de baja a media. La nota quedó: "Sospecha de cáncer de mama con interconsulta atrasada; GES con garantía de oportunidad. Validar criterio con Fernanda Mena." |
 | `SINT-0049` | Se agregó la alerta "ges". |
+| `SINT-0015` | Se agregó la alerta "urgencia": persona mayor que convive con quien la agrede y depende de esa persona. |
+| `SINT-0017` | Se mantiene sin "urgencia": quienes lo agreden son compañeros de colegio, no personas con las que convive o de las que depende. |
+| `SINT-0048` | Se mantiene en media, sin agregar una excepción a los criterios. Queda como caso para conversar con Fernanda Mena (punto b). |
 
 **Comentarios de revisión**: por decisión de Candela, se guardan solo aquí, en el archivo de la tarea. La columna `comentario_revision` del CSV queda vacía, porque los JSON no tienen un campo para comentarios.
 
@@ -232,6 +235,7 @@ Candela revisó los 60 casos en el CSV. Estos son los cambios que pidió, ya apl
 |---|---|
 | `SINT-0021` | Validar con Fernanda Mena. |
 | `SINT-0049` | Verificar GES de ayudas técnicas para personas de 65 años o más. |
+| `SINT-0015` | Validar con Fernanda Mena. |
 
 **Cómo se armaron los archivos**: los 60 casos se escribieron en una sola lista dentro de un ayudante temporal (fuera del repositorio), que generó los dos JSON. Así cada solicitud y su referencia no se desalinean. Las fechas se repartieron entre el 9 y el 22 de noviembre de 2026, de 8:00 a 21:59.
 

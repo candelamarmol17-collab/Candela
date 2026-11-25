@@ -30,7 +30,7 @@ Para leer bien los resultados de la evaluación, hay que tener en cuenta dos cos
 - **La clasificación de referencia la definimos nosotras, no los triajistas.** Usamos criterios provisionales, propios y no clínicos. Por eso, la evaluación demuestra **el método** para medir a la IA, no su calidad real.
 - **Los textos sintéticos los escribió una IA.** Es posible que una IA entienda mejor los textos escritos por otra IA que los que escriben los vecinos. Por eso, la evaluación podría mostrar resultados mejores que los que se obtendrían con textos reales.
 
-**Qué significa la alerta "urgencia"** (criterio provisional, nuestro y no clínico): se agrega cuando hay riesgo inmediato. Por ejemplo, un intento reciente o una autolesión activa, señales de alarma vital en una descompensación, o violencia con amenaza grave o con una víctima vulnerable (una embarazada o un niño). Esta alerta indica que la gestora tiene que gestionar el caso de inmediato, sin esperar el plazo de la prioridad.
+**Qué significa la alerta "urgencia"** (criterio provisional, nuestro y no clínico): se agrega cuando hay riesgo inmediato. Esto incluye un intento reciente o una autolesión activa; señales de alarma vital en una descompensación; o violencia con amenaza grave, o contra una víctima vulnerable (una embarazada, un niño o niña, o una persona mayor) que convive con quien la agrede o depende de esa persona. Esta alerta indica que la gestora tiene que gestionar el caso de inmediato, sin esperar el plazo de la prioridad.
 
 Para revisar los casos en Excel, ejecuta `npm run revision:csv`. Así se genera `data/sinteticos/revision.csv`, una tabla con cada solicitud junto a su referencia.
 
