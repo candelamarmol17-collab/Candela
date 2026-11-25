@@ -59,7 +59,7 @@ El MVP clasifica de tres formas. Cada resultado dice de cuál viene (su `origen`
 | **Modelo real** | Hay una clave en `IA_API_KEY` y `MODO_IA` está vacío | Llama al proveedor configurado en el `.env`. |
 | **Repetición** | `MODO_IA=repeticion` | Muestra las respuestas guardadas de una corrida real anterior, sin internet. |
 
-Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta con editar `IA_URL_BASE`, `IA_MODELO` e `IA_API_KEY` en el `.env`. La clave nunca se muestra en pantalla ni se guarda en los resultados.
+Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta con editar `IA_URL_BASE`, `IA_MODELO` e `IA_API_KEY` en el `.env`. Los modelos del catálogo pueden retirarse: `npm run ia:modelos` muestra los disponibles hoy. El modelo principal es `mistralai/mistral-large-4-1t-a52b`, y `minimaxai/minimax-m3.1-flash` se usa como respaldo y comparación (ver la decisión 005). La clave nunca se muestra en pantalla ni se guarda en los resultados.
 
 **Aviso**: las palabras clave del modo simulado se escribieron conociendo los 60 textos sintéticos. Por eso, sobre esos casos coincide mucho con la referencia, pero ese número no mide nada. Solo los resultados del modelo real sirven para evaluar.
 
@@ -73,8 +73,8 @@ Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta co
 | `npm run revision:csv` | Genera la tabla de revisión de los datos sintéticos para Excel. |
 | `npm run ia:modelos` | Muestra los modelos que el proveedor del `.env` ofrece hoy, para elegir `IA_MODELO`. |
 | `npm run ia:probar` | Manda una solicitud sintética al modelo real para confirmar que la clave y el modelo funcionan. |
-| `npm run clasificar:sinteticos` | Clasifica las 60 solicitudes sintéticas de a una y guarda los resultados en `data/resultados/`. |
-| `npm run revision:r3 -- <archivo>` | Genera una tabla para Excel con las justificaciones del modelo, para revisar a mano que no den indicaciones clínicas (regla R3). |
+| `npm run clasificar:sinteticos` | Clasifica las 60 solicitudes sintéticas de a una y guarda los resultados en `data/resultados/`, con el tiempo de cada respuesta. Con `-- --modelo <id>` usa otro modelo solo para esa corrida, sin cambiar el `.env`. |
+| `npm run revision:r3 -- <archivo> [<otro archivo>]` | Genera una tabla para Excel con las justificaciones del modelo, para revisar a mano que no den indicaciones clínicas (regla R3). Con dos archivos, genera una tabla por modelo y marca los casos donde difieren en prioridad, profesional o alertas críticas. |
 
 ## Cómo está organizado
 

@@ -215,6 +215,29 @@ Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 
    - `npm run revision:r3 -- data/resultados/clasificaciones-meta-llama-3.3-70b-instruct.json`: crea el CSV para revisar las justificaciones en Excel.
 3. Repetición: en el `.env`, poner `MODO_IA=repeticion` e `IA_ARCHIVO_REPETICION=` con la ruta del archivo de la corrida real. Las respuestas salen sin internet y con `"origen": "repeticion"`.
 
+## Cambios después del HTTP 410 (2026-11-25)
+
+El modelo elegido al principio (`meta/llama-3.3-70b-instruct`) fue retirado del catálogo de NVIDIA. Candela aprobó:
+
+- **Modelo principal:** `mistralai/mistral-large-4-1t-a52b`. **Respaldo y comparación:** `minimaxai/minimax-m3.1-flash`. Nemotron 3 Ultra queda tercero porque cambió "presión" por "hipertensión" (regla R3). Detalle en la decisión 005.
+- Límite de respuesta en el `.env` (`IA_MAX_TOKENS=4000`) y espera de 2 minutos (`IA_TIEMPO_ESPERA_MS=120000`).
+- Correr los 60 casos con los dos modelos, uno después del otro y nunca al mismo tiempo. MiniMax se corre con `--modelo`, sin cambiar el `.env`.
+- Un CSV R3 por modelo, con una columna que marca dónde difieren en prioridad, profesional o alertas críticas.
+- Para la demo del video se usará el **modo repetición** con los resultados guardados.
+
+Archivos agregados o cambiados por esto: `scripts/listar-modelos.js` (`npm run ia:modelos`) y su prueba, `src/config/ia.js`, `src/adaptadores/adaptador-compatible-openai.js`, `src/services/clasificacion.service.js` (guarda el tiempo de cada respuesta), `scripts/clasificar-sinteticos.js` (`--modelo`), `scripts/generar-csv-revision-r3.js` (columna de diferencias), `.env.example`, `README.md`, la decisión 005 y sus pruebas.
+
+## Notas para la tarea 008 (evaluación)
+
+Candela pidió dejar esto anotado para cuando se cree la tarea 008:
+
+- La pantalla compara **Mistral y MiniMax con las mismas métricas**, empezando por las **alertas críticas no detectadas**.
+- Muestra el **tiempo promedio de respuesta** de cada modelo. Cada corrida ya lo guarda (`tiempo_promedio_ms`, y `duracion_ms` por solicitud).
+- Incluye la tabla **"Modelos considerados"**, con las columnas: desempeño en español, privacidad y retención de datos, costo por solicitud y alojamiento.
+  - Mistral y MiniMax: modelos probados en el prototipo, vía el catálogo de NVIDIA y con datos sintéticos.
+  - OpenAI, Claude, Gemini y Grok: opciones comerciales por evaluar en el piloto. **Todas sus celdas dicen "Por evaluar".** No se inventan datos de esos modelos.
+- Deja claro que **la referencia es nuestra y no de triajistas**: los resultados muestran el método, no la calidad real.
+
 ## Notas de cierre
 
 (se completa al mover a /done; incluir si se usó Claude Code y para qué)

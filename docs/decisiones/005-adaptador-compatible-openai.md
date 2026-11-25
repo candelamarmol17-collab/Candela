@@ -27,8 +27,26 @@
 - Por eso **el modelo se configura en el `.env` (`IA_MODELO`) y no en el código**. Si un modelo se retira, basta con cambiar esa línea, sin tocar el programa.
 - Para ver qué modelos ofrece el proveedor ese día está el comando `npm run ia:modelos`. Consulta `GET <URL base>/models` y avisa si el modelo del `.env` ya no aparece en la lista. Antes de grabar la demo conviene correrlo de nuevo.
 
+## Prueba de modelos (2026-11-25)
+
+Se probó un solo caso sintético (renovar las pastillas de la presión, le quedan 5 días) con los modelos de chat que aparecían en la lista ese día.
+
+**Lo que se aprendió:** casi todos los modelos actuales "piensan" antes de responder (escriben un razonamiento interno que no se muestra). Con el límite original de 500 tokens se quedaban sin espacio y la respuesta llegaba vacía. Con 4.000 tokens y 2 minutos de espera, tres respondieron un JSON válido, y los tres sugirieron prioridad media, Medicina y la alerta GES:
+
+| Modelo | Tiempo | Resultado | Decisión |
+|---|---|---|---|
+| `mistralai/mistral-large-4-1t-a52b` | 32 a 81 s | Justificación con las palabras de la persona ("la presión"). | **Modelo principal.** |
+| `minimaxai/minimax-m3.1-flash` | 13 a 89 s | Justificación con las palabras de la persona. | **Respaldo y comparación**: se corren los mismos 60 casos con los dos. |
+| `nvidia/nemotron-3-ultra-550b-a55b` | 16 a 80 s | Cambió "presión" por "hipertensión": le puso nombre de diagnóstico a algo que la persona no dijo, lo que **choca con la regla R3**. | Tercera opción. |
+
+No sirvieron: `google/gemma-3-12b-it` (respondió "no encontrado" para la cuenta), `z-ai/glm-5.3-flash` (no respondió en 2 minutos) y `nvidia/nemotron-3.5-lightning-30b-a3b` (siguió pensando sin responder, incluso con 4.000 tokens).
+
+**Límites de esta prueba:** fue un solo caso. La documentación no dice nada sobre la calidad en español. La corrida de los 60 casos y la revisión R3 son las que lo muestran.
+
 ## Detalles
 
-- Temperatura 0 (para que repita las mismas respuestas) y máximo 500 tokens de respuesta.
+- Temperatura 0 (para que repita las mismas respuestas).
+- El límite de respuesta se configura en el `.env` (`IA_MAX_TOKENS`, 4000 por defecto) y no queda fijo en el código. Era 500 y se subió por la prueba de modelos. Si el modelo agota el límite pensando, el error lo dice y sugiere subirlo.
+- Tiempo de espera de 2 minutos por respuesta (`IA_TIEMPO_ESPERA_MS=120000`). Era 30 segundos.
 - Un solo reintento, después de 10 segundos, ante un error 429, un error 500 o más, o si se agota el tiempo de espera. Ante una clave rechazada (401 o 403) no se reintenta.
 - La clave nunca aparece en pantalla, en mensajes de error ni en los resultados.
