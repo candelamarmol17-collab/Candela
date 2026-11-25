@@ -147,23 +147,68 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 
 ## Criterios de aceptación
 
-- [ ] Hay 60 solicitudes y 60 referencias, con los identificadores `SINT-0001` a `SINT-0060`.
-- [ ] Todas las solicitudes cumplen el esquema de entrada de la tarea 2.
-- [ ] Todas las referencias cumplen su esquema.
-- [ ] Se cumplen los mínimos de las preguntas 3 a 9.
-- [ ] La alerta de 60 años o más está exactamente en las solicitudes con edad 60 o más.
-- [ ] La prueba de datos personales no encuentra nada.
-- [ ] El CSV se abre bien en Excel en español: columnas separadas, tildes y ñ visibles.
+- [x] Hay 60 solicitudes y 60 referencias, con los identificadores `SINT-0001` a `SINT-0060`.
+- [x] Todas las solicitudes cumplen el esquema de entrada de la tarea 2.
+- [x] Todas las referencias cumplen su esquema.
+- [x] Se cumplen los mínimos de las preguntas 3 a 9.
+- [x] La alerta de 60 años o más está exactamente en las solicitudes con edad 60 o más.
+- [x] La prueba de datos personales no encuentra nada.
+- [ ] El CSV se abre bien en Excel en español: columnas separadas, tildes y ñ visibles. *(pendiente: lo confirma Candela al abrirlo)*
 - [ ] Candela revisó los 60 casos y sus cambios están aplicados.
-- [ ] El README tiene los dos avisos de método.
-- [ ] `npm test` y `npm run lint` pasan.
-- [ ] Sin `console.log`.
-- [ ] `TASKS.md` actualizado.
+- [x] El README tiene los dos avisos de método.
+- [x] `npm test` y `npm run lint` pasan.
+- [x] Sin `console.log`.
+- [x] `TASKS.md` actualizado.
 - [ ] Rama unida a `main` por Pull Request.
 
 ## Archivos modificados/creados
 
-(se completa al implementar)
+**Archivos creados**:
+
+- `data/sinteticos/solicitudes.json`: 60 solicitudes inventadas.
+- `data/sinteticos/referencia.json`: 60 clasificaciones de referencia.
+- `data/sinteticos/revision.csv`: tabla de revisión para Excel.
+- `src/schemas/referencia.schema.js`: molde de la referencia y `validarReferencia`.
+- `scripts/generar-csv-revision.js`: genera la tabla de revisión (`npm run revision:csv`).
+- `tests/datos/sinteticos.test.js`: pruebas de estructura, mínimos y datos personales.
+- `tests/schemas/referencia.schema.test.js`: pruebas del molde de la referencia. **No estaba en el plan**: el contrato pide pruebas para cada pieza de código nueva.
+- `tests/scripts/generar-csv-revision.test.js`: pruebas del CSV. Incluye una prueba que avisa si `revision.csv` quedó desactualizado respecto de los JSON.
+
+**Archivos modificados**:
+
+- `src/schemas/catalogos.js`: **cambios fuera del plan**.
+  - Se agregó `nota_referencia: 300` a `LARGOS_MAXIMOS`, para que el máximo de la nota quede en el mismo lugar que los otros largos.
+  - Se agregó `ALERTAS_IA`, la lista de las 5 alertas que decide la IA (todas menos la de 60 años o más). La usan las pruebas de los mínimos y servirá en la tarea 8 para medir las falsas alertas.
+- `tests/schemas/catalogos.test.js`: se ajustó por los dos cambios anteriores.
+- `package.json`: se agregó el comando `revision:csv`.
+- `README.md`: nueva sección "Sobre los datos sintéticos y la evaluación", con los dos avisos, y los nuevos comandos y carpetas.
+
+**Resultado del conjunto de datos**:
+
+| Mínimo | Pedido | Resultado |
+|---|---|---|
+| Prioridad alta / media / baja | 15 de cada una | 22 / 19 / 19 |
+| Urgencia | 5 | 11 |
+| Violencia | 5 | 5 |
+| Ideación suicida | 5 | 5 |
+| Descompensación | 5 | 5 |
+| GES | 5 | 12 |
+| 60 años o más | 15 a 20 | 17 |
+| Sin ninguna alerta de la IA | 20 | 32 |
+| "Otros" | ~30% | 18 (30%) |
+| "Otros" con urgencia escondida | 10 | 10 |
+| Profesional mal elegido | 8 | 10 |
+| Con edad / sin edad | 48 / 12 | 48 / 12 |
+
+Ojo: violencia, ideación suicida y descompensación están justo en el mínimo (5). Si en la revisión se quita una de esas alertas, hay que agregar otro caso para que las pruebas sigan pasando.
+
+**Casos útiles para conversar con Fernanda Mena**:
+
+- `SINT-0048`: nódulo en la mama a la espera de una interconsulta. Según el criterio provisional, es prioridad baja (consulta por el estado de una interconsulta) y GES no sube la prioridad. Sirve para conversar el punto (b).
+- `SINT-0020`: se queda sin insulina en 2 días. Es el ejemplo de "medicamento que no se puede suspender" (punto c).
+- `SINT-0005`: embarazo con sangrado y dolor fuerte. Es el ejemplo de "síntomas de alarma en el embarazo" (punto c).
+
+**Cómo se armaron los archivos**: los 60 casos se escribieron en una sola lista dentro de un ayudante temporal (fuera del repositorio), que generó los dos JSON. Así cada solicitud y su referencia no se desalinean. Las fechas se repartieron entre el 9 y el 22 de noviembre de 2026, de 8:00 a 21:59.
 
 ## Cómo probarlo
 
