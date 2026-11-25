@@ -138,5 +138,16 @@ export const ALERTAS_IA = Object.freeze(
   ALERTAS.filter((alerta) => alerta !== ALERTA_PERSONA_MAYOR),
 );
 
+/**
+ * Alertas críticas: llevan la solicitud a prioridad alta. Son las que mide la métrica
+ * "alertas críticas no detectadas" de la evaluación (tarea 008).
+ */
+export const ALERTAS_CRITICAS = Object.freeze([
+  'urgencia',
+  'violencia',
+  'ideacion_suicida',
+  'descompensacion',
+]);
+
 /** Edad permitida, en años. */
 export const EDAD = Object.freeze({ minima: 0, maxima: 120 });

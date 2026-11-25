@@ -102,6 +102,34 @@ Se agrega la alerta "urgencia" cuando hay riesgo inmediato: intento reciente o a
 
 **Ideación suicida sin intento ni autolesión activa** (aclarado en la tarea 004): es una alerta crítica, así que la prioridad es alta, pero no lleva "urgencia". Por eso, en la tarea 004 se le quitó "urgencia" a `SINT-0008`.
 
+**Criterios por área** (agregados en la tarea 004, 2026-11-25). Son **ejemplos**, no una lista cerrada ni umbrales numéricos estrictos. Son los mismos que usa el prompt del modelo.
+
+*Descompensación*:
+
+- **Moderada → alta + "descompensacion", sin urgencia.** Ejemplos: presión alta sin otros síntomas; glicemia muy alta con mucha sed y orina frecuente; más tos, flemas o silbidos, o necesidad de usar el inhalador muy seguido; hinchazón leve de piernas de pocos días; menos orina de lo habitual; ojos amarillos o aumento rápido del abdomen.
+- **Crítica → alta + "descompensacion" + "urgencia".** Ejemplos: presión alta con visión borrosa, dolor de cabeza intenso o dolor de pecho; ahogo al acostarse; glicemia muy alta con vómitos, dolor abdominal o confusión, o azúcar muy baja con confusión o temblores; no orinar nada; no poder hablar frases completas o labios morados; vómitos con sangre o deposiciones negras; desorientación o somnolencia en alguien con enfermedad del hígado.
+
+*Salud mental*:
+
+- **"urgencia" + "ideacion_suicida"**: ideación activa con plan o intención, intento reciente o autolesión en curso.
+- **"urgencia", sin ideación**: alucinaciones que ordenan hacerse daño o agitación severa.
+- **Alta, sin urgencia**: ideación pasiva sin plan (con "ideacion_suicida"); crisis de pánico severa en curso; abstinencia severa de alcohol o drogas; suspensión de psicofármacos (litio, antipsicóticos, antidepresivos) con síntomas.
+- **Media**: ansiedad o ánimo bajo de semanas, insomnio, estrés, sin ideas de daño.
+- **Baja**: informes o certificados.
+
+*Dental*:
+
+- **Alta + "urgencia"**: hinchazón de la cara o del cuello que dificulta tragar saliva, abrir la boca o respirar, o que cierra el ojo; sangrado después de una extracción que no se detiene; golpe fuerte en la boca o la mandíbula, o diente arrancado por un golpe reciente.
+- **Alta, sin urgencia**: dolor dental intenso que impide dormir y no cede; hinchazón de encía o mejilla con fiebre, pero sin dificultad para tragar ni respirar.
+- **Media**: dolor dental leve o moderado al masticar o con el frío.
+- **Baja**: tapadura caída sin dolor, controles preventivos y órdenes de radiografía.
+
+*Regla general*: si el texto combina palabras de inicio brusco ("de repente", "desde hoy", "hace una hora") con una señal de alarma, se prioriza "alta" y se evalúa "urgencia", sin importar el profesional que eligió la persona.
+
+*Justificación del modelo*: describe solo lo que dice el texto. No nombra diagnósticos posibles ni tratamientos (por ejemplo, nada de "antibióticos").
+
+> **Criterios congelados desde el 2026-11-25** hasta la validación con Fernanda Mena (decisión de Candela). Cualquier cambio posterior espera esa reunión.
+
 **Criterio para elegir el profesional de referencia** (también nuestro, no clínico): el profesional del formulario que mejor calza con lo que pide el texto libre. Si el texto no aporta nada, se mantiene el que eligió el vecino.
 
 ## Revisión de los mínimos con 60 solicitudes
@@ -214,9 +242,11 @@ Estos puntos no salieron de las preguntas. Candela aprobó A, B, C y E tal como 
 | 60 años o más | 15 a 20 | 17 |
 | Sin ninguna alerta de la IA | 20 | 31 |
 | "Otros" | ~30% | 18 (30%) |
-| "Otros" con urgencia escondida | 10 | 10 |
+| "Otros" con alguna alerta crítica escondida (redefinido en la tarea 004) | 10 | 10 |
 | Profesional mal elegido | 8 | 10 |
 | Con edad / sin edad | 48 / 12 | 48 / 12 |
+
+**Cambio de mínimo (tarea 004, 2026-11-25, decisión de Candela)**: el mínimo de la pregunta 5 era "10 casos 'Otros' con urgencia escondida". Al quitarle "urgencia" a `SINT-0008`, bajó a 9. Se redefinió como "10 casos 'Otros' con al menos una alerta crítica escondida (urgencia, violencia, ideación suicida o descompensación)", para que sea coherente con la métrica de alertas críticas no detectadas de la tarea 008. `SINT-0008` sigue contando por la ideación suicida.
 
 Ojo: violencia, ideación suicida y descompensación están justo en el mínimo (5). Si en la revisión se quita una de esas alertas, hay que agregar otro caso para que las pruebas sigan pasando.
 

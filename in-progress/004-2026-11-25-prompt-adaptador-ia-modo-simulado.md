@@ -77,6 +77,31 @@ Solo se usan datos sintéticos. Nunca datos reales (regla R1).
 - **Justificación**: describe solo lo que dice el texto. Puede repetir una enfermedad **solo si la persona la menciona**. Nunca supone una que no dijo ni nombra diagnósticos posibles (decisión D).
 - **Ideación suicida** es una alerta crítica: el caso queda en prioridad alta aunque no tenga "urgencia".
 
+**Criterios por área (segunda ronda, 2026-11-25)**: Candela agregó ejemplos para descompensación (moderada y crítica), salud mental, dental y una regla general de inicio brusco. Para no repetirlos en dos lugares, el texto completo está en la sección de criterios de `done/003-2026-11-24-datos-sinteticos-clasificacion-referencia.md`. El prompt usa exactamente esos criterios.
+
+**Mínimo redefinido**: "10 casos 'Otros' con al menos una alerta crítica escondida (urgencia, violencia, ideación suicida o descompensación)". Se agregó `ALERTAS_CRITICAS` a `catalogos.js`, porque lo usan la prueba de este mínimo y la métrica de la tarea 008.
+
+**Criterios congelados** desde el 2026-11-25 hasta la validación con Fernanda Mena.
+
+### Coherencia de la segunda ronda con los 60 casos
+
+**Todos los casos calzan. No hubo que cambiar ninguna referencia.**
+
+| Área | Casos | Resultado |
+|---|---|---|
+| Descompensación crítica (alta + descompensación + urgencia) | `SINT-0007` (labios morados), `0009` (glicemia alta con vómitos y confusión), `0019` (presión alta con visión borrosa y dolor de cabeza), `0021` (ahogo al acostarse) | Calzan. |
+| Descompensación moderada (alta + descompensación, sin urgencia) | `SINT-0022` (más tos y silbidos, el inhalador le dura poco) | Calza. |
+| Salud mental con urgencia + ideación | `SINT-0012` (autolesión en curso), `0014` (intento reciente) | Calzan. |
+| Ideación pasiva sin plan (alta, sin urgencia) | `SINT-0008`, `0011`, `0013` | Calzan. |
+| Salud mental media | `SINT-0031` (ansiedad de un mes, insomnio, sin ideas de daño) | Calza. |
+| Salud mental baja | `SINT-0052` (informe) | Calza. |
+| Dental alta + urgencia | `SINT-0006` (cara hinchada, fiebre, dificultad para tragar y abrir la boca) | Calza. |
+| Dental media | `SINT-0029` (dolor con el frío, sin hinchazón) | Calza. |
+| Dental baja | `SINT-0046` (control preventivo), `0055` (tapadura sin dolor; decisión adelantada de Candela) | Calzan. |
+| Inicio brusco + señal de alarma | `SINT-0001` ("desde anoche"), `0004` ("ayer... ahora"), `0005` ("desde la mañana") | Ya están en alta + urgencia. |
+
+Ningún caso sin "descompensacion" menciona una enfermedad crónica con signos de la lista. `SINT-0028` (tos con flema de 10 días) no menciona una enfermedad crónica, así que no cuenta como descompensación.
+
 ## Revisión de coherencia con la tarea 3 [RESUELTA el 2026-11-25]
 
 **Decisiones de Candela**:
