@@ -138,11 +138,18 @@ export const clasificarSolicitud = async (solicitud, adaptador) => {
 /**
  * Clasifica una lista de solicitudes de a una, con una pausa entre cada una.
  * Devuelve la corrida completa, con los datos que dicen de dónde vienen los resultados.
+ * Cada resultado guarda cuánto tardó (duracion_ms), sin contar la pausa.
  */
 export const clasificarEnSerie = async (
   solicitudes,
   adaptador,
-  { pausaMs = 0, esperar = esperarPorDefecto, alAvanzar = () => {}, ahora = () => new Date() } = {},
+  {
+    pausaMs = 0,
+    esperar = esperarPorDefecto,
+    alAvanzar = () => {},
+    ahora = () => new Date(),
+    reloj = () => performance.now(),
+  } = {},
 ) => {
   const resultados = [];
 
@@ -150,12 +157,17 @@ export const clasificarEnSerie = async (
     if (indice > 0 && pausaMs > 0) {
       await esperar(pausaMs);
     }
-    const resultado = await clasificarSolicitud(solicitud, adaptador);
+    const inicio = reloj();
+    const resultado = {
+      ...(await clasificarSolicitud(solicitud, adaptador)),
+      duracion_ms: Math.round(reloj() - inicio),
+    };
     resultados.push(resultado);
     alAvanzar(resultado, indice + 1, solicitudes.length);
   }
 
   const clasificadas = resultados.filter((r) => r.estado === ESTADOS.clasificada).length;
+  const duracionTotal = resultados.reduce((suma, r) => suma + r.duracion_ms, 0);
 
   return {
     aviso:
@@ -168,6 +180,7 @@ export const clasificarEnSerie = async (
     total: resultados.length,
     clasificadas,
     no_clasificadas: resultados.length - clasificadas,
+    tiempo_promedio_ms: resultados.length > 0 ? Math.round(duracionTotal / resultados.length) : 0,
     resultados,
   };
 };

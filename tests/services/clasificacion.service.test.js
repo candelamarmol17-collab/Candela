@@ -189,6 +189,22 @@ describe('clasificarEnSerie', () => {
     expect(corrida.aviso).toContain('sintéticos');
   });
 
+  test('guarda cuánto tardó cada solicitud y el promedio, sin contar la pausa', async () => {
+    const marcas = [0, 1000, 1000, 4000];
+    const corrida = await clasificarEnSerie(
+      [solicitud(), solicitud({ id_solicitud: 'SINT-0002' })],
+      {
+        origen: 'modelo_real',
+        modelo: 'modelo/prueba',
+        completar: async (_mensajes, datos) =>
+          JSON.stringify(respuestaModelo({ id_solicitud: datos.id_solicitud })),
+      },
+      { pausaMs: 2000, esperar: async () => {}, reloj: () => marcas.shift() },
+    );
+    expect(corrida.resultados.map((r) => r.duracion_ms)).toEqual([1000, 3000]);
+    expect(corrida.tiempo_promedio_ms).toBe(2000);
+  });
+
   test('cuenta las no clasificadas', async () => {
     const corrida = await clasificarEnSerie([solicitud()], adaptadorQueResponde('roto'));
     expect(corrida).toMatchObject({ clasificadas: 0, no_clasificadas: 1 });
