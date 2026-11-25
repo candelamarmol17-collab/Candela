@@ -21,6 +21,17 @@ Por cada solicitud, la IA lee el motivo y el texto libre y **sugiere**:
 - **No es un sistema productivo.** No se conecta a Telesalud, a Rayén ni a ningún sistema real.
 - **Funciona sin internet.** Tiene un modo simulado que no necesita conectarse a un proveedor de IA.
 
+## Sobre los datos sintéticos y la evaluación
+
+El proyecto incluye 60 solicitudes inventadas en `data/sinteticos/solicitudes.json`. Cada una tiene su clasificación de referencia, es decir, la "respuesta correcta", en `data/sinteticos/referencia.json`. Esa respuesta se usa para medir qué tan bien clasifica la IA.
+
+Para leer bien los resultados de la evaluación, hay que tener en cuenta dos cosas:
+
+- **La clasificación de referencia la definimos nosotras, no los triajistas.** Usamos criterios provisionales, propios y no clínicos. Por eso, la evaluación demuestra **el método** para medir a la IA, no su calidad real.
+- **Los textos sintéticos los escribió una IA.** Es posible que una IA entienda mejor los textos escritos por otra IA que los que escriben los vecinos. Por eso, la evaluación podría mostrar resultados mejores que los que se obtendrían con textos reales.
+
+Para revisar los casos en Excel, ejecuta `npm run revision:csv`. Así se genera `data/sinteticos/revision.csv`, una tabla con cada solicitud junto a su referencia.
+
 ## Cómo instalarlo
 
 Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
@@ -43,6 +54,7 @@ Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
 | `npm test` | Ejecuta las pruebas automáticas. |
 | `npm run lint` | Revisa que el código no tenga errores ni malas prácticas. |
 | `npm run format` | Ordena el formato del código. |
+| `npm run revision:csv` | Genera la tabla de revisión de los datos sintéticos para Excel. |
 
 ## Cómo está organizado
 
@@ -50,6 +62,8 @@ Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.
 |---|---|
 | `src/` | Código de la aplicación, separado por capas (controladores, servicios y repositorios). |
 | `tests/` | Pruebas automáticas. |
+| `data/sinteticos/` | Solicitudes inventadas, su clasificación de referencia y la tabla de revisión. |
+| `scripts/` | Programas de apoyo que se ejecutan con un comando (por ejemplo, el que genera la tabla de revisión). |
 | `docs/` | Requerimientos del proyecto y decisiones técnicas. |
 | `backlog/`, `in-progress/`, `done/` | Tareas por hacer, en curso y terminadas. |
 | `TASKS.md` | Índice de todas las tareas. |
