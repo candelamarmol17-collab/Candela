@@ -11,7 +11,10 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "revision:csv": "node scripts/generar-csv-revision.js"
+    "revision:csv": "node scripts/generar-csv-revision.js",
+    "clasificar:sinteticos": "node scripts/clasificar-sinteticos.js",
+    "ia:probar": "node scripts/probar-ia.js",
+    "revision:r3": "node scripts/generar-csv-revision-r3.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
