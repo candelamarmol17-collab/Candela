@@ -21,6 +21,12 @@
 - **Un adaptador distinto por proveedor**: más código, y por ahora no hace falta.
 - **El "modo JSON" del proveedor**: no está documentado para el modelo elegido, y cada proveedor lo pide de forma distinta.
 
+## Los modelos del catálogo pueden retirarse
+
+- El 2026-11-25, al probar la clave, NVIDIA respondió **HTTP 410** (que significa "ya no existe"): el modelo `meta/llama-3.3-70b-instruct` fue retirado del catálogo el 26 de agosto de 2026. Lo habíamos elegido ese mismo día a partir de la documentación, que todavía lo mostraba.
+- Por eso **el modelo se configura en el `.env` (`IA_MODELO`) y no en el código**. Si un modelo se retira, basta con cambiar esa línea, sin tocar el programa.
+- Para ver qué modelos ofrece el proveedor ese día está el comando `npm run ia:modelos`. Consulta `GET <URL base>/models` y avisa si el modelo del `.env` ya no aparece en la lista. Antes de grabar la demo conviene correrlo de nuevo.
+
 ## Detalles
 
 - Temperatura 0 (para que repita las mismas respuestas) y máximo 500 tokens de respuesta.

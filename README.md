@@ -71,6 +71,7 @@ Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta co
 | `npm run lint` | Revisa que el código no tenga errores ni malas prácticas. |
 | `npm run format` | Ordena el formato del código. |
 | `npm run revision:csv` | Genera la tabla de revisión de los datos sintéticos para Excel. |
+| `npm run ia:modelos` | Muestra los modelos que el proveedor del `.env` ofrece hoy, para elegir `IA_MODELO`. |
 | `npm run ia:probar` | Manda una solicitud sintética al modelo real para confirmar que la clave y el modelo funcionan. |
 | `npm run clasificar:sinteticos` | Clasifica las 60 solicitudes sintéticas de a una y guarda los resultados en `data/resultados/`. |
 | `npm run revision:r3 -- <archivo>` | Genera una tabla para Excel con las justificaciones del modelo, para revisar a mano que no den indicaciones clínicas (regla R3). |
