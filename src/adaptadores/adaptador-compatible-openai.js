@@ -10,7 +10,6 @@ import { esperar as esperarPorDefecto } from '../utilidades/esperar.js';
 
 export const ORIGEN_MODELO_REAL = 'modelo_real';
 
-const PARAMETROS_MODELO = Object.freeze({ temperature: 0, max_tokens: 500 });
 const ESPERA_REINTENTO_MS = 10000;
 
 /** Error del proveedor. Nunca incluye la clave. */
@@ -79,6 +78,7 @@ export const crearAdaptadorCompatibleOpenAI = ({
   apiKey,
   modelo,
   tiempoEsperaMs,
+  maxTokens,
   esperaReintentoMs = ESPERA_REINTENTO_MS,
   fetchFn = globalThis.fetch,
   esperar = esperarPorDefecto,
@@ -93,7 +93,12 @@ export const crearAdaptadorCompatibleOpenAI = ({
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ model: modelo, messages: mensajes, ...PARAMETROS_MODELO }),
+        body: JSON.stringify({
+          model: modelo,
+          messages: mensajes,
+          temperature: 0,
+          max_tokens: maxTokens,
+        }),
         signal: AbortSignal.timeout(tiempoEsperaMs),
       });
     } catch (error) {
@@ -130,7 +135,13 @@ export const crearAdaptadorCompatibleOpenAI = ({
       throw new ErrorProveedor('El proveedor devolvió una respuesta que no es JSON.');
     }
 
-    const contenido = cuerpo?.choices?.[0]?.message?.content;
+    const eleccion = cuerpo?.choices?.[0];
+    const contenido = eleccion?.message?.content;
+    if (typeof contenido !== 'string' && eleccion?.finish_reason === 'length') {
+      throw new ErrorProveedor(
+        `El modelo usó todo el límite de ${maxTokens} tokens antes de responder. Sube IA_MAX_TOKENS en el .env.`,
+      );
+    }
     if (typeof contenido !== 'string') {
       throw new ErrorProveedor('La respuesta del proveedor no trae el texto del modelo.');
     }

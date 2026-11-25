@@ -24,6 +24,7 @@ const crear = (fetchFn, esperar = jest.fn(async () => {})) =>
     apiKey: CLAVE,
     modelo: 'modelo/prueba',
     tiempoEsperaMs: 1000,
+    maxTokens: 4000,
     fetchFn,
     esperar,
   });
@@ -47,8 +48,17 @@ describe('adaptador compatible con OpenAI', () => {
       model: 'modelo/prueba',
       messages: MENSAJES,
       temperature: 0,
-      max_tokens: 500,
+      max_tokens: 4000,
     });
+  });
+
+  test('explica cuando el modelo agota el límite de tokens pensando', async () => {
+    const fetchFn = jest.fn(async () =>
+      respuestaJson(200, {
+        choices: [{ finish_reason: 'length', message: { content: null, reasoning_content: 'x' } }],
+      }),
+    );
+    await expect(crear(fetchFn).completar(MENSAJES)).rejects.toThrow('IA_MAX_TOKENS');
   });
 
   test('devuelve el texto del modelo', async () => {

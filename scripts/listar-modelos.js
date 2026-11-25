@@ -10,7 +10,7 @@ import { listarModelos } from '../src/adaptadores/adaptador-compatible-openai.js
  *      npm run ia:modelos -- llama   (solo los que contienen "llama")
  */
 
-const TIEMPO_ESPERA_MS = 30000;
+const TIEMPO_ESPERA_MS = 60000;
 
 const escribir = (texto) => process.stdout.write(`${texto}\n`);
 

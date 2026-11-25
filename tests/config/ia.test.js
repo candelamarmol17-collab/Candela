@@ -49,9 +49,25 @@ describe('leerConfiguracionIa: valores', () => {
     expect(leerConfiguracionIa(entornoReal()).urlBase).toBe('https://integrate.api.nvidia.com/v1');
   });
 
-  test('usa 2000 ms de pausa y 30000 ms de espera por defecto', () => {
-    const { pausaMs, tiempoEsperaMs } = leerConfiguracionIa({});
-    expect({ pausaMs, tiempoEsperaMs }).toEqual({ pausaMs: 2000, tiempoEsperaMs: 30000 });
+  test('usa 2000 ms de pausa, 120000 ms de espera y 4000 tokens por defecto', () => {
+    const { pausaMs, tiempoEsperaMs, maxTokens } = leerConfiguracionIa({});
+    expect({ pausaMs, tiempoEsperaMs, maxTokens }).toEqual({
+      pausaMs: 2000,
+      tiempoEsperaMs: 120000,
+      maxTokens: 4000,
+    });
+  });
+
+  test('lee el límite de tokens del entorno', () => {
+    expect(leerConfiguracionIa({ IA_MAX_TOKENS: '800' }).maxTokens).toBe(800);
+  });
+
+  test.each(['0', 'mucho', '-5'])('rechaza un límite de tokens no válido: %p', (valor) => {
+    expect(() => leerConfiguracionIa({ IA_MAX_TOKENS: valor })).toThrow('IA_MAX_TOKENS');
+  });
+
+  test('rechaza un tiempo de espera de 0', () => {
+    expect(() => leerConfiguracionIa({ IA_TIEMPO_ESPERA_MS: '0' })).toThrow('IA_TIEMPO_ESPERA_MS');
   });
 
   test('lee la pausa y la espera del entorno', () => {

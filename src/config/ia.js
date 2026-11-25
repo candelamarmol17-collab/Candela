@@ -19,7 +19,8 @@ export const MODOS = Object.freeze({
 
 const VALORES_POR_DEFECTO = Object.freeze({
   pausaMs: 2000,
-  tiempoEsperaMs: 30000,
+  tiempoEsperaMs: 120000,
+  maxTokens: 4000,
 });
 
 /** Carga el archivo .env si existe. No falla si no existe (entonces se usa el modo simulado). */
@@ -31,14 +32,14 @@ export const cargarArchivoEnv = (ruta = '.env') => {
 
 const texto = (valor) => (typeof valor === 'string' ? valor.trim() : '');
 
-const enteroPositivo = (valor, nombre, porDefecto) => {
+const entero = (valor, nombre, porDefecto, { minimo = 0, ejemplo = '2000 milisegundos' } = {}) => {
   const limpio = texto(valor);
   if (limpio === '') {
     return porDefecto;
   }
   const numero = Number(limpio);
-  if (!Number.isInteger(numero) || numero < 0) {
-    throw new Error(`${nombre} debe ser un número entero de milisegundos (por ejemplo 2000).`);
+  if (!Number.isInteger(numero) || numero < minimo) {
+    throw new Error(`${nombre} debe ser un número entero (por ejemplo ${ejemplo}).`);
   }
   return numero;
 };
@@ -69,12 +70,18 @@ export const leerConfiguracionIa = (entorno = process.env) => {
     urlBase: texto(entorno.IA_URL_BASE).replace(/\/+$/, ''),
     apiKey,
     modelo: texto(entorno.IA_MODELO),
-    pausaMs: enteroPositivo(entorno.IA_PAUSA_MS, 'IA_PAUSA_MS', VALORES_POR_DEFECTO.pausaMs),
-    tiempoEsperaMs: enteroPositivo(
+    pausaMs: entero(entorno.IA_PAUSA_MS, 'IA_PAUSA_MS', VALORES_POR_DEFECTO.pausaMs),
+    tiempoEsperaMs: entero(
       entorno.IA_TIEMPO_ESPERA_MS,
       'IA_TIEMPO_ESPERA_MS',
       VALORES_POR_DEFECTO.tiempoEsperaMs,
+      { minimo: 1, ejemplo: '120000 milisegundos' },
     ),
+    // Límite de lo que puede escribir el modelo, incluido su razonamiento interno.
+    maxTokens: entero(entorno.IA_MAX_TOKENS, 'IA_MAX_TOKENS', VALORES_POR_DEFECTO.maxTokens, {
+      minimo: 1,
+      ejemplo: '4000',
+    }),
     archivoRepeticion: texto(entorno.IA_ARCHIVO_REPETICION),
   };
 
@@ -91,7 +98,7 @@ export const leerConfiguracionIa = (entorno = process.env) => {
 /** Texto para mostrar en pantalla, sin la clave. */
 export const describirConfiguracion = (configuracion) => {
   if (configuracion.modo === MODOS.real) {
-    return `Modo: modelo real · Modelo: ${configuracion.modelo} · URL: ${configuracion.urlBase} · Clave: configurada (oculta)`;
+    return `Modo: modelo real · Modelo: ${configuracion.modelo} · Límite: ${configuracion.maxTokens} tokens · URL: ${configuracion.urlBase} · Clave: configurada (oculta)`;
   }
   if (configuracion.modo === MODOS.repeticion) {
     return `Modo: repetición de una corrida guardada · Archivo: ${configuracion.archivoRepeticion}`;
