@@ -126,7 +126,17 @@ export const LARGOS_MAXIMOS = Object.freeze({
   justificacion: 300,
   /** PROVISIONAL: se revisa cuando se conozcan los valores reales de especificidad_consulta. */
   especificidad_consulta: 300,
+  /** Nota que explica la clasificación de referencia de los datos sintéticos. */
+  nota_referencia: 300,
 });
+
+/**
+ * Alertas que decide la IA. Se excluye la de persona mayor, porque esa la calcula el código
+ * a partir de la edad (acordado en la tarea 002). Sirve para medir falsas alertas de la IA.
+ */
+export const ALERTAS_IA = Object.freeze(
+  ALERTAS.filter((alerta) => alerta !== ALERTA_PERSONA_MAYOR),
+);
 
 /** Edad permitida, en años. */
 export const EDAD = Object.freeze({ minima: 0, maxima: 120 });

@@ -1,6 +1,7 @@
 import {
   ALERTA_PERSONA_MAYOR,
   ALERTAS,
+  ALERTAS_IA,
   LARGOS_MAXIMOS,
   MOTIVOS_POR_PRESTADOR,
   NIVELES_CONFIANZA,
@@ -43,7 +44,19 @@ describe('catalogos', () => {
       texto_libre: 300,
       justificacion: 300,
       especificidad_consulta: 300,
+      nota_referencia: 300,
     });
+  });
+
+  test('las alertas de la IA son todas menos la de persona mayor', () => {
+    expect(ALERTAS_IA).toEqual([
+      'urgencia',
+      'violencia',
+      'ideacion_suicida',
+      'descompensacion',
+      'ges',
+    ]);
+    expect(ALERTAS_IA).not.toContain(ALERTA_PERSONA_MAYOR);
   });
 
   test('las listas no se pueden modificar por accidente', () => {
