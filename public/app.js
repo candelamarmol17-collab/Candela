@@ -1,3 +1,7 @@
+import { $, el, NOMBRES_ALERTAS, NOMBRES_PRIORIDAD } from './dom.js';
+import { mostrarComoFunciona } from './como-funciona.js';
+import { mostrarEvaluacion } from './evaluacion.js';
+import { mostrarRegistro } from './registro.js';
 import { icono } from './iconos.js';
 
 /**
@@ -7,16 +11,6 @@ import { icono } from './iconos.js';
  * de una solicitud no pueda cambiar la página. Solo los íconos, que son fijos, se insertan como SVG.
  */
 
-const NOMBRES_ALERTAS = Object.freeze({
-  urgencia: 'Urgencia',
-  violencia: 'Violencia',
-  ideacion_suicida: 'Riesgo suicida',
-  descompensacion: 'Descompensación',
-  persona_mayor_60: 'Persona mayor (60+)',
-  ges: 'GES',
-});
-
-const NOMBRES_PRIORIDAD = Object.freeze({ alta: 'Alta', media: 'Media', baja: 'Baja' });
 const NOMBRES_CONFIANZA = Object.freeze({ alta: 'Alta', media: 'Media', baja: 'Baja' });
 
 const GRUPOS = Object.freeze([
@@ -33,8 +27,12 @@ const AVISO_R2 =
   'Es una sugerencia. La decisión es del triajista. La IA no entrega indicaciones clínicas.';
 
 const DURACION_AVISO_MS = 8000;
-/** Cada paso de la pantalla de carga dura esto (3 pasos ≈ 2,4 s, más 0,3 s de salida). */
-const PASO_CARGA_MS = 800;
+/** La pantalla de carga dura unos 3 segundos: el anillo sube de 0 a 100 % en este tiempo. */
+const DURACION_CARGA_MS = 3000;
+const CUADRO_CARGA_MS = 30;
+const PAUSA_AL_100_MS = 350;
+/** Largo del círculo del anillo (2·π·52), el mismo de estilos.css. */
+const LARGO_ANILLO = 326.73;
 const SALIDA_CARGA_MS = 300;
 
 const FILTROS_VACIOS = Object.freeze({ prioridad: '', alerta: '', estado: '', texto: '' });
@@ -99,30 +97,12 @@ let temporizadorAviso = null;
 
 // ── Utilidades del DOM ───────────────────────────────────────────
 
-/** Crea un elemento. Los hijos de texto se agregan como texto, nunca como HTML. */
-const el = (etiqueta, atributos = {}, ...hijos) => {
-  const nodo = document.createElement(etiqueta);
-  for (const [nombre, valor] of Object.entries(atributos)) {
-    if (valor === undefined || valor === null || valor === false) continue;
-    if (nombre === 'clase') nodo.className = valor;
-    else if (nombre.startsWith('al')) nodo.addEventListener(nombre.slice(2).toLowerCase(), valor);
-    else nodo.setAttribute(nombre, valor === true ? '' : valor);
-  }
-  for (const hijo of hijos.flat()) {
-    if (hijo === null || hijo === undefined || hijo === false) continue;
-    nodo.append(hijo instanceof Node ? hijo : document.createTextNode(String(hijo)));
-  }
-  return nodo;
-};
-
 /** Ícono SVG fijo (de iconos.js). */
 const svg = (nombre, opciones) => {
   const plantilla = document.createElement('template');
   plantilla.innerHTML = icono(nombre, opciones);
   return plantilla.content.firstChild;
 };
-
-const $ = (id) => document.getElementById(id);
 
 const sinMovimiento = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));
@@ -429,6 +409,8 @@ const dibujar = () => {
   $('bandeja-vacia').hidden = !vacia;
   $('contenido-bandeja').hidden = vacia;
   $('acciones').hidden = vacia;
+  // La bienvenida ya trae su propio título: el de la bandeja aparece al cargar.
+  $('titulo-bandeja').hidden = vacia;
   dibujarBotones();
   dibujarResumen();
   dibujarLista();
@@ -544,6 +526,8 @@ const vistaDetalle = (elemento) => {
   return [
     ...seccionVecino(elemento.solicitud),
     cajaSugerencia(elemento.sugerencia_ia),
+    // Qué datos recibió la IA (y cuáles no): los personales se separan antes, con código.
+    el('p', { clase: 'nota-datos-ia' }, estado.bandeja.nota_datos_ia),
     cajaTriajista(elemento),
     el('p', { clase: 'aviso-r2' }, AVISO_R2),
     el(
@@ -857,29 +841,69 @@ const alElegirTarjeta = (tarjeta) => {
 // ── Pantalla de carga ────────────────────────────────────────────
 
 /**
- * Muestra la pantalla de carga mientras carga la exportación, y luego sus tres pasos.
- * Los textos describen lo que de verdad pasa: se leen resultados guardados, no se clasifica en vivo.
+ * Los cuatro pasos de la carga y desde qué porcentaje se muestra cada uno.
+ * Los textos describen lo que de verdad pasa: la separación de datos personales se hace con
+ * código y antes de la IA; las sugerencias se leen de una corrida guardada, no se clasifica en vivo.
  */
+const PASOS_CARGA = [
+  {
+    desde: 0,
+    texto: (bandeja) =>
+      `Cargando la exportación de Telesalud… (${textoSolicitudes(bandeja.exportaciones.ultima)})`,
+  },
+  {
+    desde: 25,
+    texto: (bandeja) =>
+      `Separando los datos personales… (${bandeja.exportaciones.ultima.columnas_personales_separadas} columnas)`,
+  },
+  {
+    desde: 50,
+    texto: (bandeja) => `Aplicando las sugerencias de ${bandeja.datos.nombre_corto}…`,
+  },
+  { desde: 75, texto: () => 'Ordenando la bandeja…' },
+];
+
+/** Sube y baja suave al principio y al final (0 → 0, 1 → 1). */
+const suavizar = (x) => 0.5 - Math.cos(Math.PI * x) / 2;
+
+const dibujarAvanceCarga = (porcentaje) => {
+  $('carga-porcentaje').textContent = `${porcentaje}%`;
+  $('carga-progreso').style.strokeDashoffset = String(LARGO_ANILLO * (1 - porcentaje / 100));
+};
+
+/**
+ * Sube el anillo de 0 a 100 % en unos 3 segundos y cambia el texto en cada paso.
+ * Usa setTimeout (y no requestAnimationFrame) para que termine aunque la pestaña quede oculta.
+ */
+const animarCarga = (bandeja) =>
+  new Promise((listo) => {
+    const inicio = performance.now();
+    let pasoActual = -1;
+    const cuadro = () => {
+      const avance = Math.min(1, (performance.now() - inicio) / DURACION_CARGA_MS);
+      const porcentaje = Math.round(suavizar(avance) * 100);
+      dibujarAvanceCarga(porcentaje);
+      const paso = PASOS_CARGA.findLastIndex((p) => porcentaje >= p.desde);
+      if (paso !== pasoActual) {
+        pasoActual = paso;
+        $('carga-titulo').textContent = PASOS_CARGA[paso].texto(bandeja);
+      }
+      if (avance < 1) setTimeout(cuadro, CUADRO_CARGA_MS);
+      else setTimeout(listo, PAUSA_AL_100_MS);
+    };
+    cuadro();
+  });
+
+/** Muestra la pantalla de carga mientras carga la exportación y recorre sus cuatro pasos. */
 const conPantallaDeCarga = async (pedirBandeja) => {
   const carga = $('carga');
-  const paso = (titulo, avance) => {
-    $('carga-titulo').textContent = titulo;
-    $('carga-avance').style.width = `${avance}%`;
-  };
   carga.classList.remove('carga--saliendo');
+  dibujarAvanceCarga(0);
+  $('carga-titulo').textContent = 'Cargando la exportación de Telesalud…';
   carga.hidden = false;
-  paso('Cargando la exportación de Telesalud…', 0);
   try {
     const bandeja = await pedirBandeja();
-    paso(
-      `Cargando la exportación de Telesalud… (${textoSolicitudes(bandeja.exportaciones.ultima)})`,
-      33,
-    );
-    await esperar(PASO_CARGA_MS);
-    paso(`Aplicando las sugerencias de ${bandeja.datos.nombre_corto}…`, 66);
-    await esperar(PASO_CARGA_MS);
-    paso('Ordenando la bandeja…', 100);
-    await esperar(PASO_CARGA_MS);
+    await animarCarga(bandeja);
     return bandeja;
   } finally {
     carga.classList.add('carga--saliendo');
@@ -909,7 +933,7 @@ const idsVisibles = () =>
 const alPresionarTecla = (evento) => {
   const escribiendo = ['INPUT', 'TEXTAREA', 'SELECT'].includes(evento.target.tagName);
   if (escribiendo || evento.ctrlKey || evento.metaKey || evento.altKey) return;
-  if (!$('carga').hidden || $('ventana-carga').open) return;
+  if (!$('carga').hidden || $('ventana-carga').open || $('vista-bandeja').hidden) return;
   if (evento.key === 'Escape' && estado.seleccionada) {
     cerrarPanel();
     return;
@@ -940,6 +964,46 @@ const alPresionarTecla = (evento) => {
   } else if (evento.key.toLowerCase() === 'e') {
     abrirPanel(estado.seleccionada, 'corregir');
   }
+};
+
+// ── Pestañas ─────────────────────────────────────────────────────
+
+/** Pestañas: dirección (#…), vista y qué se dibuja al abrirla. */
+const PESTANAS = [
+  { hash: '#bandeja', vista: 'vista-bandeja', pestana: 'pestana-bandeja' },
+  {
+    hash: '#registro',
+    vista: 'vista-registro',
+    pestana: 'pestana-registro',
+    abrir: () => mostrarRegistro(llamar),
+  },
+  {
+    hash: '#evaluacion',
+    vista: 'vista-evaluacion',
+    pestana: 'pestana-evaluacion',
+    abrir: () => mostrarEvaluacion(llamar),
+  },
+  {
+    hash: '#como-funciona',
+    vista: 'vista-como-funciona',
+    pestana: 'pestana-como-funciona',
+    abrir: () => mostrarComoFunciona(llamar),
+  },
+];
+
+/** Muestra la pestaña que indica la dirección. Sin dirección conocida, la bandeja. */
+const mostrarPestana = () => {
+  const actual = PESTANAS.find((p) => p.hash === window.location.hash) ?? PESTANAS[0];
+  if (actual !== PESTANAS[0] && estado.seleccionada) cerrarPanel();
+  for (const p of PESTANAS) {
+    const activa = p === actual;
+    $(p.vista).hidden = !activa;
+    $(p.pestana).classList.toggle('pestana--activa', activa);
+    if (activa) $(p.pestana).setAttribute('aria-current', 'page');
+    else $(p.pestana).removeAttribute('aria-current');
+  }
+  actual.abrir?.();
+  window.scrollTo({ top: 0 });
 };
 
 // ── Inicio ───────────────────────────────────────────────────────
@@ -975,6 +1039,8 @@ const iniciar = async () => {
     dibujarLista();
   });
   document.addEventListener('keydown', alPresionarTecla);
+  window.addEventListener('hashchange', mostrarPestana);
+  mostrarPestana();
 
   try {
     actualizar(await llamar('GET', '/api/bandeja'), { destellar: null });

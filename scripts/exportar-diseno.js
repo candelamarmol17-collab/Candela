@@ -3,7 +3,9 @@ import { dirname, extname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
 import { build } from 'esbuild';
-import { leerDatosBandeja } from '../src/repositories/bandeja.repository.js';
+import { leerDatosDemo } from '../src/repositories/bandeja.repository.js';
+import { leerDatosEvaluacion } from '../src/repositories/evaluacion.repository.js';
+import { evaluarModelos } from '../src/services/evaluacion.service.js';
 
 /**
  * Genera una copia de la pantalla de la bandeja en UN SOLO archivo HTML, para revisar el diseño
@@ -13,7 +15,7 @@ import { leerDatosBandeja } from '../src/repositories/bandeja.repository.js';
  *      npm run exportar:diseno -- --salida <ruta.html>
  *
  * Lleva dentro el CSS, el JavaScript, la fuente Inter, el logo y los datos de la bandeja
- * (las solicitudes sintéticas y la corrida de MiniMax). No lleva la clave, el .env ni el servidor.
+ * (las exportaciones de demostración, con datos sintéticos, y la corrida de MiniMax). No lleva la clave, el .env ni el servidor.
  * El archivo se guarda FUERA del repositorio, para que no se suba a GitHub.
  */
 
@@ -150,15 +152,19 @@ const leerEnvSiExiste = async () => {
 /** Genera la copia y devuelve su ruta y tamaño. */
 export const generarCopiaDeDiseno = async ({ salida = SALIDA_POR_DEFECTO } = {}) => {
   const destino = validarSalida(salida);
-  const [html, css, logoSvg, fuenteWoff2, js, datos, textoEnv] = await Promise.all([
-    readFile(resolve(PUBLICO, 'index.html'), 'utf8'),
-    readFile(resolve(PUBLICO, 'estilos.css'), 'utf8'),
-    readFile(resolve(PUBLICO, 'logo-pulso.svg'), 'utf8'),
-    readFile(resolve(PUBLICO, 'fuentes/inter-latin-variable.woff2')),
-    empaquetar(),
-    leerDatosBandeja({ archivoCorrida: ARCHIVO_CORRIDA }),
-    leerEnvSiExiste(),
-  ]);
+  const [html, css, logoSvg, fuenteWoff2, js, datosDemo, datosEvaluacion, textoEnv] =
+    await Promise.all([
+      readFile(resolve(PUBLICO, 'index.html'), 'utf8'),
+      readFile(resolve(PUBLICO, 'estilos.css'), 'utf8'),
+      readFile(resolve(PUBLICO, 'logo-pulso.svg'), 'utf8'),
+      readFile(resolve(PUBLICO, 'fuentes/inter-latin-variable.woff2')),
+      empaquetar(),
+      leerDatosDemo({ archivoCorrida: ARCHIVO_CORRIDA }),
+      leerDatosEvaluacion(),
+      leerEnvSiExiste(),
+    ]);
+  // La pestaña "Evaluación" también funciona en la copia: lleva las métricas ya calculadas.
+  const datos = { ...datosDemo, evaluacion: evaluarModelos(datosEvaluacion) };
   const pagina = armarHtml({ html, css, js, logoSvg, fuenteWoff2, datos });
   revisarQueNoTengaClave(pagina, textoEnv);
   await mkdir(dirname(destino), { recursive: true });

@@ -19,3 +19,6 @@ coverage/
 Thumbs.db
 .vscode/
 .idea/
+
+# Archivos temporales de Excel/Word abiertos
+~$*

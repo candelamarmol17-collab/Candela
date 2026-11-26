@@ -1,9 +1,21 @@
 import { crearApp } from './app.js';
 import { cargarArchivoEnv } from './config/ia.js';
 import { leerConfiguracionApp } from './config/app.js';
-import { leerDatosBandeja } from './repositories/bandeja.repository.js';
+import { leerDatosDemo } from './repositories/bandeja.repository.js';
+import { codigoFijoDemo } from './services/exportacion-demo.service.js';
 import { crearDemoBandeja } from './services/demo-bandeja.service.js';
 import { describirDatosBandeja } from './services/bandeja.service.js';
+import { leerDatosEvaluacion } from './repositories/evaluacion.repository.js';
+import { evaluarModelos } from './services/evaluacion.service.js';
+
+/** Calcula la evaluación. Si falla, la bandeja igual funciona y la pestaña muestra el motivo. */
+const calcularEvaluacion = async () => {
+  try {
+    return evaluarModelos(await leerDatosEvaluacion());
+  } catch (error) {
+    return { error: `No se pudo calcular la evaluación: ${error.message}` };
+  }
+};
 
 /**
  * Enciende la aplicación: npm run iniciar (en Windows: npm.cmd run iniciar).
@@ -13,11 +25,12 @@ const iniciar = async () => {
   try {
     cargarArchivoEnv();
     const configuracion = leerConfiguracionApp();
-    const { solicitudes, corrida } = await leerDatosBandeja({
+    const { exportaciones, corrida } = await leerDatosDemo({
       archivoCorrida: configuracion.archivoCorrida,
     });
-    const demo = crearDemoBandeja({ solicitudes, corrida });
-    const servidor = crearApp({ demo }).listen(configuracion.puerto, () => {
+    const demo = crearDemoBandeja({ exportaciones, corrida, codigoFijo: codigoFijoDemo });
+    const evaluacion = await calcularEvaluacion();
+    const servidor = crearApp({ demo, evaluacion }).listen(configuracion.puerto, () => {
       process.stdout.write(`${describirDatosBandeja(corrida).etiqueta}\n`);
       process.stdout.write(
         `Pulso está encendido. Abre en el navegador: http://localhost:${configuracion.puerto}\n`,

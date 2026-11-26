@@ -11,11 +11,16 @@
   <body>
     <div class="carga" id="carga" role="status" aria-live="polite" hidden>
       <div class="carga__tarjeta">
-        <img src="/logo-pulso.svg" alt="" width="64" height="64" />
-        <p class="carga__titulo" id="carga-titulo">Cargando la exportación de Telesalud…</p>
-        <div class="carga__barra" aria-hidden="true">
-          <div class="carga__avance" id="carga-avance"></div>
+        <img src="/logo-pulso.svg" alt="" width="56" height="56" />
+        <!-- Anillo de avance: el porcentaje va al centro. Los lectores de pantalla leen el paso. -->
+        <div class="carga__anillo" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="148" height="148">
+            <circle class="carga__pista" cx="60" cy="60" r="52" />
+            <circle class="carga__progreso" id="carga-progreso" cx="60" cy="60" r="52" />
+          </svg>
+          <span class="carga__porcentaje" id="carga-porcentaje">0%</span>
         </div>
+        <p class="carga__titulo" id="carga-titulo">Cargando la exportación de Telesalud…</p>
         <p class="carga__lema">La IA sugiere, el equipo clínico decide.</p>
       </div>
     </div>
@@ -38,26 +43,22 @@
           </div>
         </div>
         <div class="encabezado__derecha">
-          <p class="encabezado__centro">CESFAM piloto · Bandeja de Telesalud</p>
+          <p class="encabezado__centro">CESFAM Boris Soler · Bandeja de Telesalud</p>
           <span class="etiqueta-usuario" id="triajista">Triajista de demostración</span>
         </div>
       </div>
       <nav class="contenedor pestanas" aria-label="Secciones">
-        <a class="pestana pestana--activa" href="/" aria-current="page">Bandeja</a>
-        <span class="pestana pestana--inactiva" aria-disabled="true"
-          >Registro <small>Próximamente</small></span
+        <a class="pestana pestana--activa" href="#bandeja" id="pestana-bandeja" aria-current="page"
+          >Bandeja</a
         >
-        <span class="pestana pestana--inactiva" aria-disabled="true"
-          >Evaluación <small>Próximamente</small></span
-        >
-        <span class="pestana pestana--inactiva" aria-disabled="true"
-          >Cómo funciona <small>Próximamente</small></span
-        >
+        <a class="pestana" href="#registro" id="pestana-registro">Registro</a>
+        <a class="pestana" href="#evaluacion" id="pestana-evaluacion">Evaluación</a>
+        <a class="pestana" href="#como-funciona" id="pestana-como-funciona">Cómo funciona</a>
       </nav>
     </header>
 
-    <main class="contenedor principal">
-      <div class="titulo-fila">
+    <main class="contenedor principal" id="vista-bandeja">
+      <div class="titulo-fila" id="titulo-bandeja">
         <div>
           <h2 class="titulo">Bandeja de solicitudes</h2>
           <p class="subtitulo">Criterio de orden propuesto, por validar con el equipo de triaje</p>
@@ -68,10 +69,52 @@
         </div>
       </div>
 
-      <section class="bandeja-vacia" id="bandeja-vacia" hidden>
-        <h3 class="bandeja-vacia__titulo">No hay solicitudes.</h3>
-        <p class="bandeja-vacia__texto">Carga la exportación de Telesalud para empezar.</p>
-        <button type="button" class="boton boton--principal" id="boton-cargar-vacia"></button>
+      <!-- Bienvenida (tarea 014): se ve con la bandeja vacía, antes de cargar la exportación. -->
+      <section class="bienvenida" id="bandeja-vacia" aria-labelledby="bienvenida-titulo" hidden>
+        <div class="bienvenida__contenido">
+          <p class="bienvenida__etiqueta">
+            <span class="bienvenida__punto" aria-hidden="true"></span>
+            OPERACIONES CLÍNICAS · TELESALUD · CESFAM BORIS SOLER
+          </p>
+          <h2 class="bienvenida__titulo" id="bienvenida-titulo">
+            Hola, equipo.<br />
+            <span>Hoy estamos listos para priorizar.</span>
+          </h2>
+          <p class="bienvenida__bajada">
+            Una vista conectada de las solicitudes, con señales claras para apoyar la revisión
+            clínica.
+          </p>
+          <ul class="bienvenida__chips">
+            <li>✦ IA como apoyo</li>
+            <li>✓ Decisión humana</li>
+            <li>Trazabilidad</li>
+          </ul>
+          <div class="bienvenida__accion">
+            <button type="button" class="boton boton--claro" id="boton-cargar-vacia"></button>
+            <p>No hay solicitudes. Carga la exportación de Telesalud para empezar.</p>
+          </div>
+        </div>
+        <div class="bienvenida__arte" aria-hidden="true">
+          <span class="bienvenida__orbita bienvenida__orbita--a"></span>
+          <span class="bienvenida__orbita bienvenida__orbita--b"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--uno"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--dos"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--tres"></span>
+          <div class="bienvenida__vidrio">
+            <span class="bienvenida__puntos"><i></i><i></i><i></i></span>
+            <img class="bienvenida__logo" src="/logo-pulso.svg" alt="" width="64" height="64" />
+            <span class="bienvenida__onda"></span>
+            <span class="bienvenida__vidrio-texto">Conectando solicitudes y atención</span>
+          </div>
+          <div class="bienvenida__flotante bienvenida__flotante--arriba">
+            <span class="bienvenida__flotante-icono">✓</span>
+            <span>Supervisión<br />profesional</span>
+          </div>
+          <div class="bienvenida__flotante bienvenida__flotante--abajo">
+            <span class="bienvenida__flotante-icono">✦</span>
+            <span>Asistencia<br />inteligente</span>
+          </div>
+        </div>
       </section>
 
       <div id="contenido-bandeja" hidden>
@@ -144,6 +187,57 @@
         </div>
       </form>
     </dialog>
+
+    <!-- Pestaña "Registro" (tarea 007): la dibuja registro.js con el estado de /api/bandeja. -->
+    <main class="contenedor principal" id="vista-registro" hidden>
+      <div class="reg-cabeza">
+        <div>
+          <h2 class="titulo">Registro</h2>
+          <p class="subtitulo" id="registro-aviso">Registro de esta sesión de demostración.</p>
+        </div>
+        <div class="reg-contadores" id="registro-contadores" aria-live="polite"></div>
+      </div>
+      <div class="reg-barra">
+        <input
+          class="reg-buscar"
+          id="registro-buscar"
+          type="search"
+          placeholder="Buscar por número de solicitud"
+          aria-label="Buscar por número de solicitud"
+          autocomplete="off"
+        />
+        <label class="reg-filtro">
+          <span>Acción</span>
+          <select id="registro-accion">
+            <option value="">Todas</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="corregida">Corregida</option>
+            <option value="deshecha">Deshecha</option>
+            <option value="exportacion_cargada">Exportación cargada</option>
+          </select>
+        </label>
+        <span class="reg-cantidad" id="registro-cantidad"></span>
+      </div>
+      <section class="reg-tarjeta" aria-label="Eventos">
+        <h3 class="reg-tarjeta__titulo">Eventos</h3>
+        <div id="registro-tabla"></div>
+      </section>
+      <section class="reg-tarjeta reg-ficha" id="registro-ficha" aria-live="polite"></section>
+    </main>
+
+    <!-- Pestaña "Evaluación" (tarea 008): la dibuja evaluacion.js con los datos de /api/evaluacion. -->
+    <main class="contenedor principal" id="vista-evaluacion" hidden>
+      <h2 class="titulo">Evaluación</h2>
+      <p class="subtitulo">Medir lo que importa, antes de usarlo en atención real</p>
+      <div id="evaluacion-contenido" aria-live="polite"></div>
+    </main>
+
+    <!-- Pestaña "Cómo funciona" (tarea 009): la dibuja como-funciona.js. -->
+    <main class="contenedor principal" id="vista-como-funciona" hidden>
+      <h2 class="titulo">Cómo funciona Pulso</h2>
+      <p class="subtitulo">Una capa de apoyo. La decisión siempre es del equipo clínico.</p>
+      <div id="como-funciona-contenido"></div>
+    </main>
 
     <aside class="panel" id="panel" aria-label="Detalle de la solicitud" hidden></aside>
     <div class="aviso-flotante" id="aviso-flotante" role="status" hidden></div>

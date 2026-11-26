@@ -1,11 +1,14 @@
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
+  ARCHIVOS_EXPORTACION_DEMO,
   ErrorDatosBandeja,
   leerDatosBandeja,
+  leerExportacionesDemo,
   rutaDeCorrida,
 } from '../../src/repositories/bandeja.repository.js';
+import { armarExportacionesDemo } from '../../src/services/exportacion-demo.service.js';
 
 // Datos sintéticos (inventados). Nunca usar datos reales.
 const solicitudes = [
@@ -102,5 +105,27 @@ describe('leerDatosBandeja', () => {
     await writeFile(archivo, JSON.stringify(corrida), 'utf8');
     const datos = await leerDatosBandeja({ archivoCorrida: archivo, carpetaResultados });
     expect(datos.solicitudes).toHaveLength(60);
+  });
+});
+
+describe('leerExportacionesDemo', () => {
+  test('lee las dos exportaciones del proyecto, iguales a las que arma el generador', async () => {
+    const leidas = await leerExportacionesDemo();
+    const sinteticas = JSON.parse(await readFile('data/sinteticos/solicitudes.json', 'utf8'));
+    // Si esto falla, los archivos quedaron viejos: correr "npm run exportacion:demo".
+    expect(leidas).toEqual(armarExportacionesDemo(sinteticas));
+    expect(ARCHIVOS_EXPORTACION_DEMO).toHaveLength(2);
+  });
+
+  test('si falta un archivo, dice cómo generarlo', async () => {
+    await expect(leerExportacionesDemo([join(raiz, 'no-existe.csv')])).rejects.toThrow(
+      /npm run exportacion:demo/,
+    );
+  });
+
+  test('si el CSV está roto, lo dice', async () => {
+    const roto = join(raiz, 'roto.csv');
+    await writeFile(roto, 'ID,"sin cerrar', 'utf8');
+    await expect(leerExportacionesDemo([roto])).rejects.toThrow(ErrorDatosBandeja);
   });
 });

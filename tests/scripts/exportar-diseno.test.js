@@ -128,7 +128,7 @@ describe('revisarQueNoTengaClave', () => {
 });
 
 describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)', () => {
-  test('genera un solo archivo autónomo, con las 60 solicitudes y la corrida de MiniMax', async () => {
+  test('genera un solo archivo autónomo, con las exportaciones de demostración y la corrida de MiniMax', async () => {
     // Carpeta temporal del sistema: el sistema la limpia solo.
     const carpeta = await mkdtemp(join(tmpdir(), 'pulso-diseno-'));
     const salida = join(carpeta, 'sub', 'pulso-diseno.html');
@@ -146,8 +146,23 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
     expect(pagina).toContain('// src/services/demo-bandeja.service.js');
 
     const datos = leerDatosDeLaPagina(pagina);
-    expect(datos.solicitudes).toHaveLength(60);
+    expect(datos).not.toHaveProperty('solicitudes');
+    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 1]);
+    expect(datos.exportaciones[0][0]).toHaveLength(48);
+    // Los únicos datos "personales" que lleva son los de demostración, claramente inventados.
+    expect(pagina).toContain('Vecina Demo 01');
+    expect(pagina).toContain('DEMO-ID-0001');
     expect(datos.corrida.modelo).toBe('minimaxai/minimax-m3.1-flash');
+    // La pestaña "Evaluación" también funciona en la copia: lleva las métricas calculadas.
+    expect(datos.evaluacion.modelos.map((m) => m.nombre)).toEqual([
+      'Mistral Large 4',
+      'MiniMax M3.1 Flash',
+    ]);
     expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
+    // La bienvenida (tarea 014) también va en la copia.
+    expect(pagina).toContain('Hola, equipo.');
+    // La pestaña "Cómo funciona" (tarea 009) también.
+    expect(pagina).toContain('Cómo funciona Pulso');
+    expect(pagina).toContain('CESFAM Boris Soler · Bandeja de Telesalud');
   }, 30_000);
 });

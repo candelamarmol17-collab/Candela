@@ -1,8 +1,14 @@
 import {
   crearDemoBandeja,
   ESTADOS_REVISION,
+  NOTA_DATOS_IA,
   TRIAJISTA_DEMO,
 } from '../../src/services/demo-bandeja.service.js';
+import {
+  armarExportacionesDemo,
+  codigoFijoDemo,
+} from '../../src/services/exportacion-demo.service.js';
+import { CAMPOS_PARA_MODELO } from '../../src/prompts/clasificacion.js';
 
 // Datos sintéticos (inventados). Nunca usar datos reales.
 const solicitud = (id, fecha, edad = 40) => ({
@@ -27,14 +33,18 @@ const clasificada = (id, prioridad, alertas = []) => ({
   },
 });
 
+// Las solicitudes se pasan a exportaciones con el formato real de 48 columnas, como en la demo.
+const SOLICITUDES = [
+  solicitud('SINT-0001', '2026-11-10T08:00:00'),
+  solicitud('SINT-0002', '2026-11-11T08:00:00', 70),
+  solicitud('SINT-0003', '2026-11-12T08:00:00'),
+  solicitud('SINT-0004', '2026-11-13T08:00:00'),
+];
+
 const crearVacia = () =>
   crearDemoBandeja({
-    solicitudes: [
-      solicitud('SINT-0001', '2026-11-10T08:00:00'),
-      solicitud('SINT-0002', '2026-11-11T08:00:00', 70),
-      solicitud('SINT-0003', '2026-11-12T08:00:00'),
-      solicitud('SINT-0004', '2026-11-13T08:00:00'),
-    ],
+    exportaciones: armarExportacionesDemo(SOLICITUDES, 'SINT-0004'),
+    codigoFijo: codigoFijoDemo,
     corrida: {
       origen: 'modelo_real',
       modelo: 'minimaxai/minimax-m3.1-flash',
@@ -52,7 +62,6 @@ const crearVacia = () =>
         clasificada('SINT-0004', 'alta', ['urgencia']),
       ],
     },
-    idSegundaExportacion: 'SINT-0004',
     ahora: () => new Date('2026-11-26T12:00:00Z'),
   });
 
@@ -67,6 +76,13 @@ const exportacion = (numero, nuevas) => ({
   numero,
   nombre: `Exportación de demostración ${numero}`,
   solicitudes_nuevas: nuevas,
+});
+
+// Al cargar, la última exportación dice también cuánto se separó.
+const cargada = (numero, nuevas) => ({
+  ...exportacion(numero, nuevas),
+  columnas_personales_separadas: 12,
+  datos_tapados_en_texto: 0,
 });
 
 const ids = (lista) => lista.map((e) => e.solicitud.id_solicitud);
@@ -105,7 +121,7 @@ describe('crearDemoBandeja', () => {
     expect(ids(estado.no_clasificadas)).toEqual(['SINT-0003']);
     expect(estado.exportaciones).toEqual({
       cargadas: 1,
-      ultima: exportacion(1, 3),
+      ultima: cargada(1, 3),
       siguiente: exportacion(2, 1),
     });
     expect(estado.ultima_cambiada).toBeNull();
@@ -128,7 +144,7 @@ describe('crearDemoBandeja', () => {
     expect(estado.ultima_cambiada).toBe('SINT-0004');
     expect(estado.exportaciones).toEqual({
       cargadas: 2,
-      ultima: exportacion(2, 1),
+      ultima: cargada(2, 1),
       siguiente: null,
     });
     expect(estado.resumen.con_alerta_critica).toBe(1);
@@ -139,15 +155,69 @@ describe('crearDemoBandeja', () => {
     expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
   });
 
-  test('sin solicitud para la segunda exportación, hay una sola exportación con todas', () => {
+  test('con una sola exportación, después de cargarla no hay más', () => {
+    const [primera] = armarExportacionesDemo([solicitud('SINT-0001', '2026-11-10T08:00:00')]);
     const demo = crearDemoBandeja({
-      solicitudes: [solicitud('SINT-0001', '2026-11-10T08:00:00')],
+      exportaciones: [primera],
       corrida: { origen: 'modelo_real', modelo: 'x/y', version_prompt: '1', resultados: [] },
-      idSegundaExportacion: null,
+      codigoFijo: codigoFijoDemo,
     });
     expect(demo.estado().exportaciones.siguiente).toEqual(exportacion(1, 1));
     expect(demo.cargarExportacion().exportaciones.siguiente).toBeNull();
     expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
+  });
+
+  test('ningún dato personal de la exportación llega al estado que ve la pantalla', () => {
+    const demo = crear();
+    demo.cargarExportacion();
+    const texto = JSON.stringify(demo.estado());
+    for (const prohibido of [
+      'DEMO-ID',
+      'DEMO-SEG',
+      'Vecina Demo',
+      'example.com',
+      '+56 9 0000',
+      'Calle Ficticia',
+      'CESFAM Demo',
+    ]) {
+      expect(texto).not.toContain(prohibido);
+    }
+  });
+
+  test('sin códigos conocidos, los códigos internos son nuevos (PUL-0001, …)', () => {
+    const demo = crearDemoBandeja({
+      exportaciones: armarExportacionesDemo(SOLICITUDES, 'SINT-0004'),
+      corrida: { origen: 'modelo_real', modelo: 'x/y', version_prompt: '1', resultados: [] },
+    });
+    const estado = demo.cargarExportacion();
+    expect(ids(estado.no_clasificadas).sort()).toEqual(['PUL-0001', 'PUL-0002', 'PUL-0003']);
+  });
+
+  test('si la exportación no tiene el formato de Telesalud, no carga nada y lo dice', () => {
+    const demo = crearDemoBandeja({
+      exportaciones: [
+        [
+          ['ID', 'Nombre'],
+          ['DEMO-ID-0001', 'Vecina Demo 01'],
+        ],
+      ],
+      corrida: { origen: 'modelo_real', modelo: 'x/y', version_prompt: '1', resultados: [] },
+    });
+    expect(() => demo.cargarExportacion()).toThrow('formato de Telesalud');
+    expect(demo.estado().exportaciones.cargadas).toBe(0);
+  });
+
+  test('la nota de qué recibió la IA coincide con los campos que envía el prompt', () => {
+    // Además del código interno, el prompt v1 solo enviaría la especificidad, que la
+    // separación de datos personales no deja pasar (queda para un prompt v2).
+    const datosDelVecino = CAMPOS_PARA_MODELO.filter(
+      (campo) => !['id_solicitud', 'especificidad_consulta'].includes(campo),
+    );
+    expect(datosDelVecino.sort()).toEqual(['edad', 'motivo', 'texto_libre', 'tipo_profesional']);
+    expect(NOTA_DATOS_IA).toBe(
+      'La IA recibió: profesional pedido, motivo, texto y edad. No recibió: nombre, RUT, contacto ni dirección.',
+    );
+    expect(crear().estado().nota_datos_ia).toBe(NOTA_DATOS_IA);
   });
 
   test('confirmar marca la solicitud y no cambia el orden', () => {
