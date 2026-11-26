@@ -48,20 +48,20 @@
         </div>
       </div>
       <nav class="contenedor pestanas" aria-label="Secciones">
-        <a class="pestana pestana--activa" href="/" aria-current="page">Bandeja</a>
+        <a class="pestana pestana--activa" href="#bandeja" id="pestana-bandeja" aria-current="page"
+          >Bandeja</a
+        >
         <span class="pestana pestana--inactiva" aria-disabled="true"
           >Registro <small>Próximamente</small></span
         >
-        <span class="pestana pestana--inactiva" aria-disabled="true"
-          >Evaluación <small>Próximamente</small></span
-        >
+        <a class="pestana" href="#evaluacion" id="pestana-evaluacion">Evaluación</a>
         <span class="pestana pestana--inactiva" aria-disabled="true"
           >Cómo funciona <small>Próximamente</small></span
         >
       </nav>
     </header>
 
-    <main class="contenedor principal">
+    <main class="contenedor principal" id="vista-bandeja">
       <div class="titulo-fila">
         <div>
           <h2 class="titulo">Bandeja de solicitudes</h2>
@@ -149,6 +149,13 @@
         </div>
       </form>
     </dialog>
+
+    <!-- Pestaña "Evaluación" (tarea 008): la dibuja evaluacion.js con los datos de /api/evaluacion. -->
+    <main class="contenedor principal" id="vista-evaluacion" hidden>
+      <h2 class="titulo">Evaluación</h2>
+      <p class="subtitulo">Medir lo que importa, antes de usarlo en atención real</p>
+      <div id="evaluacion-contenido" aria-live="polite"></div>
+    </main>
 
     <aside class="panel" id="panel" aria-label="Detalle de la solicitud" hidden></aside>
     <div class="aviso-flotante" id="aviso-flotante" role="status" hidden></div>

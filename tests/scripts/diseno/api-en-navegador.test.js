@@ -4,17 +4,26 @@ import { leerDatosDemo } from '../../../src/repositories/bandeja.repository.js';
 import { codigoFijoDemo } from '../../../src/services/exportacion-demo.service.js';
 import { crearDemoBandeja } from '../../../src/services/demo-bandeja.service.js';
 import { crearFetchDeDemo } from '../../../scripts/diseno/api-en-navegador.js';
+import { leerDatosEvaluacion } from '../../../src/repositories/evaluacion.repository.js';
+import { evaluarModelos } from '../../../src/services/evaluacion.service.js';
+
+const evaluacion = evaluarModelos({
+  ...(await leerDatosEvaluacion()),
+  ahora: () => new Date('2026-11-26T12:00:00Z'),
+});
 
 // La copia de diseño debe responder igual que el servidor real: se comparan las dos.
 let fetchDeDemo;
 let app;
 beforeEach(async () => {
   const datos = {
-    ...(await leerDatosDemo({ archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json' })),
+    ...(await leerDatosDemo({
+      archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json',
+    })),
     codigoFijo: codigoFijoDemo,
   };
-  fetchDeDemo = crearFetchDeDemo(crearDemoBandeja(datos));
-  app = crearApp({ demo: crearDemoBandeja(datos) });
+  fetchDeDemo = crearFetchDeDemo(crearDemoBandeja(datos), { evaluacion });
+  app = crearApp({ demo: crearDemoBandeja(datos), evaluacion });
   // Las dos parten igual: con la primera exportación cargada.
   await fetchDeDemo('/api/bandeja/cargar-exportacion', { method: 'POST' });
   await request(app).post('/api/bandeja/cargar-exportacion');
@@ -41,6 +50,15 @@ const sinFechas = (cuerpo) =>
 const correccion = { prioridad: 'baja', profesional: 'Medicina', alertas: [], motivo: 'prueba' };
 
 describe('crearFetchDeDemo responde igual que el servidor', () => {
+  test('sin evaluación, también responde 500 como el servidor', async () => {
+    const sinEvaluacion = crearFetchDeDemo(
+      crearDemoBandeja({ exportaciones: [], corrida: { resultados: [] } }),
+    );
+    const respuesta = await sinEvaluacion('/api/evaluacion');
+    expect(respuesta.status).toBe(500);
+    expect((await respuesta.json()).error.mensaje).toBe('La evaluación no está disponible.');
+  });
+
   test.each([
     ['GET', '/api/bandeja', undefined],
     ['POST', '/api/bandeja/SINT-0001/confirmar', undefined],
@@ -54,6 +72,7 @@ describe('crearFetchDeDemo responde igual que el servidor', () => {
     ['POST', '/api/bandeja/SINT-0001/corregir', { prioridad: 'urgente' }],
     ['POST', '/api/bandeja/SINT-0001/corregir', '{mal json'],
     ['GET', '/api/otra-cosa', undefined],
+    ['GET', '/api/evaluacion', undefined],
   ])('%s %s', async (metodo, ruta, cuerpo) => {
     const enNavegador = await pedir(metodo, ruta, cuerpo);
     const enServidor = await pedirAlServidor(metodo, ruta, cuerpo);

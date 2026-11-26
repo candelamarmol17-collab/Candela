@@ -10,8 +10,9 @@ const SEPARADOR = ',';
  * Convierte el texto de un CSV en una lista de filas (cada fila, una lista de textos).
  * Acepta comillas dobles (con "" para una comilla dentro), saltos de línea dentro de comillas,
  * y finales de línea de Windows o de Linux. Ignora las filas completamente vacías.
+ * Con { separador: ';' } lee los CSV del proyecto pensados para Excel en español (revisión R3).
  */
-export const leerCsv = (texto) => {
+export const leerCsv = (texto, { separador = SEPARADOR } = {}) => {
   if (typeof texto !== 'string') {
     throw new Error('El contenido del CSV debe ser texto.');
   }
@@ -44,7 +45,7 @@ export const leerCsv = (texto) => {
       }
     } else if (caracter === '"') {
       entreComillas = true;
-    } else if (caracter === SEPARADOR) {
+    } else if (caracter === separador) {
       cerrarCelda();
     } else if (caracter === '\n' || caracter === '\r') {
       if (caracter === '\r' && contenido[i + 1] === '\n') i += 1;

@@ -1,3 +1,5 @@
+import { $, el, NOMBRES_ALERTAS, NOMBRES_PRIORIDAD } from './dom.js';
+import { mostrarEvaluacion } from './evaluacion.js';
 import { icono } from './iconos.js';
 
 /**
@@ -7,16 +9,6 @@ import { icono } from './iconos.js';
  * de una solicitud no pueda cambiar la página. Solo los íconos, que son fijos, se insertan como SVG.
  */
 
-const NOMBRES_ALERTAS = Object.freeze({
-  urgencia: 'Urgencia',
-  violencia: 'Violencia',
-  ideacion_suicida: 'Riesgo suicida',
-  descompensacion: 'Descompensación',
-  persona_mayor_60: 'Persona mayor (60+)',
-  ges: 'GES',
-});
-
-const NOMBRES_PRIORIDAD = Object.freeze({ alta: 'Alta', media: 'Media', baja: 'Baja' });
 const NOMBRES_CONFIANZA = Object.freeze({ alta: 'Alta', media: 'Media', baja: 'Baja' });
 
 const GRUPOS = Object.freeze([
@@ -33,7 +25,6 @@ const AVISO_R2 =
   'Es una sugerencia. La decisión es del triajista. La IA no entrega indicaciones clínicas.';
 
 const DURACION_AVISO_MS = 8000;
-/** Cada paso de la pantalla de carga dura esto (3 pasos ≈ 2,4 s, más 0,3 s de salida). */
 /** La pantalla de carga dura unos 3 segundos: el anillo sube de 0 a 100 % en este tiempo. */
 const DURACION_CARGA_MS = 3000;
 const CUADRO_CARGA_MS = 30;
@@ -104,30 +95,12 @@ let temporizadorAviso = null;
 
 // ── Utilidades del DOM ───────────────────────────────────────────
 
-/** Crea un elemento. Los hijos de texto se agregan como texto, nunca como HTML. */
-const el = (etiqueta, atributos = {}, ...hijos) => {
-  const nodo = document.createElement(etiqueta);
-  for (const [nombre, valor] of Object.entries(atributos)) {
-    if (valor === undefined || valor === null || valor === false) continue;
-    if (nombre === 'clase') nodo.className = valor;
-    else if (nombre.startsWith('al')) nodo.addEventListener(nombre.slice(2).toLowerCase(), valor);
-    else nodo.setAttribute(nombre, valor === true ? '' : valor);
-  }
-  for (const hijo of hijos.flat()) {
-    if (hijo === null || hijo === undefined || hijo === false) continue;
-    nodo.append(hijo instanceof Node ? hijo : document.createTextNode(String(hijo)));
-  }
-  return nodo;
-};
-
 /** Ícono SVG fijo (de iconos.js). */
 const svg = (nombre, opciones) => {
   const plantilla = document.createElement('template');
   plantilla.innerHTML = icono(nombre, opciones);
   return plantilla.content.firstChild;
 };
-
-const $ = (id) => document.getElementById(id);
 
 const sinMovimiento = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));
@@ -956,7 +929,7 @@ const idsVisibles = () =>
 const alPresionarTecla = (evento) => {
   const escribiendo = ['INPUT', 'TEXTAREA', 'SELECT'].includes(evento.target.tagName);
   if (escribiendo || evento.ctrlKey || evento.metaKey || evento.altKey) return;
-  if (!$('carga').hidden || $('ventana-carga').open) return;
+  if (!$('carga').hidden || $('ventana-carga').open || $('vista-bandeja').hidden) return;
   if (evento.key === 'Escape' && estado.seleccionada) {
     cerrarPanel();
     return;
@@ -987,6 +960,25 @@ const alPresionarTecla = (evento) => {
   } else if (evento.key.toLowerCase() === 'e') {
     abrirPanel(estado.seleccionada, 'corregir');
   }
+};
+
+// ── Pestañas ─────────────────────────────────────────────────────
+
+/** Muestra la pestaña que indica la dirección (#bandeja o #evaluacion). */
+const mostrarPestana = () => {
+  const evaluacion = window.location.hash === '#evaluacion';
+  if (evaluacion && estado.seleccionada) cerrarPanel();
+  $('vista-bandeja').hidden = evaluacion;
+  $('vista-evaluacion').hidden = !evaluacion;
+  for (const [id, activa] of [
+    ['pestana-bandeja', !evaluacion],
+    ['pestana-evaluacion', evaluacion],
+  ]) {
+    $(id).classList.toggle('pestana--activa', activa);
+    if (activa) $(id).setAttribute('aria-current', 'page');
+    else $(id).removeAttribute('aria-current');
+  }
+  if (evaluacion) mostrarEvaluacion(llamar);
 };
 
 // ── Inicio ───────────────────────────────────────────────────────
@@ -1022,6 +1014,8 @@ const iniciar = async () => {
     dibujarLista();
   });
   document.addEventListener('keydown', alPresionarTecla);
+  window.addEventListener('hashchange', mostrarPestana);
+  mostrarPestana();
 
   try {
     actualizar(await llamar('GET', '/api/bandeja'), { destellar: null });

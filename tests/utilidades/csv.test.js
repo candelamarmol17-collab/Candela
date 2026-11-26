@@ -1,6 +1,13 @@
 import { escribirCsv, leerCsv } from '../../src/utilidades/csv.js';
 
 describe('leerCsv', () => {
+  test('con separador punto y coma (tablas de revisión para Excel)', () => {
+    expect(leerCsv('a;"b;c"\r\n1;2\r\n', { separador: ';' })).toEqual([
+      ['a', 'b;c'],
+      ['1', '2'],
+    ]);
+  });
+
   test('lee filas con BOM, comas y finales de línea de Windows', () => {
     expect(leerCsv('﻿a,b,c\r\n1,2,3\r\n')).toEqual([
       ['a', 'b', 'c'],

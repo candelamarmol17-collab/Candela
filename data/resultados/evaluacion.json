@@ -1,0 +1,588 @@
+{
+  "aviso": "Casos redactados con apoyo de IA y revisados por el equipo. La clasificación de referencia la definió el equipo del proyecto, no triajistas: estos resultados muestran el método de evaluación, no la calidad clínica real.",
+  "generado_en": "2026-11-26T19:18:27.826Z",
+  "casos": 60,
+  "modelos": [
+    {
+      "modelo": "mistralai/mistral-large-4-1t-a52b",
+      "version_prompt": "1",
+      "generado_en": "2026-11-26T02:14:41.780Z",
+      "total": 60,
+      "clasificadas": 56,
+      "alertas_criticas": {
+        "total": 21,
+        "detectadas": 18,
+        "no_detectadas": 3,
+        "porcentaje_detectadas": 85.7,
+        "casos_no_detectados": [
+          {
+            "id": "SINT-0016",
+            "alertas_referencia": [
+              "violencia",
+              "urgencia"
+            ],
+            "alertas_modelo": null,
+            "sin_clasificar": true
+          },
+          {
+            "id": "SINT-0017",
+            "alertas_referencia": [
+              "violencia"
+            ],
+            "alertas_modelo": null,
+            "sin_clasificar": true
+          },
+          {
+            "id": "SINT-0021",
+            "alertas_referencia": [
+              "descompensacion",
+              "urgencia"
+            ],
+            "alertas_modelo": null,
+            "sin_clasificar": true
+          }
+        ]
+      },
+      "por_alerta": [
+        {
+          "alerta": "urgencia",
+          "critica": true,
+          "referencia": 16,
+          "detectadas": 14,
+          "no_detectadas": [
+            "SINT-0016",
+            "SINT-0021"
+          ],
+          "de_mas": [
+            "SINT-0008"
+          ]
+        },
+        {
+          "alerta": "violencia",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 3,
+          "no_detectadas": [
+            "SINT-0016",
+            "SINT-0017"
+          ],
+          "de_mas": []
+        },
+        {
+          "alerta": "ideacion_suicida",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 5,
+          "no_detectadas": [],
+          "de_mas": []
+        },
+        {
+          "alerta": "descompensacion",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 4,
+          "no_detectadas": [
+            "SINT-0021"
+          ],
+          "de_mas": [
+            "SINT-0032"
+          ]
+        },
+        {
+          "alerta": "ges",
+          "critica": false,
+          "referencia": 13,
+          "detectadas": 11,
+          "no_detectadas": [
+            "SINT-0024",
+            "SINT-0047"
+          ],
+          "de_mas": [
+            "SINT-0038"
+          ]
+        }
+      ],
+      "prioridad": {
+        "coincidencias": 54,
+        "total": 60,
+        "porcentaje": 90,
+        "columnas": [
+          "alta",
+          "media",
+          "baja",
+          "sin_respuesta"
+        ],
+        "matriz": {
+          "alta": {
+            "alta": 19,
+            "media": 0,
+            "baja": 0,
+            "sin_respuesta": 3
+          },
+          "media": {
+            "alta": 1,
+            "media": 18,
+            "baja": 0,
+            "sin_respuesta": 1
+          },
+          "baja": {
+            "alta": 0,
+            "media": 1,
+            "baja": 17,
+            "sin_respuesta": 0
+          }
+        },
+        "por_nivel": [
+          {
+            "prioridad": "alta",
+            "coincidencias": 19,
+            "total": 22,
+            "porcentaje": 86.4
+          },
+          {
+            "prioridad": "media",
+            "coincidencias": 18,
+            "total": 20,
+            "porcentaje": 90
+          },
+          {
+            "prioridad": "baja",
+            "coincidencias": 17,
+            "total": 18,
+            "porcentaje": 94.4
+          }
+        ],
+        "diferencias": [
+          {
+            "id": "SINT-0016",
+            "referencia": "alta",
+            "modelo": null
+          },
+          {
+            "id": "SINT-0017",
+            "referencia": "alta",
+            "modelo": null
+          },
+          {
+            "id": "SINT-0021",
+            "referencia": "alta",
+            "modelo": null
+          },
+          {
+            "id": "SINT-0030",
+            "referencia": "media",
+            "modelo": null
+          },
+          {
+            "id": "SINT-0032",
+            "referencia": "media",
+            "modelo": "alta"
+          },
+          {
+            "id": "SINT-0051",
+            "referencia": "baja",
+            "modelo": "media"
+          }
+        ]
+      },
+      "profesional": {
+        "coincidencias": 51,
+        "total": 60,
+        "porcentaje": 85
+      },
+      "falsas_alertas": {
+        "criticas": 2,
+        "otras": 1,
+        "casos": [
+          {
+            "id": "SINT-0008",
+            "alerta": "urgencia",
+            "critica": true
+          },
+          {
+            "id": "SINT-0032",
+            "alerta": "descompensacion",
+            "critica": true
+          },
+          {
+            "id": "SINT-0038",
+            "alerta": "ges",
+            "critica": false
+          }
+        ]
+      },
+      "no_clasificadas": {
+        "total": 4,
+        "porcentaje": 6.7,
+        "error_proveedor": [
+          {
+            "id": "SINT-0016",
+            "detalle": "El proveedor no respondió en 240000 ms."
+          },
+          {
+            "id": "SINT-0017",
+            "detalle": "El proveedor no respondió en 240000 ms."
+          },
+          {
+            "id": "SINT-0021",
+            "detalle": "El proveedor no respondió en 240000 ms."
+          },
+          {
+            "id": "SINT-0030",
+            "detalle": "El proveedor no respondió en 240000 ms."
+          }
+        ],
+        "respuesta_invalida": [],
+        "otra": []
+      },
+      "reintentos": {
+        "necesitaron_reintento": 14,
+        "recuperados": 10,
+        "ids": [
+          "SINT-0008",
+          "SINT-0009",
+          "SINT-0012",
+          "SINT-0013",
+          "SINT-0016",
+          "SINT-0017",
+          "SINT-0018",
+          "SINT-0021",
+          "SINT-0030",
+          "SINT-0032",
+          "SINT-0036",
+          "SINT-0048",
+          "SINT-0053",
+          "SINT-0054"
+        ],
+        "motivos_primera_pasada": [
+          {
+            "motivo": "El proveedor no respondió en 120000 ms.",
+            "cantidad": 14
+          }
+        ]
+      },
+      "tiempo": {
+        "promedio_ms": 154055,
+        "casos": 60
+      },
+      "hallazgos_r3": [
+        {
+          "id": "SINT-0009",
+          "comentario": "Juicio clínico: \"Estos síntomas indican descompensación grave\". (Revisión de Candela, R3)"
+        },
+        {
+          "id": "SINT-0012",
+          "comentario": "Supone quién escribe (\"Madre reporta\") sin que el texto lo diga. (Revisión de Candela, R3)"
+        },
+        {
+          "id": "SINT-0013",
+          "comentario": "Supone quién escribe (\"Hijo refiere\") sin que el texto lo diga. (Revisión de Candela, R3)"
+        }
+      ],
+      "nombre": "Mistral Large 4",
+      "diferencias": [
+        {
+          "nivel": "critico",
+          "id": "SINT-0016",
+          "descripcion": "Violencia + Urgencia no detectada (quedó sin clasificar)"
+        },
+        {
+          "nivel": "critico",
+          "id": "SINT-0017",
+          "descripcion": "Violencia no detectada (quedó sin clasificar)"
+        },
+        {
+          "nivel": "critico",
+          "id": "SINT-0021",
+          "descripcion": "Descompensación + Urgencia no detectada (quedó sin clasificar)"
+        },
+        {
+          "nivel": "moderado",
+          "id": "SINT-0030",
+          "descripcion": "Sin respuesta en vez de prioridad media"
+        },
+        {
+          "nivel": "moderado",
+          "id": "SINT-0032",
+          "descripcion": "Prioridad alta en vez de media"
+        },
+        {
+          "nivel": "moderado",
+          "id": "SINT-0051",
+          "descripcion": "Prioridad media en vez de baja"
+        },
+        {
+          "nivel": "menor",
+          "id": "SINT-0008",
+          "descripcion": "Falsa alerta crítica: Urgencia"
+        },
+        {
+          "nivel": "menor",
+          "id": "SINT-0032",
+          "descripcion": "Falsa alerta crítica: Descompensación"
+        },
+        {
+          "nivel": "menor",
+          "id": "SINT-0038",
+          "descripcion": "Falsa alerta: GES"
+        }
+      ]
+    },
+    {
+      "modelo": "minimaxai/minimax-m3.1-flash",
+      "version_prompt": "1",
+      "generado_en": "2026-11-26T04:42:50.445Z",
+      "total": 60,
+      "clasificadas": 60,
+      "alertas_criticas": {
+        "total": 21,
+        "detectadas": 21,
+        "no_detectadas": 0,
+        "porcentaje_detectadas": 100,
+        "casos_no_detectados": []
+      },
+      "por_alerta": [
+        {
+          "alerta": "urgencia",
+          "critica": true,
+          "referencia": 16,
+          "detectadas": 14,
+          "no_detectadas": [
+            "SINT-0015",
+            "SINT-0018"
+          ],
+          "de_mas": []
+        },
+        {
+          "alerta": "violencia",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 5,
+          "no_detectadas": [],
+          "de_mas": []
+        },
+        {
+          "alerta": "ideacion_suicida",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 5,
+          "no_detectadas": [],
+          "de_mas": []
+        },
+        {
+          "alerta": "descompensacion",
+          "critica": true,
+          "referencia": 5,
+          "detectadas": 5,
+          "no_detectadas": [],
+          "de_mas": []
+        },
+        {
+          "alerta": "ges",
+          "critica": false,
+          "referencia": 13,
+          "detectadas": 11,
+          "no_detectadas": [
+            "SINT-0024",
+            "SINT-0047"
+          ],
+          "de_mas": [
+            "SINT-0021",
+            "SINT-0038"
+          ]
+        }
+      ],
+      "prioridad": {
+        "coincidencias": 59,
+        "total": 60,
+        "porcentaje": 98.3,
+        "columnas": [
+          "alta",
+          "media",
+          "baja",
+          "sin_respuesta"
+        ],
+        "matriz": {
+          "alta": {
+            "alta": 22,
+            "media": 0,
+            "baja": 0,
+            "sin_respuesta": 0
+          },
+          "media": {
+            "alta": 0,
+            "media": 19,
+            "baja": 1,
+            "sin_respuesta": 0
+          },
+          "baja": {
+            "alta": 0,
+            "media": 0,
+            "baja": 18,
+            "sin_respuesta": 0
+          }
+        },
+        "por_nivel": [
+          {
+            "prioridad": "alta",
+            "coincidencias": 22,
+            "total": 22,
+            "porcentaje": 100
+          },
+          {
+            "prioridad": "media",
+            "coincidencias": 19,
+            "total": 20,
+            "porcentaje": 95
+          },
+          {
+            "prioridad": "baja",
+            "coincidencias": 18,
+            "total": 18,
+            "porcentaje": 100
+          }
+        ],
+        "diferencias": [
+          {
+            "id": "SINT-0048",
+            "referencia": "media",
+            "modelo": "baja"
+          }
+        ]
+      },
+      "profesional": {
+        "coincidencias": 51,
+        "total": 60,
+        "porcentaje": 85
+      },
+      "falsas_alertas": {
+        "criticas": 0,
+        "otras": 2,
+        "casos": [
+          {
+            "id": "SINT-0021",
+            "alerta": "ges",
+            "critica": false
+          },
+          {
+            "id": "SINT-0038",
+            "alerta": "ges",
+            "critica": false
+          }
+        ]
+      },
+      "no_clasificadas": {
+        "total": 0,
+        "porcentaje": 0,
+        "error_proveedor": [],
+        "respuesta_invalida": [],
+        "otra": []
+      },
+      "reintentos": {
+        "necesitaron_reintento": 7,
+        "recuperados": 7,
+        "ids": [
+          "SINT-0013",
+          "SINT-0017",
+          "SINT-0023",
+          "SINT-0028",
+          "SINT-0030",
+          "SINT-0037",
+          "SINT-0050"
+        ],
+        "motivos_primera_pasada": [
+          {
+            "motivo": "El proveedor respondió con error HTTP 429.",
+            "cantidad": 2
+          },
+          {
+            "motivo": "El proveedor respondió con error HTTP 503.",
+            "cantidad": 5
+          }
+        ]
+      },
+      "tiempo": {
+        "promedio_ms": 56570,
+        "casos": 60
+      },
+      "hallazgos_r3": [
+        {
+          "id": "SINT-0016",
+          "comentario": "HALLAZGO IMPORTANTE: inventa un dato. Dice \"la golpeó en la cara\", pero el texto dice \"en la guata\". (Revisión de Candela, R3)"
+        },
+        {
+          "id": "SINT-0022",
+          "comentario": "Usa lenguaje de diagnóstico: \"compatible con descompensación respiratoria\". (Revisión de Candela, R3)"
+        }
+      ],
+      "nombre": "MiniMax M3.1 Flash",
+      "diferencias": [
+        {
+          "nivel": "moderado",
+          "id": "SINT-0048",
+          "descripcion": "Prioridad baja en vez de media"
+        },
+        {
+          "nivel": "menor",
+          "id": "SINT-0021",
+          "descripcion": "Falsa alerta: GES"
+        },
+        {
+          "nivel": "menor",
+          "id": "SINT-0038",
+          "descripcion": "Falsa alerta: GES"
+        }
+      ]
+    }
+  ],
+  "modelos_considerados": [
+    {
+      "modelo": "Mistral Large 4",
+      "id_modelo": "mistralai/mistral-large-4-1t-a52b",
+      "medido": "56 de 60 clasificadas · 3 alertas críticas no detectadas · 14 necesitaron reintento · 154 s en promedio",
+      "privacidad": "Por evaluar",
+      "costo": "Catálogo de prueba gratuito; el piloto necesita un servicio pagado",
+      "alojamiento": "Servidores de NVIDIA, vía API"
+    },
+    {
+      "modelo": "MiniMax M3.1 Flash",
+      "id_modelo": "minimaxai/minimax-m3.1-flash",
+      "medido": "60 de 60 clasificadas · 0 alertas críticas no detectadas · 7 necesitaron reintento · 57 s en promedio",
+      "privacidad": "Por evaluar",
+      "costo": "Catálogo de prueba gratuito; el piloto necesita un servicio pagado",
+      "alojamiento": "Servidores de NVIDIA, vía API"
+    },
+    {
+      "modelo": "OpenAI",
+      "id_modelo": null,
+      "medido": "Por evaluar",
+      "privacidad": "Por evaluar",
+      "costo": "Por evaluar",
+      "alojamiento": "Por evaluar"
+    },
+    {
+      "modelo": "Claude",
+      "id_modelo": null,
+      "medido": "Por evaluar",
+      "privacidad": "Por evaluar",
+      "costo": "Por evaluar",
+      "alojamiento": "Por evaluar"
+    },
+    {
+      "modelo": "Gemini",
+      "id_modelo": null,
+      "medido": "Por evaluar",
+      "privacidad": "Por evaluar",
+      "costo": "Por evaluar",
+      "alojamiento": "Por evaluar"
+    },
+    {
+      "modelo": "Grok",
+      "id_modelo": null,
+      "medido": "Por evaluar",
+      "privacidad": "Por evaluar",
+      "costo": "Por evaluar",
+      "alojamiento": "Por evaluar"
+    }
+  ]
+}

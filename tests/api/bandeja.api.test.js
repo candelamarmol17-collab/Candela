@@ -9,7 +9,9 @@ let app;
 let appVacia;
 beforeEach(async () => {
   const datos = {
-    ...(await leerDatosDemo({ archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json' })),
+    ...(await leerDatosDemo({
+      archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json',
+    })),
     codigoFijo: codigoFijoDemo,
   };
   appVacia = crearApp({ demo: crearDemoBandeja(datos) });

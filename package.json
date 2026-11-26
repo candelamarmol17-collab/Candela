@@ -18,7 +18,8 @@
     "revision:r3": "node scripts/generar-csv-revision-r3.js",
     "ia:modelos": "node scripts/listar-modelos.js",
     "exportar:diseno": "node scripts/exportar-diseno.js",
-    "exportacion:demo": "node scripts/generar-exportacion-demo.js"
+    "exportacion:demo": "node scripts/generar-exportacion-demo.js",
+    "evaluar": "node scripts/evaluar.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -45,8 +45,14 @@ const leerId = (textoId) => {
 };
 
 /** Devuelve [código, datos] para una petición, o lanza un error. */
-const atender = (demo, metodo, ruta, cuerpo) => {
+const atender = (demo, evaluacion, metodo, ruta, cuerpo) => {
   if (metodo === 'GET' && ruta === '/api/bandeja') return [200, demo.estado()];
+  if (metodo === 'GET' && ruta === '/api/evaluacion') {
+    if (!evaluacion || evaluacion.error) {
+      throw new ErrorApi(500, evaluacion?.error ?? 'La evaluación no está disponible.');
+    }
+    return [200, evaluacion];
+  }
   if (metodo === 'POST' && ruta === '/api/bandeja/deshacer') return [200, demo.deshacer()];
   if (metodo === 'POST' && ruta === '/api/bandeja/cargar-exportacion') {
     // Regla R1: no se recibe ningún archivo, igual que en el servidor.
@@ -74,12 +80,12 @@ const atender = (demo, metodo, ruta, cuerpo) => {
  * cualquier otra cosa se rechaza, porque la copia de diseño no se conecta a nada.
  */
 export const crearFetchDeDemo =
-  (demo) =>
+  (demo, { evaluacion = null } = {}) =>
   async (direccion, opciones = {}) => {
     const ruta = new URL(String(direccion), 'http://pulso.local').pathname;
     const metodo = (opciones.method ?? 'GET').toUpperCase();
     try {
-      const [codigo, datos] = atender(demo, metodo, ruta, opciones.body);
+      const [codigo, datos] = atender(demo, evaluacion, metodo, ruta, opciones.body);
       return respuesta(codigo, { ok: true, datos });
     } catch (error) {
       if (error instanceof ErrorApi || error instanceof ErrorDemo) {

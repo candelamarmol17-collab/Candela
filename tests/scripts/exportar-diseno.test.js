@@ -153,6 +153,11 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
     expect(pagina).toContain('Vecina Demo 01');
     expect(pagina).toContain('DEMO-ID-0001');
     expect(datos.corrida.modelo).toBe('minimaxai/minimax-m3.1-flash');
+    // La pestaña "Evaluación" también funciona en la copia: lleva las métricas calculadas.
+    expect(datos.evaluacion.modelos.map((m) => m.nombre)).toEqual([
+      'Mistral Large 4',
+      'MiniMax M3.1 Flash',
+    ]);
     expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
   }, 30_000);
 });
