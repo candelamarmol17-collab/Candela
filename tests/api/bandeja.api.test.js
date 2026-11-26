@@ -5,15 +5,32 @@ import { crearDemoBandeja } from '../../src/services/demo-bandeja.service.js';
 
 // Usa las 60 solicitudes sintéticas y la corrida de MiniMax del proyecto.
 let app;
+let appVacia;
 beforeEach(async () => {
-  const { solicitudes, corrida } = await leerDatosBandeja({
+  const datos = await leerDatosBandeja({
     archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json',
   });
-  app = crearApp({ demo: crearDemoBandeja({ solicitudes, corrida }) });
+  appVacia = crearApp({ demo: crearDemoBandeja(datos) });
+  // La mayoría de las pruebas parte con la primera exportación ya cargada.
+  const demo = crearDemoBandeja(datos);
+  demo.cargarExportacion();
+  app = crearApp({ demo });
 });
 
 describe('GET /api/bandeja', () => {
-  test('devuelve la bandeja con 59 solicitudes (SINT-0009 entra con el ingreso simulado)', async () => {
+  test('al comienzo la bandeja está vacía', async () => {
+    const respuesta = await request(appVacia).get('/api/bandeja');
+    expect(respuesta.status).toBe(200);
+    expect(respuesta.body.datos.ordenadas).toEqual([]);
+    expect(respuesta.body.datos.resumen.total).toBe(0);
+    expect(respuesta.body.datos.exportaciones.siguiente).toEqual({
+      numero: 1,
+      nombre: 'Exportación de demostración 1',
+      solicitudes_nuevas: 59,
+    });
+  });
+
+  test('con la primera exportación trae 59 solicitudes (SINT-0009 llega en la segunda)', async () => {
     const respuesta = await request(app).get('/api/bandeja');
     expect(respuesta.status).toBe(200);
     expect(respuesta.body.ok).toBe(true);
@@ -29,20 +46,43 @@ describe('GET /api/bandeja', () => {
   });
 });
 
-describe('POST /api/bandeja/simular-ingreso', () => {
-  test('responde 201 y SINT-0009 entra al grupo de urgencia; la segunda vez responde 400', async () => {
-    const primera = await request(app).post('/api/bandeja/simular-ingreso');
-    expect(primera.status).toBe(201);
-    const sint9 = primera.body.datos.ordenadas.find(
+describe('POST /api/bandeja/cargar-exportacion', () => {
+  test('carga las dos exportaciones de demostración en orden; la tercera vez responde 400', async () => {
+    const primera = await request(appVacia).post('/api/bandeja/cargar-exportacion');
+    expect(primera.status).toBe(200);
+    expect(primera.body.datos.ordenadas).toHaveLength(59);
+
+    const segunda = await request(appVacia).post('/api/bandeja/cargar-exportacion');
+    expect(segunda.status).toBe(200);
+    const sint9 = segunda.body.datos.ordenadas.find(
       (e) => e.solicitud.id_solicitud === 'SINT-0009',
     );
     expect(sint9.grupo).toBe('urgencia');
-    const segunda = await request(app).post('/api/bandeja/simular-ingreso');
-    expect(segunda.status).toBe(400);
-    expect(segunda.body).toEqual({
+    expect(segunda.body.datos.ultima_cambiada).toBe('SINT-0009');
+
+    const tercera = await request(appVacia).post('/api/bandeja/cargar-exportacion');
+    expect(tercera.status).toBe(400);
+    expect(tercera.body).toEqual({
       ok: false,
-      error: { mensaje: 'No hay más solicitudes por ingresar. Usa "Reiniciar demo".' },
+      error: { mensaje: 'No hay más exportaciones de demostración. Usa "Reiniciar demo".' },
     });
+  });
+
+  // Regla R1: no se recibe ningún archivo ni dato de afuera.
+  test.each([
+    ['un JSON', (p) => p.send({ archivo: 'solicitudes.csv' })],
+    ['un archivo', (p) => p.attach('archivo', Buffer.from('id;texto\nX;hola'), 'externo.csv')],
+    ['texto', (p) => p.set('Content-Type', 'text/plain').send('SINT-0001;hola')],
+  ])('rechaza %s y no carga nada', async (_caso, agregar) => {
+    const respuesta = await agregar(request(appVacia).post('/api/bandeja/cargar-exportacion'));
+    expect(respuesta.status).toBe(400);
+    expect(respuesta.body.error.mensaje).toMatch(/regla R1/);
+    const estado = await request(appVacia).get('/api/bandeja');
+    expect(estado.body.datos.exportaciones.cargadas).toBe(0);
+  });
+
+  test('la dirección antigua de "simular ingreso" ya no existe', async () => {
+    expect((await request(app).post('/api/bandeja/simular-ingreso')).status).toBe(404);
   });
 });
 
@@ -118,11 +158,12 @@ describe('deshacer, reiniciar y direcciones que no existen', () => {
     expect(respuesta.body.datos.se_puede_deshacer).toBe(false);
   });
 
-  test('reiniciar vuelve al comienzo', async () => {
-    await request(app).post('/api/bandeja/simular-ingreso');
+  test('reiniciar vuelve a la bandeja vacía', async () => {
+    await request(app).post('/api/bandeja/cargar-exportacion');
     const respuesta = await request(app).post('/api/bandeja/reiniciar');
     expect(respuesta.status).toBe(200);
-    expect(respuesta.body.datos.ordenadas).toHaveLength(59);
+    expect(respuesta.body.datos.ordenadas).toEqual([]);
+    expect(respuesta.body.datos.exportaciones.cargadas).toBe(0);
   });
 
   test('una dirección de la API que no existe responde 404 en JSON', async () => {
