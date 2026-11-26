@@ -237,6 +237,35 @@ Candela pidió dejar esto anotado para cuando se cree la tarea 008:
   - Mistral y MiniMax: modelos probados en el prototipo, vía el catálogo de NVIDIA y con datos sintéticos.
   - OpenAI, Claude, Gemini y Grok: opciones comerciales por evaluar en el piloto. **Todas sus celdas dicen "Por evaluar".** No se inventan datos de esos modelos.
 - Deja claro que **la referencia es nuestra y no de triajistas**: los resultados muestran el método, no la calidad real.
+- Separa dos tipos de "no clasificada" en las métricas:
+  - **error del proveedor** (`error_proveedor`: el servicio no respondió a tiempo o respondió con error);
+  - **respuesta inválida del modelo** (`json_invalido`, `esquema_invalido`, `id_distinto`: el modelo respondió, pero mal).
+- **Un caso con alerta crítica que quede sin clasificar cuenta como alerta crítica no detectada**, sea cual sea la causa, porque así pasaría en la vida real.
+- Muestra, por modelo, **cuántos casos se agotaron en la primera pasada y necesitaron reintento**. El dato está en cada corrida: la lista `reintentos` y, en cada caso reintentado, `intento` e `intento_anterior`.
+  - Es un hallazgo de **confiabilidad**: el catálogo gratuito de NVIDIA sirve para el prototipo, pero el piloto necesita un servicio con disponibilidad garantizada.
+- El tiempo promedio de una corrida con reintento usa la duración del último intento de cada caso. La duración del intento fallido queda en `intento_anterior.duracion_ms`.
+
+## Corrida de Mistral: tiempo agotado y reintento (2026-11-25)
+
+**Qué pasó:** la primera pasada de Mistral clasificó 46 de 60. Las 14 restantes quedaron como "error del proveedor" porque **el servicio no respondió a tiempo**: los dos intentos de cada caso (2 minutos cada uno) se agotaron. No hubo errores 429 (demasiadas consultas) ni 500 (falla del servidor), y **ningún caso fue bloqueado por su contenido**: un bloqueo responde en segundos con un error, no deja la conexión esperando.
+
+**Casos:**
+- 8 con alerta crítica en la referencia: SINT-0008, 0009, 0012, 0013, 0016, 0017, 0018 y 0021.
+- 6 sin alerta crítica: SINT-0030, 0032, 0036, 0048, 0053 y 0054.
+
+**¿Por qué más casos críticos?** Todo indica que fue la hora y no el tema:
+- Los casos críticos están al comienzo de la lista y se procesaron en un rato en que el servicio estaba lento: ahí también tardaron 196 a 250 segundos los que sí respondieron.
+- Hubo otro rato lento (SINT-0037 a 0054) con casos sin alerta.
+- 13 de los 46 casos clasificados también se agotaron en el primer intento y respondieron en el segundo.
+- MiniMax clasificó la mayoría de esos mismos casos críticos en una corrida que se detuvo a mitad de camino.
+
+El reintento sirve de comprobación.
+
+**Qué se hizo (aprobado por Candela):**
+- Nueva opción `--reintentar`: vuelve a clasificar solo las no clasificadas de una corrida guardada, con el mismo modelo, y actualiza el mismo archivo. Cada caso reintentado queda marcado.
+- Nuevas opciones `--tiempo-espera` y `--pausa`: cambian esos valores solo para una corrida, sin tocar el `.env`. Para el reintento y para MiniMax se usan 240000 ms (4 minutos) y 10000 ms (10 segundos).
+- La primera pasada de Mistral quedó guardada en el historial de git (commit `21e2bdd`) antes del reintento.
+- `revision:r3` ya no sobrescribe una tabla que existe, para no borrar los comentarios de la revisión.
 
 ## Notas de cierre
 
