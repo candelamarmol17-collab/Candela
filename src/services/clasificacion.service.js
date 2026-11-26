@@ -4,10 +4,10 @@ import { crearAdaptadorRepeticion } from '../adaptadores/adaptador-repeticion.js
 import { crearAdaptadorSimulado } from '../adaptadores/adaptador-simulado.js';
 import { MODOS } from '../config/ia.js';
 import { construirMensajes, VERSION_PROMPT } from '../prompts/clasificacion.js';
-import { ALERTA_PERSONA_MAYOR } from '../schemas/catalogos.js';
 import { validarClasificacion } from '../schemas/clasificacion.schema.js';
 import { validarSolicitud } from '../schemas/solicitud.schema.js';
 import { esperar as esperarPorDefecto } from '../utilidades/esperar.js';
+import { aplicarReglaPersonaMayor } from './regla-persona-mayor.js';
 
 /**
  * Servicio de clasificación: une la solicitud, el prompt, el adaptador y los esquemas.
@@ -28,8 +28,6 @@ export const MOTIVOS_NO_CLASIFICADA = Object.freeze({
   esquemaInvalido: 'esquema_invalido',
   idDistinto: 'id_distinto',
 });
-
-const EDAD_PERSONA_MAYOR = 60;
 
 /** Crea el adaptador que corresponde al modo de la configuración. */
 export const crearAdaptadorSegunConfiguracion = async (configuracion) => {
@@ -53,14 +51,7 @@ export const extraerJson = (texto) => {
   return JSON.parse(envoltorio ? envoltorio[1] : limpio);
 };
 
-/** Regla fija (no la decide la IA): la alerta de persona mayor depende solo de la edad. */
-export const aplicarReglaPersonaMayor = (clasificacion, edad) => {
-  const alertas = clasificacion.alertas.filter((alerta) => alerta !== ALERTA_PERSONA_MAYOR);
-  if (typeof edad === 'number' && edad >= EDAD_PERSONA_MAYOR) {
-    alertas.push(ALERTA_PERSONA_MAYOR);
-  }
-  return { ...clasificacion, alertas };
-};
+export { aplicarReglaPersonaMayor };
 
 const noClasificada = (id, origen, motivo, detalle, respuestaCruda) => ({
   id_solicitud: id,

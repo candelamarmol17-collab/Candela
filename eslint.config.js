@@ -21,7 +21,7 @@ export default [
   },
   {
     // La pantalla (carpeta public/) corre en el navegador.
-    files: ['public/**/*.js'],
+    files: ['public/**/*.js', 'scripts/diseno/**/*.js'],
     languageOptions: {
       globals: { ...globals.browser },
     },
