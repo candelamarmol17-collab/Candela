@@ -1,4 +1,5 @@
 import { $, el, NOMBRES_ALERTAS, NOMBRES_PRIORIDAD } from './dom.js';
+import { mostrarComoFunciona } from './como-funciona.js';
 import { mostrarEvaluacion } from './evaluacion.js';
 import { icono } from './iconos.js';
 
@@ -967,20 +968,36 @@ const alPresionarTecla = (evento) => {
 // ── Pestañas ─────────────────────────────────────────────────────
 
 /** Muestra la pestaña que indica la dirección (#bandeja o #evaluacion). */
+/** Pestañas: dirección (#…), vista y qué se dibuja al abrirla. */
+const PESTANAS = [
+  { hash: '#bandeja', vista: 'vista-bandeja', pestana: 'pestana-bandeja' },
+  {
+    hash: '#evaluacion',
+    vista: 'vista-evaluacion',
+    pestana: 'pestana-evaluacion',
+    abrir: () => mostrarEvaluacion(llamar),
+  },
+  {
+    hash: '#como-funciona',
+    vista: 'vista-como-funciona',
+    pestana: 'pestana-como-funciona',
+    abrir: () => mostrarComoFunciona(llamar),
+  },
+];
+
+/** Muestra la pestaña que indica la dirección. Sin dirección conocida, la bandeja. */
 const mostrarPestana = () => {
-  const evaluacion = window.location.hash === '#evaluacion';
-  if (evaluacion && estado.seleccionada) cerrarPanel();
-  $('vista-bandeja').hidden = evaluacion;
-  $('vista-evaluacion').hidden = !evaluacion;
-  for (const [id, activa] of [
-    ['pestana-bandeja', !evaluacion],
-    ['pestana-evaluacion', evaluacion],
-  ]) {
-    $(id).classList.toggle('pestana--activa', activa);
-    if (activa) $(id).setAttribute('aria-current', 'page');
-    else $(id).removeAttribute('aria-current');
+  const actual = PESTANAS.find((p) => p.hash === window.location.hash) ?? PESTANAS[0];
+  if (actual !== PESTANAS[0] && estado.seleccionada) cerrarPanel();
+  for (const p of PESTANAS) {
+    const activa = p === actual;
+    $(p.vista).hidden = !activa;
+    $(p.pestana).classList.toggle('pestana--activa', activa);
+    if (activa) $(p.pestana).setAttribute('aria-current', 'page');
+    else $(p.pestana).removeAttribute('aria-current');
   }
-  if (evaluacion) mostrarEvaluacion(llamar);
+  actual.abrir?.();
+  window.scrollTo({ top: 0 });
 };
 
 // ── Inicio ───────────────────────────────────────────────────────

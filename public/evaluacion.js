@@ -342,7 +342,8 @@ const hallazgosR3 = (modelos) => {
   ];
 };
 
-const modelosConsiderados = (filas) =>
+/** Tabla "Modelos considerados" (también la usa la pestaña "Cómo funciona"). */
+export const modelosConsiderados = (filas) =>
   tabla(
     ['Modelo', 'Lo medido (60 casos sintéticos)', 'Privacidad y retención', 'Costo', 'Alojamiento'],
     filas.map((f) =>
@@ -412,14 +413,25 @@ const dibujar = (datos) => {
   $('evaluacion-contenido').replaceChildren(...partes.flat().filter(Boolean));
 };
 
+let pedido = null;
+
+/** Pide la evaluación una sola vez: las corridas no cambian mientras se usa el programa. */
+export const obtenerEvaluacion = (llamar) => {
+  pedido ??= llamar('GET', '/api/evaluacion').catch((error) => {
+    pedido = null; // si falló, se puede volver a intentar
+    throw error;
+  });
+  return pedido;
+};
+
 let cargada = false;
 
-/** Muestra la evaluación. La pide una sola vez: las corridas no cambian mientras se usa. */
+/** Muestra la evaluación. */
 export const mostrarEvaluacion = async (llamar) => {
   if (cargada) return;
   $('evaluacion-contenido').replaceChildren(el('p', { clase: 'eval-nota' }, 'Calculando…'));
   try {
-    dibujar(await llamar('GET', '/api/evaluacion'));
+    dibujar(await obtenerEvaluacion(llamar));
     cargada = true;
   } catch (error) {
     $('evaluacion-contenido').replaceChildren(

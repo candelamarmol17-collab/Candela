@@ -161,6 +161,8 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
     expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
     // La bienvenida (tarea 014) también va en la copia.
     expect(pagina).toContain('Hola, equipo.');
+    // La pestaña "Cómo funciona" (tarea 009) también.
+    expect(pagina).toContain('Cómo funciona Pulso');
     expect(pagina).toContain('CESFAM Boris Soler · Bandeja de Telesalud');
   }, 30_000);
 });

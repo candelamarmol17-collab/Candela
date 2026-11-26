@@ -36,6 +36,11 @@ Para leer bien los resultados de la evaluación, hay que tener en cuenta dos cos
 
 Para revisar los casos en Excel, ejecuta `npm run revision:csv`. Así se genera `data/sinteticos/revision.csv`, una tabla con cada solicitud junto a su referencia.
 
+## Material para el video
+
+- **Arquitectura**: `docs/arquitectura.md` (diagrama Mermaid). La pestaña "Cómo funciona" muestra el mismo recorrido.
+- **Guion de la demo** (máximo 4:40): `docs/guion-demo.md`.
+
 ## Cómo instalarlo
 
 Necesitas tener instalado [Node.js](https://nodejs.org/) versión 26 o superior.

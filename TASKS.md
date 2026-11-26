@@ -9,6 +9,7 @@
 | 005 | Orden de la bandeja | done | 2026-11-26 |
 | 006 | Interfaz de bandeja con confirmar o corregir | done | 2026-11-26 |
 | 008 | Script y pantalla de evaluación de los modelos | done | 2026-11-26 |
+| 009 | Cómo funciona, diagrama de arquitectura y guion de la demo | done | 2026-11-26 |
 | 010 | Copia de la pantalla para revisar el diseño | done | 2026-11-26 |
 | 011 | La bandeja parte vacía y se carga la exportación de Telesalud | done | 2026-11-26 |
 | 012 | Exportación con el formato real de Telesalud y separación de datos personales | done | 2026-11-26 |
