@@ -1,0 +1,882 @@
+{
+  "aviso": "Resultados sobre datos sintéticos (inventados). La clasificación es una sugerencia: siempre decide el triajista.",
+  "origen": "simulado_reglas",
+  "modelo": null,
+  "version_prompt": "1",
+  "generado_en": "2026-11-25T18:38:08.219Z",
+  "total": 60,
+  "clasificadas": 60,
+  "no_clasificadas": 0,
+  "resultados": [
+    {
+      "id_solicitud": "SINT-0001",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0001",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0002",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0002",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0003",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0003",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0004",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0004",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0005",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0005",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Matrona",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0006",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0006",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Dental",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0007",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0007",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, descompensacion, ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0008",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0008",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ideacion_suicida.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0009",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0009",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, descompensacion, ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0010",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0010",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "urgencia",
+          "violencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, violencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0011",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0011",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida",
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ideacion_suicida, ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0012",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0012",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, ideacion_suicida.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0013",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0013",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "ideacion_suicida",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ideacion_suicida.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0014",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0014",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, ideacion_suicida.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0015",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0015",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "violencia",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: violencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0016",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0016",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Matrona",
+        "alertas": [
+          "violencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: violencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0017",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0017",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "violencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: violencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0018",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0018",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "violencia"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: violencia.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0019",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0019",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "descompensacion",
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: descompensacion, ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0020",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0020",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0021",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0021",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: urgencia, descompensacion.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0022",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0022",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: descompensacion, ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0023",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0023",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0024",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0024",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0025",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0025",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0026",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0026",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0027",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0027",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0028",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0028",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0029",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0029",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0030",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0030",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0031",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0031",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Psicología",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0032",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0032",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0033",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0033",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0034",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0034",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0035",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0035",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0036",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0036",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Técnico en enfermería",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0037",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0037",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0038",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0038",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0039",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0039",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0040",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0040",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Terapia Ocupacional",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0041",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0041",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0042",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0042",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0043",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0043",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0044",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0044",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0045",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0045",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0046",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0046",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0047",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0047",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0048",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0048",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0049",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0049",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0050",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0050",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0051",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0051",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0052",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0052",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Psicología",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0053",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0053",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Técnico en enfermería",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0054",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0054",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0055",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0055",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0056",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0056",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0057",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0057",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0058",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0058",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Terapia Ocupacional",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0059",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0059",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): no se encontraron palabras de alerta.",
+        "confianza": "baja"
+      }
+    },
+    {
+      "id_solicitud": "SINT-0060",
+      "estado": "clasificada",
+      "origen": "simulado_reglas",
+      "clasificacion": {
+        "id_solicitud": "SINT-0060",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "SIMULADO por reglas fijas (no es un modelo de IA): se encontraron palabras asociadas a: ges.",
+        "confianza": "baja"
+      }
+    }
+  ]
+}

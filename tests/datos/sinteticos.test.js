@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import {
   ALERTA_PERSONA_MAYOR,
+  ALERTAS_CRITICAS,
   ALERTAS_IA,
   MOTIVOS_POR_PRESTADOR,
   PRIORIDADES,
@@ -103,12 +104,14 @@ describe('datos sintéticos: mínimos acordados', () => {
     );
   });
 
-  test('hay al menos 10 casos "Otros" con urgencia escondida (prioridad alta)', () => {
+  // Mínimo redefinido en la tarea 004: antes contaba solo "urgencia"; ahora cuenta cualquier
+  // alerta crítica, igual que la métrica de alertas críticas no detectadas de la tarea 008.
+  test('hay al menos 10 casos "Otros" con alguna alerta crítica escondida (prioridad alta)', () => {
     const casos = solicitudes.filter((solicitud) => {
       const referencia = referenciaPorId.get(solicitud.id_solicitud);
       return (
         solicitud.motivo === 'Otros' &&
-        referencia.alertas.includes('urgencia') &&
+        referencia.alertas.some((alerta) => ALERTAS_CRITICAS.includes(alerta)) &&
         referencia.prioridad === 'alta'
       );
     });
