@@ -1,5 +1,5 @@
 import { validarCorreccion } from '../../src/schemas/correccion.schema.js';
-import { ErrorDemo } from '../../src/services/demo-bandeja.service.js';
+import { ErrorDemo, MENSAJE_SOLO_DEMOSTRACION } from '../../src/services/demo-bandeja.service.js';
 
 /**
  * Reemplazo de la API de la bandeja para la copia de diseño (un solo archivo HTML, sin servidor).
@@ -48,8 +48,12 @@ const leerId = (textoId) => {
 const atender = (demo, metodo, ruta, cuerpo) => {
   if (metodo === 'GET' && ruta === '/api/bandeja') return [200, demo.estado()];
   if (metodo === 'POST' && ruta === '/api/bandeja/deshacer') return [200, demo.deshacer()];
-  if (metodo === 'POST' && ruta === '/api/bandeja/simular-ingreso') {
-    return [201, demo.simularIngreso()];
+  if (metodo === 'POST' && ruta === '/api/bandeja/cargar-exportacion') {
+    // Regla R1: no se recibe ningún archivo, igual que en el servidor.
+    if (cuerpo !== undefined && cuerpo !== null && cuerpo !== '') {
+      throw new ErrorApi(400, MENSAJE_SOLO_DEMOSTRACION);
+    }
+    return [200, demo.cargarExportacion()];
   }
   if (metodo === 'POST' && ruta === '/api/bandeja/reiniciar') return [200, demo.reiniciar()];
   const partes = metodo === 'POST' ? DIRECCION_ID.exec(ruta) : null;

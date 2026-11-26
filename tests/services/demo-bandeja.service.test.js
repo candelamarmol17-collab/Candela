@@ -27,7 +27,7 @@ const clasificada = (id, prioridad, alertas = []) => ({
   },
 });
 
-const crear = () =>
+const crearVacia = () =>
   crearDemoBandeja({
     solicitudes: [
       solicitud('SINT-0001', '2026-11-10T08:00:00'),
@@ -52,18 +52,63 @@ const crear = () =>
         clasificada('SINT-0004', 'alta', ['urgencia']),
       ],
     },
-    idIngresoSimulado: 'SINT-0004',
+    idSegundaExportacion: 'SINT-0004',
     ahora: () => new Date('2026-11-26T12:00:00Z'),
   });
+
+/** Demo con la primera exportación ya cargada (así parte la mayoría de las pruebas). */
+const crear = () => {
+  const demo = crearVacia();
+  demo.cargarExportacion();
+  return demo;
+};
+
+const exportacion = (numero, nuevas) => ({
+  numero,
+  nombre: `Exportación de demostración ${numero}`,
+  solicitudes_nuevas: nuevas,
+});
 
 const ids = (lista) => lista.map((e) => e.solicitud.id_solicitud);
 
 describe('crearDemoBandeja', () => {
-  test('al comienzo deja fuera la solicitud del ingreso simulado', () => {
+  test('parte con la bandeja vacía, lista para cargar la primera exportación', () => {
+    const estado = crearVacia().estado();
+    expect(estado.ordenadas).toEqual([]);
+    expect(estado.no_clasificadas).toEqual([]);
+    expect(estado.resumen).toEqual({
+      total: 0,
+      con_alerta_critica: 0,
+      prioridad_alta: 0,
+      pendientes: 0,
+      no_clasificadas: 0,
+    });
+    expect(estado.exportaciones).toEqual({
+      cargadas: 0,
+      ultima: null,
+      siguiente: exportacion(1, 3),
+    });
+    expect(estado.ultima_cambiada).toBeNull();
+  });
+
+  test('con la bandeja vacía no se puede confirmar ni corregir', () => {
+    const demo = crearVacia();
+    expect(() => demo.confirmar('SINT-0001')).toThrow('No existe');
+    expect(() =>
+      demo.corregir('SINT-0001', { prioridad: 'alta', profesional: 'Medicina', alertas: [] }),
+    ).toThrow('No existe');
+  });
+
+  test('la primera exportación trae todas menos la de la segunda', () => {
     const estado = crear().estado();
     expect(ids(estado.ordenadas)).toEqual(['SINT-0002', 'SINT-0001']);
     expect(ids(estado.no_clasificadas)).toEqual(['SINT-0003']);
-    expect(estado.ingreso_simulado).toEqual({ disponible: true, id: 'SINT-0004' });
+    expect(estado.exportaciones).toEqual({
+      cargadas: 1,
+      ultima: exportacion(1, 3),
+      siguiente: exportacion(2, 1),
+    });
+    expect(estado.ultima_cambiada).toBeNull();
     expect(estado.triajista).toBe(TRIAJISTA_DEMO);
     expect(estado.datos).toMatchObject({ reproducido_desde_archivo: true, version_prompt: '1' });
     expect(estado.resumen).toEqual({
@@ -75,14 +120,34 @@ describe('crearDemoBandeja', () => {
     });
   });
 
-  test('simular ingreso hace entrar la solicitud con su clasificación guardada, solo una vez', () => {
+  test('la segunda exportación trae la que faltaba, con su clasificación guardada, y se resalta', () => {
     const demo = crear();
-    const estado = demo.simularIngreso();
+    demo.confirmar('SINT-0001');
+    const estado = demo.cargarExportacion();
     expect(ids(estado.ordenadas)[0]).toBe('SINT-0004');
     expect(estado.ultima_cambiada).toBe('SINT-0004');
-    expect(estado.ingreso_simulado.disponible).toBe(false);
+    expect(estado.exportaciones).toEqual({
+      cargadas: 2,
+      ultima: exportacion(2, 1),
+      siguiente: null,
+    });
     expect(estado.resumen.con_alerta_critica).toBe(1);
-    expect(() => demo.simularIngreso()).toThrow('No hay más solicitudes');
+    // Lo revisado antes se mantiene.
+    expect(
+      estado.ordenadas.find((e) => e.solicitud.id_solicitud === 'SINT-0001').revision.estado,
+    ).toBe('confirmada');
+    expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
+  });
+
+  test('sin solicitud para la segunda exportación, hay una sola exportación con todas', () => {
+    const demo = crearDemoBandeja({
+      solicitudes: [solicitud('SINT-0001', '2026-11-10T08:00:00')],
+      corrida: { origen: 'modelo_real', modelo: 'x/y', version_prompt: '1', resultados: [] },
+      idSegundaExportacion: null,
+    });
+    expect(demo.estado().exportaciones.siguiente).toEqual(exportacion(1, 1));
+    expect(demo.cargarExportacion().exportaciones.siguiente).toBeNull();
+    expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
   });
 
   test('confirmar marca la solicitud y no cambia el orden', () => {
@@ -171,11 +236,12 @@ describe('crearDemoBandeja', () => {
     expect(() => demo.deshacer()).toThrow('No hay nada que deshacer');
   });
 
-  test('reiniciar vuelve al comienzo', () => {
+  test('reiniciar vuelve a la bandeja vacía', () => {
     const demo = crear();
-    demo.simularIngreso();
+    demo.cargarExportacion();
     demo.confirmar('SINT-0001');
     const estado = demo.reiniciar();
-    expect(estado).toEqual(crear().estado());
+    expect(estado).toEqual(crearVacia().estado());
+    expect(demo.cargarExportacion().exportaciones.cargadas).toBe(1);
   });
 });

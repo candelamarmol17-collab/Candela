@@ -13,6 +13,9 @@ beforeEach(async () => {
   });
   fetchDeDemo = crearFetchDeDemo(crearDemoBandeja(datos));
   app = crearApp({ demo: crearDemoBandeja(datos) });
+  // Las dos parten igual: con la primera exportación cargada.
+  await fetchDeDemo('/api/bandeja/cargar-exportacion', { method: 'POST' });
+  await request(app).post('/api/bandeja/cargar-exportacion');
 });
 
 const comoTexto = (cuerpo) =>
@@ -41,7 +44,8 @@ describe('crearFetchDeDemo responde igual que el servidor', () => {
     ['POST', '/api/bandeja/SINT-0001/confirmar', undefined],
     ['POST', '/api/bandeja/SINT-0001/corregir', correccion],
     ['POST', '/api/bandeja/deshacer', undefined],
-    ['POST', '/api/bandeja/simular-ingreso', undefined],
+    ['POST', '/api/bandeja/cargar-exportacion', undefined],
+    ['POST', '/api/bandeja/cargar-exportacion', { archivo: 'externo.csv' }],
     ['POST', '/api/bandeja/reiniciar', undefined],
     ['POST', '/api/bandeja/SINT-9999/confirmar', undefined],
     ['POST', '/api/bandeja/ABC/confirmar', undefined],
@@ -55,8 +59,16 @@ describe('crearFetchDeDemo responde igual que el servidor', () => {
     expect(sinFechas(enNavegador.body)).toEqual(sinFechas(enServidor.body));
   });
 
-  test('el ingreso simulado responde 201 la primera vez y 400 la segunda', async () => {
-    expect((await pedir('POST', '/api/bandeja/simular-ingreso')).status).toBe(201);
-    expect((await pedir('POST', '/api/bandeja/simular-ingreso')).status).toBe(400);
+  test('carga la segunda exportación una vez; la siguiente responde 400', async () => {
+    expect((await pedir('POST', '/api/bandeja/cargar-exportacion')).status).toBe(200);
+    expect((await pedir('POST', '/api/bandeja/cargar-exportacion')).status).toBe(400);
+  });
+
+  test('no recibe archivos ni datos al cargar (regla R1)', async () => {
+    const respuesta = await pedir('POST', '/api/bandeja/reiniciar');
+    expect(respuesta.body.datos.exportaciones.cargadas).toBe(0);
+    const conArchivo = await pedir('POST', '/api/bandeja/cargar-exportacion', 'id;texto');
+    expect(conArchivo.status).toBe(400);
+    expect((await pedir('GET', '/api/bandeja')).body.datos.exportaciones.cargadas).toBe(0);
   });
 });

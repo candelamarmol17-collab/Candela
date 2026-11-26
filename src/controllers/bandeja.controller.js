@@ -1,5 +1,6 @@
 import { validarCorreccion } from '../schemas/correccion.schema.js';
 import { ErrorHttp } from '../middlewares/errores.js';
+import { MENSAJE_SOLO_DEMOSTRACION } from '../services/demo-bandeja.service.js';
 
 /**
  * Controlador de la bandeja: recibe la petición, valida lo que llega y llama a la demo.
@@ -34,7 +35,17 @@ export const crearControladorBandeja = (demo) => ({
 
   deshacer: (req, res) => responder(res, demo.deshacer()),
 
-  simularIngreso: (req, res) => responder(res, demo.simularIngreso(), 201),
+  /** Regla R1: solo se cargan las exportaciones de demostración; no se recibe ningún archivo. */
+  cargarExportacion: (req, res) => {
+    const traeCuerpo =
+      Number(req.get('content-length') ?? 0) > 0 ||
+      req.get('transfer-encoding') !== undefined ||
+      (req.body && Object.keys(req.body).length > 0);
+    if (traeCuerpo) {
+      throw new ErrorHttp(400, MENSAJE_SOLO_DEMOSTRACION);
+    }
+    responder(res, demo.cargarExportacion());
+  },
 
   reiniciar: (req, res) => responder(res, demo.reiniciar()),
 });

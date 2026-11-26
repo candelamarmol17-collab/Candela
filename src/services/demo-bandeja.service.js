@@ -17,14 +17,23 @@ import { armarBandejaDesdeCorrida, GRUPOS } from './bandeja.service.js';
  * Guarda en memoria las confirmaciones y correcciones del triajista. Se pierden al apagar el
  * programa o con "Reiniciar demo". El registro permanente es de la tarea 007.
  *
- * "Simular ingreso" no llama a la IA: hace entrar una solicitud que se dejó fuera al comienzo,
- * con la clasificación que ya está guardada en la corrida (decisión 007: nada parece en vivo).
+ * La bandeja parte VACÍA y se llena al "cargar" las exportaciones de demostración (tarea 011):
+ *   1. la primera trae todas las solicitudes menos una (59);
+ *   2. la segunda trae la que faltaba (SINT-0009).
+ * Cargar no llama a la IA: usa la clasificación que ya está guardada en la corrida (decisión 007).
+ * Por la regla R1, no se recibe ningún archivo de afuera: solo existen estas dos exportaciones.
  */
 
 export const TRIAJISTA_DEMO = 'Triajista de demostración';
 
-/** Solicitud que se deja fuera al comienzo y entra con "Simular ingreso" (decisión de la tarea 006). */
-export const ID_INGRESO_SIMULADO = 'SINT-0009';
+/** Solicitud que llega en la segunda exportación (decisión de la tarea 006, que antes la "simulaba"). */
+export const ID_SEGUNDA_EXPORTACION = 'SINT-0009';
+
+/** Respuesta cuando alguien intenta mandar un archivo o datos al cargar (regla R1). */
+export const MENSAJE_SOLO_DEMOSTRACION =
+  'Solo se puede cargar la exportación de demostración: Pulso no recibe archivos (regla R1).';
+
+const nombreExportacion = (numero) => `Exportación de demostración ${numero}`;
 
 export const ESTADOS_REVISION = Object.freeze({
   pendiente: 'pendiente',
@@ -57,26 +66,35 @@ const JUSTIFICACION_TRIAJISTA = 'Clasificación decidida por el triajista.';
  * Crea la demo.
  * @param opciones.solicitudes las solicitudes sintéticas.
  * @param opciones.corrida la corrida guardada que se muestra.
- * @param opciones.idIngresoSimulado la solicitud que entra con "Simular ingreso" (null: ninguna).
+ * @param opciones.idSegundaExportacion la solicitud que llega en la segunda exportación
+ *   (null: hay una sola exportación).
  * @param opciones.ahora reloj (se cambia en las pruebas).
  */
 export const crearDemoBandeja = ({
   solicitudes,
   corrida,
-  idIngresoSimulado = ID_INGRESO_SIMULADO,
+  idSegundaExportacion = ID_SEGUNDA_EXPORTACION,
   ahora = () => new Date(),
 }) => {
   const solicitudPorId = new Map(solicitudes.map((s) => [s.id_solicitud, s]));
   const resultadoPorId = new Map(corrida.resultados.map((r) => [r.id_solicitud, r]));
-  const idSimulado = solicitudPorId.has(idIngresoSimulado) ? idIngresoSimulado : null;
+  const idSegunda = solicitudPorId.has(idSegundaExportacion) ? idSegundaExportacion : null;
+  const totalExportaciones = idSegunda === null ? 1 : 2;
+  const nuevasEn = (numero) => (numero === 1 ? solicitudes.length - (idSegunda ? 1 : 0) : 1);
+  const describirExportacion = (numero) => ({
+    numero,
+    nombre: nombreExportacion(numero),
+    solicitudes_nuevas: nuevasEn(numero),
+  });
 
   // Estado que cambia durante la demo.
-  let ingresoHecho = false;
+  let exportacionesCargadas = 0;
   let decisiones = new Map(); // id -> { estado, motivo, clasificacion, en }
   let historial = []; // para "Deshacer": [{ id, anterior }]
   let ultimaCambiada = null; // id de la última solicitud que cambió (para el resaltado)
 
-  const visible = (id) => id !== idSimulado || ingresoHecho;
+  const visible = (id) =>
+    exportacionesCargadas >= 1 && (id !== idSegunda || exportacionesCargadas >= 2);
 
   const sugerenciaIa = (id) => {
     const resultado = resultadoPorId.get(id);
@@ -146,7 +164,14 @@ export const crearDemoBandeja = ({
       },
       ordenadas,
       no_clasificadas: noClasificadas,
-      ingreso_simulado: { disponible: idSimulado !== null && !ingresoHecho, id: idSimulado },
+      exportaciones: {
+        cargadas: exportacionesCargadas,
+        ultima: exportacionesCargadas > 0 ? describirExportacion(exportacionesCargadas) : null,
+        siguiente:
+          exportacionesCargadas < totalExportaciones
+            ? describirExportacion(exportacionesCargadas + 1)
+            : null,
+      },
       se_puede_deshacer: historial.length > 0,
       catalogos: CATALOGOS,
       ultima_cambiada: ultimaCambiada,
@@ -210,17 +235,19 @@ export const crearDemoBandeja = ({
       return armar();
     },
 
-    simularIngreso: () => {
-      if (idSimulado === null || ingresoHecho) {
-        throw new ErrorDemo('No hay más solicitudes por ingresar. Usa "Reiniciar demo".', 400);
+    /** Carga la siguiente exportación de demostración. No recibe nada de afuera. */
+    cargarExportacion: () => {
+      if (exportacionesCargadas >= totalExportaciones) {
+        throw new ErrorDemo('No hay más exportaciones de demostración. Usa "Reiniciar demo".', 400);
       }
-      ingresoHecho = true;
-      ultimaCambiada = idSimulado;
+      exportacionesCargadas += 1;
+      // La primera carga llena la bandeja; en la segunda se resalta la solicitud que llegó.
+      ultimaCambiada = exportacionesCargadas === 2 ? idSegunda : null;
       return armar();
     },
 
     reiniciar: () => {
-      ingresoHecho = false;
+      exportacionesCargadas = 0;
       decisiones = new Map();
       historial = [];
       ultimaCambiada = null;
