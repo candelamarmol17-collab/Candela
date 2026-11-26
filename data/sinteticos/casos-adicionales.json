@@ -1,0 +1,10 @@
+[
+  {
+    "id_solicitud": "SINT-0061",
+    "fecha_ingreso": "2026-11-22T11:58:00",
+    "tipo_profesional": "Medicina",
+    "motivo": "Otros",
+    "texto_libre": "Se me acabaron los remedios del corazón hace una semana. Ando con malestar y dolor de cabeza, y nadie me puede llevar al consultorio. Vivo sola.",
+    "edad": 81
+  }
+]

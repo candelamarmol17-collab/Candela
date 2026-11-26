@@ -147,7 +147,7 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
 
     const datos = leerDatosDeLaPagina(pagina);
     expect(datos).not.toHaveProperty('solicitudes');
-    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 1]);
+    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 2]);
     expect(datos.exportaciones[0][0]).toHaveLength(48);
     // Los únicos datos "personales" que lleva son los de demostración, claramente inventados.
     expect(pagina).toContain('Vecina Demo 01');

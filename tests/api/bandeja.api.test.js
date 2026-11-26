@@ -180,14 +180,12 @@ describe('deshacer, reiniciar y direcciones que no existen', () => {
 describe('registro de la sesión (tarea 007)', () => {
   test('confirmar y corregir quedan en el registro; reiniciar lo limpia', async () => {
     await request(app).post('/api/bandeja/SINT-0001/confirmar');
-    const corregida = await request(app)
-      .post('/api/bandeja/SINT-0002/corregir')
-      .send({
-        prioridad: 'alta',
-        profesional: 'Medicina',
-        alertas: [],
-        motivo: 'Motivo de prueba',
-      });
+    const corregida = await request(app).post('/api/bandeja/SINT-0002/corregir').send({
+      prioridad: 'alta',
+      profesional: 'Medicina',
+      alertas: [],
+      motivo: 'Motivo de prueba',
+    });
     expect(corregida.status).toBe(200);
 
     const { registro } = (await request(app).get('/api/bandeja')).body.datos;
@@ -209,5 +207,28 @@ describe('registro de la sesión (tarea 007)', () => {
     expect(respuesta.status).toBe(404);
     const { registro } = (await request(app).get('/api/bandeja')).body.datos;
     expect(registro.eventos).toHaveLength(1);
+  });
+});
+
+describe('caso adicional SINT-0061 "Rosa" (tarea 015)', () => {
+  test('llega en la segunda exportación junto a SINT-0009, clasificada como cualquier otra', async () => {
+    const antes = (await request(app).get('/api/bandeja')).body.datos;
+    expect(antes.ordenadas.map((e) => e.solicitud.id_solicitud)).not.toContain('SINT-0061');
+
+    const respuesta = await request(app).post('/api/bandeja/cargar-exportacion');
+    expect(respuesta.status).toBe(200);
+    const { datos } = respuesta.body;
+    expect(datos.resumen.total).toBe(61);
+    expect(datos.exportaciones.ultima.solicitudes_nuevas).toBe(2);
+    const rosa = datos.ordenadas.find((e) => e.solicitud.id_solicitud === 'SINT-0061');
+    // Lo que respondió MiniMax, sin cambios a mano.
+    expect(rosa.clasificacion).toMatchObject({
+      prioridad_sugerida: 'media',
+      profesional_sugerido: 'Medicina',
+      alertas: ['persona_mayor_60'],
+    });
+    expect(rosa.revision.estado).toBe('pendiente');
+    // En pantalla no lleva nada especial: solo el texto y los datos que ya separó la demo.
+    expect(JSON.stringify(rosa)).not.toMatch(/Rosa|adicional|video/i);
   });
 });

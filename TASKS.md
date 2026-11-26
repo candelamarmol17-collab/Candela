@@ -15,6 +15,7 @@
 | 011 | La bandeja parte vacía y se carga la exportación de Telesalud | done | 2026-11-26 |
 | 012 | Exportación con el formato real de Telesalud y separación de datos personales | done | 2026-11-26 |
 | 014 | Bienvenida en la bandeja vacía | done | 2026-11-26 |
+| 015 | Caso adicional SINT-0061 "Rosa" para la demo del video | done | 2026-11-26 |
 
 ## Pendientes que no son código
 

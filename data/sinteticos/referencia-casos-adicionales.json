@@ -1,0 +1,9 @@
+[
+  {
+    "id_solicitud": "SINT-0061",
+    "prioridad": "alta",
+    "profesional": "Medicina",
+    "alertas": ["descompensacion", "persona_mayor_60"],
+    "nota": "Sin sus remedios del corazón hace una semana, con malestar y dolor de cabeza: descompensación. Urgencia [PENDIENTE] de validar con la gestora de Telesalud: los criterios congelados exigen señales de alarma vital. Edad 81: persona mayor (la calcula el código)."
+  }
+]

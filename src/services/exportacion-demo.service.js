@@ -9,8 +9,11 @@ import { ENCABEZADO_EXPORTACION } from '../schemas/exportacion-telesalud.js';
  * personas reales. Las columnas de funcionarios, notas y cierre van vacías.
  */
 
-/** La segunda exportación trae solo esta solicitud (decisión de las tareas 006 y 011). */
-export const ID_SEGUNDA_EXPORTACION = 'SINT-0009';
+/**
+ * La segunda exportación trae solo estas solicitudes: SINT-0009 (tareas 006 y 011) y SINT-0061,
+ * "Rosa", el caso adicional para el video (tarea 015).
+ */
+export const IDS_SEGUNDA_EXPORTACION = Object.freeze(['SINT-0009', 'SINT-0061']);
 
 const numeroDe = (idSolicitud) => {
   const partes = /^SINT-(\d{4})$/.exec(idSolicitud);
@@ -63,10 +66,14 @@ export const filaDeDemostracion = (solicitud) => {
   );
 };
 
-/** Las dos exportaciones de demostración (cada una con su encabezado). */
-export const armarExportacionesDemo = (solicitudes, idSegunda = ID_SEGUNDA_EXPORTACION) => {
-  const primera = solicitudes.filter((s) => s.id_solicitud !== idSegunda);
-  const segunda = solicitudes.filter((s) => s.id_solicitud === idSegunda);
+/**
+ * Las dos exportaciones de demostración (cada una con su encabezado).
+ * @param idsSegunda un id o una lista de ids que van en la segunda exportación.
+ */
+export const armarExportacionesDemo = (solicitudes, idsSegunda = IDS_SEGUNDA_EXPORTACION) => {
+  const enSegunda = new Set([idsSegunda].flat());
+  const primera = solicitudes.filter((s) => !enSegunda.has(s.id_solicitud));
+  const segunda = solicitudes.filter((s) => enSegunda.has(s.id_solicitud));
   return [primera, segunda].map((lista) => [
     [...ENCABEZADO_EXPORTACION],
     ...lista.map(filaDeDemostracion),
