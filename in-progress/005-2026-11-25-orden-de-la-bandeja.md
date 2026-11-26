@@ -43,6 +43,7 @@ Esta tarea prepara el orden y los datos. La pantalla y la dirección web que la 
 - **Orden de trabajo**: primero el servicio de orden con sus pruebas (solo depende de los esquemas de la tarea 002). La lectura de los resultados guardados en `data/resultados/` se hace al final, cuando la 004 esté unida a `main` y esta rama se actualice con `main`.
 - Se trabaja en una carpeta aparte (`Candela-005`, un "worktree" de git), para no interrumpir las corridas de la 004 en la carpeta `Candela`.
 - La lista `ALERTAS_CRITICAS` se copió tal cual desde la rama 004, para que al unir las ramas no haya conflicto.
+- **Revisión pedida por Candela al actualizar con `main`**: con la referencia de la 004 (SINT-0008 sin urgencia), la bandeja debe tener **16 solicitudes en el grupo "urgencia" y 5 en "otra alerta crítica"**. Se agrega una prueba que lo verifique con los 60 casos. Revisión previa del 2026-11-25, con la referencia de la rama 004: 16 urgencia, 5 otra alerta crítica (incluida SINT-0008) y 39 sin alerta crítica.
 
 ## Criterios de aceptación
 
