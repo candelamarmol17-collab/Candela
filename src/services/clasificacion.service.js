@@ -135,6 +135,18 @@ export const clasificarSolicitud = async (solicitud, adaptador) => {
   };
 };
 
+/** Totales de una lista de resultados. El tiempo promedio usa la duración del último intento. */
+const contarResultados = (resultados) => {
+  const clasificadas = resultados.filter((r) => r.estado === ESTADOS.clasificada).length;
+  const duracionTotal = resultados.reduce((suma, r) => suma + r.duracion_ms, 0);
+  return {
+    total: resultados.length,
+    clasificadas,
+    no_clasificadas: resultados.length - clasificadas,
+    tiempo_promedio_ms: resultados.length > 0 ? Math.round(duracionTotal / resultados.length) : 0,
+  };
+};
+
 /**
  * Clasifica una lista de solicitudes de a una, con una pausa entre cada una.
  * Devuelve la corrida completa, con los datos que dicen de dónde vienen los resultados.
@@ -166,9 +178,6 @@ export const clasificarEnSerie = async (
     alAvanzar(resultado, indice + 1, solicitudes.length);
   }
 
-  const clasificadas = resultados.filter((r) => r.estado === ESTADOS.clasificada).length;
-  const duracionTotal = resultados.reduce((suma, r) => suma + r.duracion_ms, 0);
-
   return {
     aviso:
       'Resultados sobre datos sintéticos (inventados). La clasificación es una sugerencia: siempre decide el triajista.',
@@ -177,10 +186,82 @@ export const clasificarEnSerie = async (
     ...(adaptador.corridaOriginal ? { corrida_original: adaptador.corridaOriginal } : {}),
     version_prompt: VERSION_PROMPT,
     generado_en: ahora().toISOString(),
-    total: resultados.length,
-    clasificadas,
-    no_clasificadas: resultados.length - clasificadas,
-    tiempo_promedio_ms: resultados.length > 0 ? Math.round(duracionTotal / resultados.length) : 0,
+    ...contarResultados(resultados),
+    resultados,
+  };
+};
+
+/**
+ * Vuelve a clasificar solo las no clasificadas de una corrida guardada, sin repetir las buenas.
+ * Devuelve la corrida actualizada (no la guarda). Cada caso reintentado queda marcado con su
+ * número de intento y el error que tuvo antes; la corrida anota cada reintento en "reintentos",
+ * para que se sepa que no salió todo en una sola pasada.
+ *
+ * @param opciones.tiempoEsperaMs y opciones.pausaMs solo se anotan (los aplica el adaptador y la pausa).
+ */
+export const reintentarNoClasificadas = async (
+  corrida,
+  solicitudes,
+  adaptador,
+  { tiempoEsperaMs = null, ...opcionesSerie } = {},
+) => {
+  if (corrida?.origen !== 'modelo_real') {
+    throw new Error('Solo se puede reintentar una corrida hecha con el modelo real.');
+  }
+  if (corrida.modelo !== adaptador.modelo) {
+    throw new Error(
+      `La corrida es del modelo "${corrida.modelo}" y el reintento usaría "${adaptador.modelo}".`,
+    );
+  }
+  if (corrida.version_prompt !== VERSION_PROMPT) {
+    throw new Error(
+      `La corrida usó la versión ${corrida.version_prompt} del prompt y hoy está la ${VERSION_PROMPT}. Hay que correrla de nuevo completa.`,
+    );
+  }
+
+  const pendientes = corrida.resultados.filter((r) => r.estado !== ESTADOS.clasificada);
+  const solicitudPorId = new Map(solicitudes.map((s) => [s.id_solicitud, s]));
+  const aReintentar = pendientes.map((r) => {
+    const solicitud = solicitudPorId.get(r.id_solicitud);
+    if (!solicitud) {
+      throw new Error(`No se encontró la solicitud "${r.id_solicitud}" para reintentarla.`);
+    }
+    return solicitud;
+  });
+
+  const { ahora = () => new Date() } = opcionesSerie;
+  const nueva = await clasificarEnSerie(aReintentar, adaptador, opcionesSerie);
+  const nuevoPorId = new Map(nueva.resultados.map((r) => [r.id_solicitud, r]));
+
+  const resultados = corrida.resultados.map((anterior) => {
+    const nuevo = nuevoPorId.get(anterior.id_solicitud);
+    if (!nuevo) {
+      return anterior;
+    }
+    return {
+      ...nuevo,
+      intento: (anterior.intento ?? 1) + 1,
+      intento_anterior: {
+        motivo: anterior.motivo,
+        detalle: anterior.detalle,
+        duracion_ms: anterior.duracion_ms,
+      },
+    };
+  });
+
+  return {
+    ...corrida,
+    ...contarResultados(resultados),
+    reintentos: [
+      ...(corrida.reintentos ?? []),
+      {
+        fecha: ahora().toISOString(),
+        tiempo_espera_ms: tiempoEsperaMs,
+        pausa_ms: opcionesSerie.pausaMs ?? 0,
+        solicitudes: pendientes.map((r) => r.id_solicitud),
+        clasificadas: nueva.clasificadas,
+      },
+    ],
     resultados,
   };
 };

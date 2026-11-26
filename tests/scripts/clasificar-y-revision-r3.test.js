@@ -1,12 +1,16 @@
 import {
-  leerModeloDeArgumentos,
+  leerArgumentos,
   nombreArchivoResultados,
+  rutaParaReintentar,
 } from '../../scripts/clasificar-sinteticos.js';
 import {
   compararResultados,
+  escribirCsvNuevo,
   generarCsvRevisionR3,
   rutaCsvR3,
 } from '../../scripts/generar-csv-revision-r3.js';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 describe('nombreArchivoResultados', () => {
@@ -129,21 +133,79 @@ describe('comparación entre dos modelos', () => {
   });
 });
 
-describe('leerModeloDeArgumentos', () => {
-  test('sin argumentos usa el modelo del .env', () => {
-    expect(leerModeloDeArgumentos([])).toBeNull();
+describe('leerArgumentos', () => {
+  const vacio = { modelo: null, reintentar: null, tiempoEsperaMs: null, pausaMs: null };
+
+  test('sin argumentos usa todo del .env', () => {
+    expect(leerArgumentos([])).toEqual(vacio);
   });
 
   test('lee el modelo de --modelo', () => {
-    expect(leerModeloDeArgumentos(['--modelo', 'minimaxai/minimax-m3.1-flash'])).toBe(
-      'minimaxai/minimax-m3.1-flash',
+    expect(leerArgumentos(['--modelo', 'minimaxai/minimax-m3.1-flash'])).toEqual({
+      ...vacio,
+      modelo: 'minimaxai/minimax-m3.1-flash',
+    });
+  });
+
+  test('lee --reintentar, --tiempo-espera y --pausa en cualquier orden', () => {
+    expect(
+      leerArgumentos([
+        '--pausa',
+        '10000',
+        '--reintentar',
+        'data/resultados/x.json',
+        '--tiempo-espera',
+        '240000',
+      ]),
+    ).toEqual({
+      modelo: null,
+      reintentar: 'data/resultados/x.json',
+      tiempoEsperaMs: '240000',
+      pausaMs: '10000',
+    });
+  });
+
+  test.each([
+    [['--modelo']],
+    [['--otro', 'x']],
+    [['--modelo', 'x', 'y']],
+    [['--modelo', '--x']],
+    [['--pausa', '1', '--pausa', '2']],
+    [['--modelo', 'x', '--reintentar', 'data/resultados/x.json']],
+  ])('rechaza argumentos no válidos: %p', (argumentos) => {
+    expect(() => leerArgumentos(argumentos)).toThrow('Argumentos no válidos');
+  });
+});
+
+describe('rutaParaReintentar', () => {
+  const carpeta = join(process.cwd(), 'data', 'resultados');
+
+  test('acepta un .json dentro de data/resultados', () => {
+    expect(rutaParaReintentar('data/resultados/corrida.json', carpeta)).toBe(
+      join(carpeta, 'corrida.json'),
     );
   });
 
-  test.each([[['--modelo']], [['--otro', 'x']], [['--modelo', 'x', 'y']], [['--modelo', '--x']]])(
-    'rechaza argumentos no válidos: %p',
-    (argumentos) => {
-      expect(() => leerModeloDeArgumentos(argumentos)).toThrow('Argumentos no válidos');
-    },
-  );
+  test.each([
+    ['data/sinteticos/solicitudes.json'],
+    ['data/resultados/../sinteticos/referencia.json'],
+    ['data/resultados/revision.csv'],
+    ['data/resultados'],
+  ])('rechaza %s', (archivo) => {
+    expect(() => rutaParaReintentar(archivo, carpeta)).toThrow('solo se aceptan archivos .json');
+  });
+});
+
+describe('escribirCsvNuevo', () => {
+  test('escribe una tabla nueva, pero nunca sobrescribe una que ya existe', async () => {
+    const carpeta = await mkdtemp(join(tmpdir(), 'r3-'));
+    try {
+      const destino = join(carpeta, 'revision-r3-x.csv');
+      await escribirCsvNuevo(destino, 'con comentarios');
+      await expect(escribirCsvNuevo(destino, 'tabla nueva')).rejects.toThrow('No se sobrescribe');
+      expect(await readFile(destino, 'utf8')).toBe('con comentarios');
+    } finally {
+      await rm(carpeta, { recursive: true, force: true });
+    }
+  });
 });

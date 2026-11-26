@@ -4,6 +4,7 @@ import {
   clasificarEnSerie,
   clasificarSolicitud,
   extraerJson,
+  reintentarNoClasificadas,
 } from '../../src/services/clasificacion.service.js';
 import { VERSION_PROMPT } from '../../src/prompts/clasificacion.js';
 
@@ -208,5 +209,143 @@ describe('clasificarEnSerie', () => {
   test('cuenta las no clasificadas', async () => {
     const corrida = await clasificarEnSerie([solicitud()], adaptadorQueResponde('roto'));
     expect(corrida).toMatchObject({ clasificadas: 0, no_clasificadas: 1 });
+  });
+});
+
+describe('reintentarNoClasificadas', () => {
+  const malo = (id, detalle = 'El proveedor no respondió en 120000 ms.') => ({
+    id_solicitud: id,
+    estado: 'no_clasificada',
+    origen: 'modelo_real',
+    motivo: 'error_proveedor',
+    detalle,
+    duracion_ms: 250000,
+  });
+  const bueno = (id) => ({
+    id_solicitud: id,
+    estado: 'clasificada',
+    origen: 'modelo_real',
+    clasificacion: respuestaModelo({ id_solicitud: id }),
+    duracion_ms: 40000,
+  });
+  const corrida = (resultados, cambios = {}) => ({
+    aviso: 'aviso',
+    origen: 'modelo_real',
+    modelo: 'modelo/prueba',
+    version_prompt: VERSION_PROMPT,
+    generado_en: '2026-11-25T10:00:00.000Z',
+    total: resultados.length,
+    clasificadas: resultados.filter((r) => r.estado === 'clasificada').length,
+    no_clasificadas: resultados.filter((r) => r.estado !== 'clasificada').length,
+    tiempo_promedio_ms: 0,
+    resultados,
+    ...cambios,
+  });
+  const solicitudes = ['SINT-0001', 'SINT-0002', 'SINT-0003'].map((id) =>
+    solicitud({ id_solicitud: id }),
+  );
+  const adaptadorQueResponde = (fallan = []) => ({
+    origen: 'modelo_real',
+    modelo: 'modelo/prueba',
+    completar: jest.fn(async (_mensajes, datos) => {
+      if (fallan.includes(datos.id_solicitud)) {
+        throw new Error('El proveedor no respondió en 240000 ms.');
+      }
+      return JSON.stringify(respuestaModelo({ id_solicitud: datos.id_solicitud }));
+    }),
+  });
+  const opciones = {
+    pausaMs: 10000,
+    tiempoEsperaMs: 240000,
+    esperar: async () => {},
+    ahora: () => new Date('2026-11-26T08:00:00Z'),
+  };
+
+  test('reintenta solo las no clasificadas, en su lugar, y anota el reintento', async () => {
+    const adaptador = adaptadorQueResponde(['SINT-0003']);
+    const nueva = await reintentarNoClasificadas(
+      corrida([malo('SINT-0001'), bueno('SINT-0002'), malo('SINT-0003')]),
+      solicitudes,
+      adaptador,
+      opciones,
+    );
+
+    expect(adaptador.completar).toHaveBeenCalledTimes(2);
+    expect(nueva.resultados.map((r) => [r.id_solicitud, r.estado, r.intento])).toEqual([
+      ['SINT-0001', 'clasificada', 2],
+      ['SINT-0002', 'clasificada', undefined],
+      ['SINT-0003', 'no_clasificada', 2],
+    ]);
+    expect(nueva.resultados[0].intento_anterior).toEqual({
+      motivo: 'error_proveedor',
+      detalle: 'El proveedor no respondió en 120000 ms.',
+      duracion_ms: 250000,
+    });
+    expect(nueva.resultados[1]).toEqual(bueno('SINT-0002'));
+    expect(nueva).toMatchObject({
+      generado_en: '2026-11-25T10:00:00.000Z',
+      total: 3,
+      clasificadas: 2,
+      no_clasificadas: 1,
+      reintentos: [
+        {
+          fecha: '2026-11-26T08:00:00.000Z',
+          tiempo_espera_ms: 240000,
+          pausa_ms: 10000,
+          solicitudes: ['SINT-0001', 'SINT-0003'],
+          clasificadas: 1,
+        },
+      ],
+    });
+  });
+
+  test('un segundo reintento se suma a la lista y cuenta los intentos', async () => {
+    const primera = await reintentarNoClasificadas(
+      corrida([malo('SINT-0001')]),
+      solicitudes,
+      adaptadorQueResponde(['SINT-0001']),
+      opciones,
+    );
+    const segunda = await reintentarNoClasificadas(
+      primera,
+      solicitudes,
+      adaptadorQueResponde(),
+      opciones,
+    );
+    expect(segunda.reintentos).toHaveLength(2);
+    expect(segunda.resultados[0]).toMatchObject({ estado: 'clasificada', intento: 3 });
+  });
+
+  test('no cambia la corrida que recibe', async () => {
+    const original = corrida([malo('SINT-0001')]);
+    const copia = structuredClone(original);
+    await reintentarNoClasificadas(original, solicitudes, adaptadorQueResponde(), opciones);
+    expect(original).toEqual(copia);
+  });
+
+  test.each([
+    ['otro origen', { origen: 'simulado_reglas' }, 'modelo real'],
+    ['otro modelo', { modelo: 'otro/modelo' }, 'reintento usaría'],
+    ['otra versión del prompt', { version_prompt: 'viejo' }, 'versión viejo del prompt'],
+  ])('rechaza una corrida con %s', async (_nombre, cambios, mensaje) => {
+    await expect(
+      reintentarNoClasificadas(
+        corrida([malo('SINT-0001')], cambios),
+        solicitudes,
+        adaptadorQueResponde(),
+        opciones,
+      ),
+    ).rejects.toThrow(mensaje);
+  });
+
+  test('rechaza si falta la solicitud a reintentar', async () => {
+    await expect(
+      reintentarNoClasificadas(
+        corrida([malo('SINT-0099')]),
+        solicitudes,
+        adaptadorQueResponde(),
+        opciones,
+      ),
+    ).rejects.toThrow('SINT-0099');
   });
 });

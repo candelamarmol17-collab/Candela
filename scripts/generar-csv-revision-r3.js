@@ -101,6 +101,24 @@ export const rutaCsvR3 = (rutaResultados) =>
     `revision-r3-${basename(rutaResultados, '.json').replace(/^clasificaciones-/, '')}.csv`,
   );
 
+/**
+ * Escribe la tabla solo si el archivo no existe. Así nunca se borran los comentarios que la
+ * revisora ya anotó en una tabla anterior.
+ */
+export const escribirCsvNuevo = async (destino, contenido) => {
+  try {
+    await writeFile(destino, contenido, { encoding: 'utf8', flag: 'wx' });
+  } catch (error) {
+    if (error.code === 'EEXIST') {
+      throw new Error(
+        `Ya existe ${destino}. No se sobrescribe, para no borrar los comentarios de la revisión. Si quieres generarla de nuevo, renombra o mueve primero ese archivo.`,
+        { cause: error },
+      );
+    }
+    throw error;
+  }
+};
+
 const leerJson = async (ruta) => JSON.parse(await readFile(ruta, 'utf8'));
 
 const ejecutar = async () => {
