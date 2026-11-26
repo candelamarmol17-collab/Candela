@@ -20,6 +20,13 @@ export default [
     },
   },
   {
+    // La pantalla (carpeta public/) corre en el navegador.
+    files: ['public/**/*.js'],
+    languageOptions: {
+      globals: { ...globals.browser },
+    },
+  },
+  {
     files: ['tests/**/*.js'],
     languageOptions: {
       globals: { ...globals.jest },

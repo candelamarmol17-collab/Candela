@@ -67,6 +67,7 @@ Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta co
 
 | Comando | Qué hace |
 |---|---|
+| `npm run iniciar` | Enciende la pantalla de la bandeja en http://localhost:3000 (en Windows: `npm.cmd run iniciar`). Se apaga con Ctrl + C. |
 | `npm test` | Ejecuta las pruebas automáticas. |
 | `npm run lint` | Revisa que el código no tenga errores ni malas prácticas. |
 | `npm run format` | Ordena el formato del código. |
@@ -85,11 +86,17 @@ Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta co
 | `data/sinteticos/` | Solicitudes inventadas, su clasificación de referencia y la tabla de revisión. |
 | `data/resultados/` | Resultados de cada corrida de clasificación, con su origen, modelo, versión del prompt y fecha. |
 | `scripts/` | Programas de apoyo que se ejecutan con un comando (por ejemplo, el que genera la tabla de revisión). |
-| `docs/` | Requerimientos del proyecto y decisiones técnicas. |
+| `public/` | La pantalla: HTML, estilos, código del navegador, logo, íconos y la fuente Inter. |
+| `docs/` | Requerimientos del proyecto, decisiones técnicas y referencias de diseño (`docs/diseno/`). |
 | `backlog/`, `in-progress/`, `done/` | Tareas por hacer, en curso y terminadas. |
 | `TASKS.md` | Índice de todas las tareas. |
 
 La forma de trabajar está descrita en [`CLAUDE.md`](CLAUDE.md) y lo que se construye, en [`docs/requerimientos.md`](docs/requerimientos.md).
+
+## Licencias de terceros
+
+- Fuente **Inter**: licencia SIL Open Font License 1.1 (`public/fuentes/LICENCIA-Inter-OFL.txt`).
+- Íconos y logo basados en **Lucide**: licencia ISC (`public/LICENCIA-Lucide.txt`).
 
 ## Licencia
 

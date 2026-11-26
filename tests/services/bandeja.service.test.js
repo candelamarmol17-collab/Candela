@@ -281,6 +281,7 @@ describe('describirDatosBandeja', () => {
     ).toEqual({
       origen: 'modelo_real',
       modelo: 'minimaxai/minimax-m3.1-flash',
+      nombre_modelo: 'MiniMax M3.1 Flash',
       fecha_corrida: '2026-11-26T04:42:50.445Z',
       reproducido_desde_archivo: true,
       etiqueta:

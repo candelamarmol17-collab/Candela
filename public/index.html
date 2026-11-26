@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pulso · Bandeja de Telesalud (prototipo)</title>
+    <link rel="icon" type="image/svg+xml" href="/logo-pulso.svg" />
+    <link rel="stylesheet" href="/estilos.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="aviso-prototipo">
+      Prototipo de demostración · Datos 100% ficticios · La IA sugiere, el equipo clínico decide
+    </div>
+
+    <header class="encabezado">
+      <div class="contenedor encabezado__fila">
+        <div class="marca">
+          <img src="/logo-pulso.svg" alt="" width="44" height="44" />
+          <div>
+            <h1 class="marca__nombre">Pulso</h1>
+            <p class="marca__lema">
+              IA que encuentra lo urgente escondido, para que la atención llegue a tiempo
+            </p>
+          </div>
+        </div>
+        <div class="encabezado__derecha">
+          <p class="encabezado__centro">CESFAM piloto · Bandeja de Telesalud</p>
+          <span class="etiqueta-usuario" id="triajista">Triajista de demostración</span>
+        </div>
+      </div>
+      <nav class="contenedor pestanas" aria-label="Secciones">
+        <a class="pestana pestana--activa" href="/" aria-current="page">Bandeja</a>
+        <span class="pestana pestana--inactiva" aria-disabled="true"
+          >Registro <small>Próximamente</small></span
+        >
+        <span class="pestana pestana--inactiva" aria-disabled="true"
+          >Evaluación <small>Próximamente</small></span
+        >
+        <span class="pestana pestana--inactiva" aria-disabled="true"
+          >Cómo funciona <small>Próximamente</small></span
+        >
+      </nav>
+    </header>
+
+    <main class="contenedor principal">
+      <div class="titulo-fila">
+        <div>
+          <h2 class="titulo">Bandeja de solicitudes</h2>
+          <p class="subtitulo">Criterio de orden propuesto, por validar con el equipo de triaje</p>
+        </div>
+        <div class="acciones">
+          <button type="button" class="boton boton--principal" id="boton-ingreso"></button>
+          <button type="button" class="boton boton--secundario" id="boton-reiniciar"></button>
+        </div>
+      </div>
+
+      <p class="origen-datos" id="origen-datos" role="note"></p>
+
+      <section class="resumen" id="resumen" aria-label="Resumen de la bandeja"></section>
+
+      <div class="filtros">
+        <label class="campo-filtro">
+          <span class="solo-lector">Filtrar por prioridad</span>
+          <select id="filtro-prioridad">
+            <option value="">Prioridad: todas</option>
+            <option value="alta">Prioridad: alta</option>
+            <option value="media">Prioridad: media</option>
+            <option value="baja">Prioridad: baja</option>
+          </select>
+        </label>
+        <label class="campo-filtro">
+          <span class="solo-lector">Filtrar por alerta</span>
+          <select id="filtro-alerta">
+            <option value="">Alerta: todas</option>
+            <option value="critica">Con alerta crítica</option>
+            <option value="sin">Sin alerta crítica</option>
+          </select>
+        </label>
+        <label class="campo-filtro">
+          <span class="solo-lector">Filtrar por estado</span>
+          <select id="filtro-estado">
+            <option value="">Estado: todos</option>
+            <option value="pendiente">Pendientes</option>
+            <option value="confirmada">Confirmadas</option>
+            <option value="corregida">Corregidas</option>
+          </select>
+        </label>
+        <label class="campo-busqueda">
+          <span class="solo-lector">Buscar por número de solicitud</span>
+          <span class="campo-busqueda__icono" id="icono-buscar"></span>
+          <input id="buscar" type="search" placeholder="Buscar por número" />
+        </label>
+      </div>
+
+      <p class="leyenda">
+        <span class="leyenda__ia">Sugerencia IA</span>
+        <span>Orden: urgencia → otra alerta crítica → prioridad → mayor antigüedad</span>
+      </p>
+
+      <div id="lista" aria-live="polite"></div>
+    </main>
+
+    <aside class="panel" id="panel" aria-label="Detalle de la solicitud" hidden></aside>
+    <div class="aviso-flotante" id="aviso-flotante" role="status" hidden></div>
+  </body>
+</html>

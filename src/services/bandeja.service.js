@@ -213,6 +213,7 @@ export const describirDatosBandeja = (corrida) => {
     return {
       origen: corrida.origen,
       modelo: corrida.modelo ?? null,
+      nombre_modelo: nombre,
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
       etiqueta: `Resultados reales de ${nombre} (${fecha ? `corrida del ${fecha}` : 'fecha de la corrida desconocida'}), reproducidos desde archivo`,
@@ -222,6 +223,7 @@ export const describirDatosBandeja = (corrida) => {
     return {
       origen: corrida.origen,
       modelo: null,
+      nombre_modelo: 'las reglas simuladas',
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
       etiqueta:

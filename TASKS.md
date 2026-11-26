@@ -7,7 +7,7 @@
 | 003 | Datos sintéticos con clasificación de referencia | done | 2026-11-24 |
 | 004 | Prompt del modelo y adaptador de IA con modo simulado | done | 2026-11-26 |
 | 005 | Orden de la bandeja | done | 2026-11-26 |
-| 006 | Interfaz de bandeja con confirmar o corregir | backlog | 2026-11-26 |
+| 006 | Interfaz de bandeja con confirmar o corregir | in-progress | 2026-11-26 |
 
 ## Pendientes que no son código
 
