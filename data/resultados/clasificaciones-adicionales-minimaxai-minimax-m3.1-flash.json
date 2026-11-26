@@ -1,0 +1,47 @@
+{
+  "nota": "Casos adicionales para el video (tarea 015). No entran en la evaluación de la tarea 008.",
+  "aviso": "Resultados sobre datos sintéticos (inventados). La clasificación es una sugerencia: siempre decide el triajista.",
+  "origen": "modelo_real",
+  "modelo": "minimaxai/minimax-m3.1-flash",
+  "version_prompt": "1",
+  "generado_en": "2026-11-26T19:48:49.119Z",
+  "total": 1,
+  "clasificadas": 1,
+  "no_clasificadas": 0,
+  "tiempo_promedio_ms": 34037,
+  "resultados": [
+    {
+      "id_solicitud": "SINT-0061",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0061",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Se le acabaron los remedios del corazón hace una semana y refiere malestar y dolor de cabeza. También menciona que vive sola y no tiene quien la lleve al consultorio.",
+        "confianza": "media"
+      },
+      "duracion_ms": 34037,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11733
+      }
+    }
+  ],
+  "reintentos": [
+    {
+      "fecha": "2026-11-26T19:49:47.218Z",
+      "tiempo_espera_ms": 240000,
+      "pausa_ms": 2000,
+      "solicitudes": [
+        "SINT-0061"
+      ],
+      "clasificadas": 1
+    }
+  ]
+}

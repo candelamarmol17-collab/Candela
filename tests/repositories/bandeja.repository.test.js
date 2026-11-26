@@ -111,9 +111,18 @@ describe('leerDatosBandeja', () => {
 describe('leerExportacionesDemo', () => {
   test('lee las dos exportaciones del proyecto, iguales a las que arma el generador', async () => {
     const leidas = await leerExportacionesDemo();
-    const sinteticas = JSON.parse(await readFile('data/sinteticos/solicitudes.json', 'utf8'));
+    const leer = async (archivo) => JSON.parse(await readFile(archivo, 'utf8'));
+    // Las 60 sintéticas y el caso adicional para el video (SINT-0061, tarea 015).
+    const sinteticas = [
+      ...(await leer('data/sinteticos/solicitudes.json')),
+      ...(await leer('data/sinteticos/casos-adicionales.json')),
+    ];
     // Si esto falla, los archivos quedaron viejos: correr "npm run exportacion:demo".
     expect(leidas).toEqual(armarExportacionesDemo(sinteticas));
+    expect(leidas.map((filas) => filas.slice(1).map((fila) => fila[0]))[1]).toEqual([
+      'DEMO-ID-0009',
+      'DEMO-ID-0061',
+    ]);
     expect(ARCHIVOS_EXPORTACION_DEMO).toHaveLength(2);
   });
 

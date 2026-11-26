@@ -14,6 +14,7 @@
     "format": "prettier --write .",
     "revision:csv": "node scripts/generar-csv-revision.js",
     "clasificar:sinteticos": "node scripts/clasificar-sinteticos.js",
+    "clasificar:adicionales": "node scripts/clasificar-casos-adicionales.js",
     "ia:probar": "node scripts/probar-ia.js",
     "revision:r3": "node scripts/generar-csv-revision-r3.js",
     "ia:modelos": "node scripts/listar-modelos.js",

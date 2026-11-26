@@ -8,7 +8,8 @@ import { leerCsv } from '../utilidades/csv.js';
  *
  * Por seguridad (regla R1), solo lee:
  *   - las solicitudes sintéticas (data/sinteticos/solicitudes.json), y
- *   - una corrida guardada (.json) de la carpeta data/resultados/, y
+ *   - una corrida guardada (.json) de la carpeta data/resultados/, más los casos adicionales para
+ *     el video del mismo modelo (clasificaciones-adicionales-<modelo>.json, tarea 015), y
  *   - las dos exportaciones de demostración (data/sinteticos/exportacion-demo-1.csv y -2.csv).
  * Nunca lee la clasificación de referencia ni archivos de otras carpetas.
  */
@@ -121,14 +122,62 @@ export const leerExportacionesDemo = async (archivos = ARCHIVOS_EXPORTACION_DEMO
     }),
   );
 
+/** Nombre del archivo con los casos adicionales clasificados por un modelo (tarea 015). */
+export const nombreArchivoAdicional = (modelo) =>
+  `clasificaciones-adicionales-${String(modelo)
+    .toLowerCase()
+    .replace(/[^a-z0-9.-]+/g, '-')}.json`;
+
 /**
- * Todo lo que la demo necesita: las exportaciones de demostración y la corrida guardada.
+ * Suma a la corrida los casos adicionales para el video, si el MISMO modelo los clasificó.
+ * Solo en memoria: el archivo de la corrida no cambia. Si no hay archivo, la corrida queda igual
+ * (y el caso adicional aparece como "sin clasificar").
+ */
+export const sumarCasosAdicionales = async (corrida, carpetaResultados = CARPETA_RESULTADOS) => {
+  if (corrida.origen !== 'modelo_real' || !corrida.modelo) return corrida;
+  const ruta = resolve(carpetaResultados, nombreArchivoAdicional(corrida.modelo));
+  let texto;
+  try {
+    texto = await readFile(ruta, 'utf8');
+  } catch {
+    return corrida;
+  }
+  let adicional;
+  try {
+    adicional = JSON.parse(texto);
+  } catch (error) {
+    throw new ErrorDatosBandeja(`Los casos adicionales no son un JSON válido: ${ruta}`, {
+      cause: error,
+    });
+  }
+  if (adicional.modelo !== corrida.modelo || !Array.isArray(adicional.resultados)) {
+    throw new ErrorDatosBandeja(
+      `Los casos adicionales no son del modelo ${corrida.modelo}: ${ruta}`,
+    );
+  }
+  const yaEstan = new Set(corrida.resultados.map((r) => r.id_solicitud));
+  return {
+    ...corrida,
+    resultados: [
+      ...corrida.resultados,
+      ...adicional.resultados.filter((r) => !yaEstan.has(r.id_solicitud)),
+    ],
+  };
+};
+
+/**
+ * Todo lo que la demo necesita: las exportaciones de demostración y la corrida guardada (con los
+ * casos adicionales del mismo modelo).
  * @returns {Promise<{ exportaciones: string[][][], corrida: object }>}
  */
-export const leerDatosDemo = async ({ archivoCorrida, archivosExportacion } = {}) => {
+export const leerDatosDemo = async ({
+  archivoCorrida,
+  archivosExportacion,
+  carpetaResultados = CARPETA_RESULTADOS,
+} = {}) => {
   const [{ corrida }, exportaciones] = await Promise.all([
-    leerDatosBandeja({ archivoCorrida }),
+    leerDatosBandeja({ archivoCorrida, carpetaResultados }),
     leerExportacionesDemo(archivosExportacion),
   ]);
-  return { exportaciones, corrida };
+  return { exportaciones, corrida: await sumarCasosAdicionales(corrida, carpetaResultados) };
 };
