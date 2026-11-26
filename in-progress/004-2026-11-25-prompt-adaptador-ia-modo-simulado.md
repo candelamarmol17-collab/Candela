@@ -267,6 +267,14 @@ El reintento sirve de comprobación.
 - La primera pasada de Mistral quedó guardada en el historial de git (commit `21e2bdd`) antes del reintento.
 - `revision:r3` ya no sobrescribe una tabla que existe, para no borrar los comentarios de la revisión.
 
+**Resultado del reintento de Mistral:** 10 de 14 se clasificaron. Quedan 4 no clasificadas, de nuevo por tiempo agotado con 4 minutos por intento: SINT-0016, 0017, 0021 (con alerta crítica) y 0030. Total: 56 clasificadas y 4 no clasificadas.
+
+**MiniMax (desde cero, 4 minutos de espera y 10 segundos de pausa):**
+- En la primera pasada clasificó 53. Las 7 restantes fallaron porque el proveedor respondió con error, no por tiempo agotado: 2 con HTTP 429 (demasiadas consultas) y 5 con HTTP 503 (servicio no disponible).
+- El reintento clasificó las 7. Total: 60 clasificadas.
+
+**Error corregido:** en la primera versión de la protección de `revision:r3`, la función que no sobrescribe existía y tenía prueba, pero el comando no la usaba. Por eso, al final de la corrida, la tabla de Mistral se volvió a generar, ahora con la columna de diferencias. Ya está corregido, y una prueba nueva corre el comando completo y verifica que no sobrescribe.
+
 ## Notas de cierre
 
 (se completa al mover a /done; incluir si se usó Claude Code y para qué)

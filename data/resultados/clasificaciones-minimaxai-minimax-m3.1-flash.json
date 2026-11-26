@@ -1,0 +1,1006 @@
+{
+  "aviso": "Resultados sobre datos sintéticos (inventados). La clasificación es una sugerencia: siempre decide el triajista.",
+  "origen": "modelo_real",
+  "modelo": "minimaxai/minimax-m3.1-flash",
+  "version_prompt": "1",
+  "generado_en": "2026-11-26T04:42:50.445Z",
+  "total": 60,
+  "clasificadas": 60,
+  "no_clasificadas": 0,
+  "tiempo_promedio_ms": 56570,
+  "resultados": [
+    {
+      "id_solicitud": "SINT-0001",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0001",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "Relata dolor en el pecho que se irradia al brazo izquierdo desde anoche y falta de aire al caminar un poco.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 56023
+    },
+    {
+      "id_solicitud": "SINT-0002",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0002",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "Lactante de 8 meses con fiebre de 39,5 desde ayer, rechazo del pecho y decaimiento.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 55202
+    },
+    {
+      "id_solicitud": "SINT-0003",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0003",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "Relata corte de mano con un vidrio, con sangrado abundante que no cesa pese a presionar con un paño.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 59116
+    },
+    {
+      "id_solicitud": "SINT-0004",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0004",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Caída ayer seguida de habla rara, boca chueca y dificultad para mover el brazo derecho: señales neurológicas de inicio brusco.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 74112
+    },
+    {
+      "id_solicitud": "SINT-0005",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0005",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Matrona",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "La persona informa estar embarazada de 30 semanas, con sangrado y dolor fuerte de guata desde la mañana.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 33803
+    },
+    {
+      "id_solicitud": "SINT-0006",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0006",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Dental",
+        "alertas": [
+          "urgencia"
+        ],
+        "justificacion": "Hinchazón de la cara por una muela, con fiebre y dificultad para tragar y abrir la boca.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 15359
+    },
+    {
+      "id_solicitud": "SINT-0007",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0007",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Persona con EPOC que reporta desde ayer respiración muy rápida, labios morados e inhalador sin efecto; presenta señales de alarma respiratoria.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 37642
+    },
+    {
+      "id_solicitud": "SINT-0008",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0008",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida"
+        ],
+        "justificacion": "Dice que ya no quiere seguir viviendo y que en estos días ha pensado en hacerse daño; pide hablar con alguien.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 36975
+    },
+    {
+      "id_solicitud": "SINT-0009",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0009",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "Dice ser diabética y reporta glicemia de 450 con mucha sed, vómitos y confusión, lo que describe una descompensación con señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 47206
+    },
+    {
+      "id_solicitud": "SINT-0010",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0010",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "urgencia",
+          "violencia"
+        ],
+        "justificacion": "Relata que su pareja la golpeó y la amenazó de muerte si lo denuncia; expresa miedo de volver a casa.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 16723
+    },
+    {
+      "id_solicitud": "SINT-0011",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0011",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida",
+          "ges"
+        ],
+        "justificacion": "Dice estar en control por depresión y que últimamente piensa que todos estarían mejor sin ella, lo que expresa un deseo de morir sin mencionar plan ni intención.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 32450
+    },
+    {
+      "id_solicitud": "SINT-0012",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0012",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "Relata que su hija de 16 años se está haciendo cortes en los brazos y dice que quiere desaparecer.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 70538
+    },
+    {
+      "id_solicitud": "SINT-0013",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0013",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Su padre está muy triste desde que murió su madre, dice que ya no tiene razón para vivir y casi no come.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 80948,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 429.",
+        "duracion_ms": 11123
+      }
+    },
+    {
+      "id_solicitud": "SINT-0014",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0014",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "Relata que no duerme desde que perdió el trabajo y que el fin de semana tomó muchas pastillas para no despertar; ahora dice estar mejor y no haberlo contado a nadie.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 110108
+    },
+    {
+      "id_solicitud": "SINT-0015",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0015",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "violencia",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Relata que su hijo le quita la pension, le grita y a veces la empuja; además, no tiene a dónde ir.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 32464
+    },
+    {
+      "id_solicitud": "SINT-0016",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0016",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "violencia",
+          "urgencia"
+        ],
+        "justificacion": "Relata que su pareja la golpeó en la cara y que la controla; está embarazada de 20 semanas y no sabe a quién contarle.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 45831
+    },
+    {
+      "id_solicitud": "SINT-0017",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0017",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "violencia"
+        ],
+        "justificacion": "Relata que compañeros del colegio golpean a su hijo casi todos los días y que ahora se niega a salir de su pieza.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 58731,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11055
+      }
+    },
+    {
+      "id_solicitud": "SINT-0018",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0018",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "violencia"
+        ],
+        "justificacion": "Relata moretones en la espalda de un niño de 4 años y dice que su tío lo golpea.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 52981
+    },
+    {
+      "id_solicitud": "SINT-0019",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0019",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Dice ser hipertensa y tener presión 190/115, dolor de cabeza fuerte y visión borrosa.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 50581
+    },
+    {
+      "id_solicitud": "SINT-0020",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0020",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "Dice ser diabético, usa insulina y le quedan solo 2 días; no alcanza a obtener la receta nueva.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 81013
+    },
+    {
+      "id_solicitud": "SINT-0021",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0021",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Dice que su madre tiene insuficiencia cardiaca, con piernas muy hinchadas y ahogo al acostarse de noche.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 42406
+    },
+    {
+      "id_solicitud": "SINT-0022",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0022",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "El niño es asmático y lleva 2 días con tos y silbido en el pecho; el puff le dura poco, compatible con descompensación respiratoria.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 124178
+    },
+    {
+      "id_solicitud": "SINT-0023",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0023",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Exámenes con colesterol y triglicéridos altos; solicita revisión, sin síntomas de alarma descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 53361,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11297
+      }
+    },
+    {
+      "id_solicitud": "SINT-0024",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0024",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Solicita renovar la receta de losartán y le quedan pastillas para una semana.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 36572
+    },
+    {
+      "id_solicitud": "SINT-0025",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0025",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Ingreso de embarazo, test positivo, aproximadamente 7 semanas, sin molestias.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 45282
+    },
+    {
+      "id_solicitud": "SINT-0026",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0026",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Control prenatal solicitado. La persona está embarazada de 24 semanas, todavía no tiene hora asignada y se siente bien, sin síntomas de alarma descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 35905
+    },
+    {
+      "id_solicitud": "SINT-0027",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0027",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [],
+        "justificacion": "Torcedura de tobillo hace 2 semanas, con dolor y cojera que le impiden ir a trabajar. No menciona señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 40244
+    },
+    {
+      "id_solicitud": "SINT-0028",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0028",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Tos con flema durante 10 días, sin fiebre y que no mejora; no se describen señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 51141,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11326
+      }
+    },
+    {
+      "id_solicitud": "SINT-0029",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0029",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "Dolor en una muela desde hace una semana al tomar cosas frías, sin hinchazón.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 40809
+    },
+    {
+      "id_solicitud": "SINT-0030",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0030",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Reporta dos caídas durante el mes en una persona de 79 años, con inestabilidad. No menciona golpes fuertes ni otros síntomas de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 61029,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 429.",
+        "duracion_ms": 11083
+      }
+    },
+    {
+      "id_solicitud": "SINT-0031",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0031",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Psicología",
+        "alertas": [],
+        "justificacion": "Refiere un mes de ansiedad, dificultad para dormir y llanto frecuente, con impacto en la asistencia al trabajo; no menciona ideas de daño.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 27404
+    },
+    {
+      "id_solicitud": "SINT-0032",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0032",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "Indica una herida en el pie que no cierra hace 3 semanas y menciona ser diabético; no describe signos de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 81462
+    },
+    {
+      "id_solicitud": "SINT-0033",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0033",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Refiere flujo con mal olor y picazón desde hace una semana, sin mencionar señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 60791
+    },
+    {
+      "id_solicitud": "SINT-0034",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0034",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Dolor de espalda baja desde hace 3 semanas que dificulta agacharse en el trabajo; no menciona señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 61856
+    },
+    {
+      "id_solicitud": "SINT-0035",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0035",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Reporta mucho mareo cuando se para, desde hace unos 5 días, sin mencionar otras señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 72608
+    },
+    {
+      "id_solicitud": "SINT-0036",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0036",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Técnico en enfermería",
+        "alertas": [],
+        "justificacion": "La persona informa que fue operada de la vesícula hace 10 días y que la herida está roja y expulsa un poco de líquido, sin mencionar señales de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 85111
+    },
+    {
+      "id_solicitud": "SINT-0037",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0037",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Dice tener artrosis de rodilla y dolor que casi le impide salir de casa; solicita control kinesiológico crónico.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 40632,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11437
+      }
+    },
+    {
+      "id_solicitud": "SINT-0038",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0038",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [
+          "ges"
+        ],
+        "justificacion": "Embarazada de 16 semanas, informa que le dijeron que tiene diabetes del embarazo y pide orientación sobre alimentación; no describe síntomas de alarma.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 112022
+    },
+    {
+      "id_solicitud": "SINT-0039",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0039",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Solicita renovar la receta porque las pastillas para la tiroides se le acaban en 10 días.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 69826
+    },
+    {
+      "id_solicitud": "SINT-0040",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0040",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Terapia Ocupacional",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Reporta olvidos frecuentes y que la semana pasada se perdió volviendo del almacén, lo que afecta su seguridad y autonomía en desplazamientos cotidianos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 153503
+    },
+    {
+      "id_solicitud": "SINT-0041",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0041",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Ardor al orinar y aumento de la frecuencia urinaria desde hace 3 días, sin fiebre ni signos de alarma mencionados.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 27103
+    },
+    {
+      "id_solicitud": "SINT-0042",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0042",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Solicita un certificado de salud compatible para un trabajo nuevo; es un trámite administrativo sin síntomas ni problemas de salud descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 72910
+    },
+    {
+      "id_solicitud": "SINT-0043",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0043",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [],
+        "justificacion": "Solicita un informe social para postular a un beneficio; es un trámite administrativo.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 35080
+    },
+    {
+      "id_solicitud": "SINT-0044",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0044",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Solicita retirar condones; es una solicitud informativa sin problemas de salud descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 27718
+    },
+    {
+      "id_solicitud": "SINT-0045",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0045",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Solicita cambiar el implante anticonceptivo porque cumplió el plazo y se siente bien; es un trámite sin problema activo.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 38534
+    },
+    {
+      "id_solicitud": "SINT-0046",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0046",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "Control dental preventivo solicitado para un hijo de 9 años, sin dolor ni síntomas activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 44641
+    },
+    {
+      "id_solicitud": "SINT-0047",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0047",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Solicita renovar la receta de metformina y aún tiene medicamento para 2 meses; es un trámite sin problema activo.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 31727
+    },
+    {
+      "id_solicitud": "SINT-0048",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0048",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Solicita conocer el estado de una interconsulta por un nódulo en la mama, derivada al hospital hace 2 meses y aún sin contacto.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 74773
+    },
+    {
+      "id_solicitud": "SINT-0049",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0049",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Kinesiología",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Solicita un andador para su madre de 83 años, que ahora camina con bastón y le cuesta más. Es una ayuda técnica sin riesgo inmediato en el texto.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 69083
+    },
+    {
+      "id_solicitud": "SINT-0050",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0050",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [],
+        "justificacion": "Control de salud infantil de rutina para lactante de 2 meses; la persona indica que todo está bien y no reporta síntomas ni problemas activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 19285,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor respondió con error HTTP 503.",
+        "duracion_ms": 11286
+      }
+    },
+    {
+      "id_solicitud": "SINT-0051",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0051",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [],
+        "justificacion": "Solicita evaluación con nutricionista para su hija de 12 años, que ha aumentado de peso durante el año. No describe síntomas de alarma ni problemas con actividades diarias.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 69103
+    },
+    {
+      "id_solicitud": "SINT-0052",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0052",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Psicología",
+        "alertas": [],
+        "justificacion": "Solicita un informe psicológico requerido por el Tribunal de Familia; es una gestión documental sin síntomas ni urgencia descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 55361
+    },
+    {
+      "id_solicitud": "SINT-0053",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0053",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Técnico en enfermería",
+        "alertas": [],
+        "justificacion": "Solicita un examen preventivo del adulto que no se realiza hace años; es un control preventivo de rutina, sin síntomas ni señales de alarma descritas.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 45450
+    },
+    {
+      "id_solicitud": "SINT-0054",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0054",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Consulta informativa sobre si le corresponde la vacuna de la influenza este año, sin síntomas ni problemas de salud activos descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 20241
+    },
+    {
+      "id_solicitud": "SINT-0055",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0055",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Dental",
+        "alertas": [],
+        "justificacion": "Se le salió una tapadura hace un mes y no siente dolor.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 40377
+    },
+    {
+      "id_solicitud": "SINT-0056",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0056",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [],
+        "justificacion": "Solicita una orden para exámenes de rutina, sin mencionar síntomas ni problemas de salud activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 43537
+    },
+    {
+      "id_solicitud": "SINT-0057",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0057",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Asistente Social",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "Solicita información para inscribirse en el Registro Social de Hogares; es una gestión administrativa sin problemas de salud descritos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 65403
+    },
+    {
+      "id_solicitud": "SINT-0058",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0058",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Terapia Ocupacional",
+        "alertas": [],
+        "justificacion": "Solicita evaluación de discapacidad para obtener credencial, con lesión de mano de hace años, sin descripción de síntomas actuales ni problemas activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 63868
+    },
+    {
+      "id_solicitud": "SINT-0059",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0059",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Matrona",
+        "alertas": [],
+        "justificacion": "Solicita control preventivo de PAP/VPH; último control hace 3 años, sin síntomas ni problemas activos mencionados.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 134060
+    },
+    {
+      "id_solicitud": "SINT-0060",
+      "estado": "clasificada",
+      "origen": "modelo_real",
+      "clasificacion": {
+        "id_solicitud": "SINT-0060",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Nutrición",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Dice ser diabética y estar controlada; solicita control con nutricionista, sin mencionar síntomas ni problemas activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 71996
+    }
+  ],
+  "reintentos": [
+    {
+      "fecha": "2026-11-26T04:49:57.190Z",
+      "tiempo_espera_ms": 240000,
+      "pausa_ms": 10000,
+      "solicitudes": [
+        "SINT-0013",
+        "SINT-0017",
+        "SINT-0023",
+        "SINT-0028",
+        "SINT-0030",
+        "SINT-0037",
+        "SINT-0050"
+      ],
+      "clasificadas": 7
+    }
+  ]
+}
