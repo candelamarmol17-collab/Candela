@@ -5,9 +5,9 @@
   "version_prompt": "1",
   "generado_en": "2026-11-26T02:14:41.780Z",
   "total": 60,
-  "clasificadas": 46,
-  "no_clasificadas": 14,
-  "tiempo_promedio_ms": 138068,
+  "clasificadas": 56,
+  "no_clasificadas": 4,
+  "tiempo_promedio_ms": 154055,
   "resultados": [
     {
       "id_solicitud": "SINT-0001",
@@ -127,19 +127,50 @@
     },
     {
       "id_solicitud": "SINT-0008",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250028
+      "clasificacion": {
+        "id_solicitud": "SINT-0008",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "La persona expresa no querer seguir viviendo y que estos días ha pensado en hacerse daño, pidiendo hablar con alguien.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 112449,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250028
+      }
     },
     {
       "id_solicitud": "SINT-0009",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250025
+      "clasificacion": {
+        "id_solicitud": "SINT-0009",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "Dice ser diabética con glicemia de 450, mucha sed, vómitos y confusión. Estos síntomas indican descompensación grave.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 167582,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250025
+      }
     },
     {
       "id_solicitud": "SINT-0010",
@@ -177,19 +208,49 @@
     },
     {
       "id_solicitud": "SINT-0012",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250034
+      "clasificacion": {
+        "id_solicitud": "SINT-0012",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "urgencia",
+          "ideacion_suicida"
+        ],
+        "justificacion": "Madre reporta que su hija de 16 años se está haciendo cortes en los brazos y dice que quiere desaparecer.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 88006,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250034
+      }
     },
     {
       "id_solicitud": "SINT-0013",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250038
+      "clasificacion": {
+        "id_solicitud": "SINT-0013",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Psicología",
+        "alertas": [
+          "ideacion_suicida",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Hijo refiere que su padre de 81 años está muy triste desde la muerte de su madre, expresa que no tiene para qué vivir y casi no come.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 199094,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250038
+      }
     },
     {
       "id_solicitud": "SINT-0014",
@@ -231,24 +292,51 @@
       "estado": "no_clasificada",
       "origen": "modelo_real",
       "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250023
+      "detalle": "El proveedor no respondió en 240000 ms.",
+      "duracion_ms": 490033,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250023
+      }
     },
     {
       "id_solicitud": "SINT-0017",
       "estado": "no_clasificada",
       "origen": "modelo_real",
       "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250022
+      "detalle": "El proveedor no respondió en 240000 ms.",
+      "duracion_ms": 490027,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250022
+      }
     },
     {
       "id_solicitud": "SINT-0018",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250024
+      "clasificacion": {
+        "id_solicitud": "SINT-0018",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "urgencia",
+          "violencia"
+        ],
+        "justificacion": "Niño de 4 años presenta moretones en la espalda y refiere que su tío le pega.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 405998,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250024
+      }
     },
     {
       "id_solicitud": "SINT-0019",
@@ -290,8 +378,14 @@
       "estado": "no_clasificada",
       "origen": "modelo_real",
       "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250037
+      "detalle": "El proveedor no respondió en 240000 ms.",
+      "duracion_ms": 490025,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250037
+      }
     },
     {
       "id_solicitud": "SINT-0022",
@@ -415,8 +509,14 @@
       "estado": "no_clasificada",
       "origen": "modelo_real",
       "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250035
+      "detalle": "El proveedor no respondió en 240000 ms.",
+      "duracion_ms": 490027,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250035
+      }
     },
     {
       "id_solicitud": "SINT-0031",
@@ -434,11 +534,26 @@
     },
     {
       "id_solicitud": "SINT-0032",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250018
+      "clasificacion": {
+        "id_solicitud": "SINT-0032",
+        "prioridad_sugerida": "alta",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [
+          "descompensacion",
+          "ges"
+        ],
+        "justificacion": "Menciona ser diabético y tener una herida en el pie que no cierra hace 3 semanas.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 445566,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250018
+      }
     },
     {
       "id_solicitud": "SINT-0033",
@@ -484,11 +599,23 @@
     },
     {
       "id_solicitud": "SINT-0036",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250018
+      "clasificacion": {
+        "id_solicitud": "SINT-0036",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Enfermería",
+        "alertas": [],
+        "justificacion": "Operada de vesícula hace 10 días; refiere herida roja con salida de líquido.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 463906,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250018
+      }
     },
     {
       "id_solicitud": "SINT-0037",
@@ -657,11 +784,26 @@
     },
     {
       "id_solicitud": "SINT-0048",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250018
+      "clasificacion": {
+        "id_solicitud": "SINT-0048",
+        "prioridad_sugerida": "media",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "ges",
+          "persona_mayor_60"
+        ],
+        "justificacion": "Dice que la derivaron al hospital por un nódulo en la mama hace 2 meses y todavía no la llaman.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 200469,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250018
+      }
     },
     {
       "id_solicitud": "SINT-0049",
@@ -724,19 +866,45 @@
     },
     {
       "id_solicitud": "SINT-0053",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250032
+      "clasificacion": {
+        "id_solicitud": "SINT-0053",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Técnico en enfermería",
+        "alertas": [],
+        "justificacion": "Solicita examen de medicina preventiva del adulto, indica que hace años no se lo realiza. No refiere síntomas ni problemas de salud activos.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 181112,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250032
+      }
     },
     {
       "id_solicitud": "SINT-0054",
-      "estado": "no_clasificada",
+      "estado": "clasificada",
       "origen": "modelo_real",
-      "motivo": "error_proveedor",
-      "detalle": "El proveedor no respondió en 120000 ms.",
-      "duracion_ms": 250031
+      "clasificacion": {
+        "id_solicitud": "SINT-0054",
+        "prioridad_sugerida": "baja",
+        "profesional_sugerido": "Medicina",
+        "alertas": [
+          "persona_mayor_60"
+        ],
+        "justificacion": "La persona consulta si le corresponde la vacuna de la influenza este año. Es una solicitud informativa sobre vacunación preventiva, sin síntomas ni problemas de salud activos mencionados.",
+        "confianza": "alta"
+      },
+      "duracion_ms": 235279,
+      "intento": 2,
+      "intento_anterior": {
+        "motivo": "error_proveedor",
+        "detalle": "El proveedor no respondió en 120000 ms.",
+        "duracion_ms": 250031
+      }
     },
     {
       "id_solicitud": "SINT-0055",
@@ -826,6 +994,30 @@
         "confianza": "alta"
       },
       "duracion_ms": 50113
+    }
+  ],
+  "reintentos": [
+    {
+      "fecha": "2026-11-26T03:41:08.671Z",
+      "tiempo_espera_ms": 240000,
+      "pausa_ms": 10000,
+      "solicitudes": [
+        "SINT-0008",
+        "SINT-0009",
+        "SINT-0012",
+        "SINT-0013",
+        "SINT-0016",
+        "SINT-0017",
+        "SINT-0018",
+        "SINT-0021",
+        "SINT-0030",
+        "SINT-0032",
+        "SINT-0036",
+        "SINT-0048",
+        "SINT-0053",
+        "SINT-0054"
+      ],
+      "clasificadas": 10
     }
   ]
 }
