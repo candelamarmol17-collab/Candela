@@ -12,6 +12,7 @@
 | 010 | Copia de la pantalla para revisar el diseño | done | 2026-11-26 |
 | 011 | La bandeja parte vacía y se carga la exportación de Telesalud | done | 2026-11-26 |
 | 012 | Exportación con el formato real de Telesalud y separación de datos personales | done | 2026-11-26 |
+| 014 | Bienvenida en la bandeja vacía | done | 2026-11-26 |
 
 ## Pendientes que no son código
 

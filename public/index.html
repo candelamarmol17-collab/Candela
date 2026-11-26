@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="encabezado__derecha">
-          <p class="encabezado__centro">CESFAM piloto · Bandeja de Telesalud</p>
+          <p class="encabezado__centro">CESFAM Boris Soler · Bandeja de Telesalud</p>
           <span class="etiqueta-usuario" id="triajista">Triajista de demostración</span>
         </div>
       </div>
@@ -62,7 +62,7 @@
     </header>
 
     <main class="contenedor principal" id="vista-bandeja">
-      <div class="titulo-fila">
+      <div class="titulo-fila" id="titulo-bandeja">
         <div>
           <h2 class="titulo">Bandeja de solicitudes</h2>
           <p class="subtitulo">Criterio de orden propuesto, por validar con el equipo de triaje</p>
@@ -73,10 +73,52 @@
         </div>
       </div>
 
-      <section class="bandeja-vacia" id="bandeja-vacia" hidden>
-        <h3 class="bandeja-vacia__titulo">No hay solicitudes.</h3>
-        <p class="bandeja-vacia__texto">Carga la exportación de Telesalud para empezar.</p>
-        <button type="button" class="boton boton--principal" id="boton-cargar-vacia"></button>
+      <!-- Bienvenida (tarea 014): se ve con la bandeja vacía, antes de cargar la exportación. -->
+      <section class="bienvenida" id="bandeja-vacia" aria-labelledby="bienvenida-titulo" hidden>
+        <div class="bienvenida__contenido">
+          <p class="bienvenida__etiqueta">
+            <span class="bienvenida__punto" aria-hidden="true"></span>
+            OPERACIONES CLÍNICAS · TELESALUD · CESFAM BORIS SOLER
+          </p>
+          <h2 class="bienvenida__titulo" id="bienvenida-titulo">
+            Hola, equipo.<br />
+            <span>Hoy estamos listos para priorizar.</span>
+          </h2>
+          <p class="bienvenida__bajada">
+            Una vista conectada de las solicitudes, con señales claras para apoyar la revisión
+            clínica.
+          </p>
+          <ul class="bienvenida__chips">
+            <li>✦ IA como apoyo</li>
+            <li>✓ Decisión humana</li>
+            <li>Trazabilidad</li>
+          </ul>
+          <div class="bienvenida__accion">
+            <button type="button" class="boton boton--claro" id="boton-cargar-vacia"></button>
+            <p>No hay solicitudes. Carga la exportación de Telesalud para empezar.</p>
+          </div>
+        </div>
+        <div class="bienvenida__arte" aria-hidden="true">
+          <span class="bienvenida__orbita bienvenida__orbita--a"></span>
+          <span class="bienvenida__orbita bienvenida__orbita--b"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--uno"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--dos"></span>
+          <span class="bienvenida__chispa bienvenida__chispa--tres"></span>
+          <div class="bienvenida__vidrio">
+            <span class="bienvenida__puntos"><i></i><i></i><i></i></span>
+            <img class="bienvenida__logo" src="/logo-pulso.svg" alt="" width="64" height="64" />
+            <span class="bienvenida__onda"></span>
+            <span class="bienvenida__vidrio-texto">Conectando solicitudes y atención</span>
+          </div>
+          <div class="bienvenida__flotante bienvenida__flotante--arriba">
+            <span class="bienvenida__flotante-icono">✓</span>
+            <span>Supervisión<br />profesional</span>
+          </div>
+          <div class="bienvenida__flotante bienvenida__flotante--abajo">
+            <span class="bienvenida__flotante-icono">✦</span>
+            <span>Asistencia<br />inteligente</span>
+          </div>
+        </div>
       </section>
 
       <div id="contenido-bandeja" hidden>

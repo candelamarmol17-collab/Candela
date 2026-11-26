@@ -594,26 +594,351 @@ textarea:focus-visible {
   color: var(--texto-suave);
 }
 
-/* Bandeja vacía: antes de cargar la exportación (inspirada en docs/diseno/bandeja-vacia.png). */
-.bandeja-vacia {
-  margin: 56px auto 0;
-  max-width: 920px;
-  background: var(--superficie);
-  border: 1px solid var(--borde);
-  border-radius: var(--radio);
-  padding: 56px 64px;
-  box-shadow: var(--sombra);
+/*
+ * Bienvenida (tarea 014): se ve con la bandeja vacía. Composición de
+ * docs/diseno/ref-bienvenida-hero.png con el degradado azul petróleo y las animaciones de
+ * docs/diseno/hero-chatgpt-referencia.html. Con movimiento reducido, todo queda quieto.
+ */
+.bienvenida {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  align-items: center;
+  gap: 24px;
+  min-height: 360px;
+  margin: 8px 0 0;
+  padding: 44px 52px;
+  border-radius: 24px;
+  background: linear-gradient(112deg, #123f48 0%, #176c6d 58%, #31918a 100%);
+  color: #fff;
+  box-shadow: 0 22px 50px rgba(18, 78, 78, 0.16);
+  animation: bienvenida-entra 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
-.bandeja-vacia__titulo {
+.bienvenida::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 520px;
+  height: 520px;
+  right: -90px;
+  top: -330px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 35px rgba(255, 255, 255, 0.025),
+    0 0 0 75px rgba(255, 255, 255, 0.02);
+}
+
+.bienvenida::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(210, 255, 242, 0.5), transparent);
+}
+
+.bienvenida__etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 20px;
+  color: #b8e5d9;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+}
+
+.bienvenida__punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8fe0bd;
+  box-shadow: 0 0 0 5px rgba(143, 224, 189, 0.13);
+  animation: bienvenida-respira 2.3s infinite;
+}
+
+.bienvenida__titulo {
+  margin: 0 0 16px;
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 780;
+}
+
+.bienvenida__titulo span {
+  color: #aee5d8;
+}
+
+.bienvenida__bajada {
+  max-width: 560px;
   margin: 0;
-  font-size: 30px;
+  color: #d6e9e5;
+  font-size: 16px;
+  line-height: 1.65;
 }
 
-.bandeja-vacia__texto {
-  margin: 14px 0 32px;
-  color: var(--texto-suave);
-  font-size: 17px;
+.bienvenida__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bienvenida__chips li {
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(222, 255, 246, 0.2);
+  color: #e1f2ed;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.bienvenida__accion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.bienvenida__accion p {
+  margin: 0;
+  color: #d6e9e5;
+  font-size: 13px;
+}
+
+/* Botón claro sobre el degradado. */
+.boton--claro {
+  background: #fff;
+  color: #123f48;
+  box-shadow: 0 8px 20px rgba(5, 36, 42, 0.18);
+}
+
+.boton--claro:not(:disabled):hover {
+  background: #e6f6f2;
+}
+
+.bienvenida .boton:focus-visible {
+  outline: 3px solid #aee5d8;
+  outline-offset: 3px;
+}
+
+/* Arte de la derecha: órbitas, puntos, tarjeta de vidrio con el logo y tarjetas flotantes. */
+.bienvenida__arte {
+  position: relative;
+  height: 270px;
+  display: grid;
+  place-items: center;
+}
+
+.bienvenida__orbita {
+  position: absolute;
+  width: 290px;
+  height: 160px;
+  border: 1px solid rgba(216, 255, 244, 0.22);
+  border-radius: 50%;
+  transform: rotate(-28deg);
+  animation: bienvenida-orbita 18s linear infinite;
+}
+
+.bienvenida__orbita--b {
+  width: 330px;
+  height: 190px;
+  border-color: rgba(216, 255, 244, 0.13);
+  transform: rotate(35deg);
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+
+.bienvenida__chispa {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a8e9d7;
+  box-shadow: 0 0 0 5px rgba(168, 233, 215, 0.12);
+}
+
+.bienvenida__chispa--uno {
+  top: 26px;
+  right: 30%;
+}
+
+.bienvenida__chispa--dos {
+  bottom: 30px;
+  left: 14%;
+  width: 6px;
+  height: 6px;
+}
+
+.bienvenida__chispa--tres {
+  top: 48%;
+  right: 4%;
+  width: 5px;
+  height: 5px;
+}
+
+.bienvenida__vidrio {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: 250px;
+  padding: 18px 18px 20px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.07));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 18px 40px rgba(5, 36, 42, 0.22);
+  backdrop-filter: blur(12px);
+  transform: rotate(-4deg);
+}
+
+.bienvenida__puntos {
+  justify-self: start;
+  display: flex;
+  gap: 5px;
+}
+
+.bienvenida__puntos i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(216, 255, 244, 0.55);
+}
+
+.bienvenida__logo {
+  border-radius: 16px;
+  box-shadow: 0 0 26px rgba(178, 255, 230, 0.35);
+  animation: bienvenida-latido 2.4s ease-in-out infinite;
+}
+
+.bienvenida__onda {
+  width: 70%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #a8e9d7, transparent);
+  box-shadow: 0 0 12px #a8e9d7;
+}
+
+.bienvenida__vidrio-texto {
+  color: #e1f2ed;
+  font-size: 12px;
+}
+
+.bienvenida__flotante {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  background: rgba(18, 63, 72, 0.82);
+  border: 1px solid rgba(222, 255, 246, 0.22);
+  box-shadow: 0 12px 26px rgba(5, 36, 42, 0.25);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.3;
+  animation: bienvenida-flota 5s ease-in-out infinite;
+}
+
+.bienvenida__flotante--arriba {
+  top: 6px;
+  right: 0;
+}
+
+.bienvenida__flotante--abajo {
+  bottom: 6px;
+  left: 2%;
+  animation-delay: -2.5s;
+}
+
+.bienvenida__flotante-icono {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(168, 233, 215, 0.18);
+  color: #aee5d8;
+  font-weight: 700;
+}
+
+@keyframes bienvenida-entra {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bienvenida-respira {
+  0%,
+  100% {
+    box-shadow: 0 0 0 5px rgba(143, 224, 189, 0.13);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(143, 224, 189, 0.04);
+  }
+}
+
+@keyframes bienvenida-latido {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  8% {
+    transform: scale(1.08);
+  }
+  16% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bienvenida-orbita {
+  to {
+    transform: rotate(332deg);
+  }
+}
+
+@keyframes bienvenida-flota {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bienvenida,
+  .bienvenida__punto,
+  .bienvenida__logo,
+  .bienvenida__orbita,
+  .bienvenida__flotante {
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .bienvenida {
+    grid-template-columns: 1fr;
+    padding: 32px 28px;
+  }
+  .bienvenida__arte {
+    display: none;
+  }
 }
 
 /* Ventana "Cargar exportación de Telesalud" (sin opción de subir archivos: regla R1). */

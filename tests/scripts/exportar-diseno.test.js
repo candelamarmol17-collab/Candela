@@ -159,5 +159,8 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
       'MiniMax M3.1 Flash',
     ]);
     expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
+    // La bienvenida (tarea 014) también va en la copia.
+    expect(pagina).toContain('Hola, equipo.');
+    expect(pagina).toContain('CESFAM Boris Soler · Bandeja de Telesalud');
   }, 30_000);
 });

@@ -407,6 +407,8 @@ const dibujar = () => {
   $('bandeja-vacia').hidden = !vacia;
   $('contenido-bandeja').hidden = vacia;
   $('acciones').hidden = vacia;
+  // La bienvenida ya trae su propio título: el de la bandeja aparece al cargar.
+  $('titulo-bandeja').hidden = vacia;
   dibujarBotones();
   dibujarResumen();
   dibujarLista();
