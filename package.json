@@ -8,6 +8,7 @@
     "node": ">=26"
   },
   "scripts": {
+    "iniciar": "node src/server.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -22,9 +23,11 @@
     "eslint": "^10.15.0",
     "globals": "^17.14.0",
     "jest": "^30.5.2",
-    "prettier": "^3.10.1"
+    "prettier": "^3.10.1",
+    "supertest": "^7.3.2"
   },
   "dependencies": {
+    "express": "^5.3.0",
     "zod": "^4.6.7"
   }
 }

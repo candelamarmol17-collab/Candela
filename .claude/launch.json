@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pulso",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["src/server.js"],
+      "port": 3000
+    },
+    {
+      "name": "pulso-prueba",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["src/server.js"],
+      "env": { "PUERTO": "3001" },
+      "port": 3001
+    }
+  ]
+}

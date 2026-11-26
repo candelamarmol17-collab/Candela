@@ -164,6 +164,11 @@ const NOMBRES_MODELOS = Object.freeze({
   'minimaxai/minimax-m3.1-flash': 'MiniMax M3.1 Flash',
 });
 
+/** Nombre corto del modelo, para la franja superior de la pantalla. */
+const NOMBRES_CORTOS_MODELOS = Object.freeze({
+  'minimaxai/minimax-m3.1-flash': 'MiniMax',
+});
+
 const MESES = Object.freeze([
   'ene.',
   'feb.',
@@ -213,8 +218,11 @@ export const describirDatosBandeja = (corrida) => {
     return {
       origen: corrida.origen,
       modelo: corrida.modelo ?? null,
+      nombre_modelo: nombre,
+      nombre_corto: NOMBRES_CORTOS_MODELOS[corrida.modelo] ?? nombre,
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
+      texto_franja: `Resultados de ${NOMBRES_CORTOS_MODELOS[corrida.modelo] ?? nombre} reproducidos desde archivo`,
       etiqueta: `Resultados reales de ${nombre} (${fecha ? `corrida del ${fecha}` : 'fecha de la corrida desconocida'}), reproducidos desde archivo`,
     };
   }
@@ -222,8 +230,11 @@ export const describirDatosBandeja = (corrida) => {
     return {
       origen: corrida.origen,
       modelo: null,
+      nombre_modelo: 'las reglas simuladas',
+      nombre_corto: 'las reglas simuladas',
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
+      texto_franja: 'Resultados SIMULADOS por reglas fijas (no son IA), reproducidos desde archivo',
       etiqueta:
         'Resultados SIMULADOS por reglas fijas (no son de un modelo de IA), reproducidos desde archivo',
     };
