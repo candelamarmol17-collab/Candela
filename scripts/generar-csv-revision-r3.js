@@ -135,8 +135,14 @@ const ejecutar = async () => {
     for (const [indice, ruta] of rutas.entries()) {
       const otra = corridas.length === 2 ? corridas[1 - indice] : null;
       const destino = rutaCsvR3(ruta);
-      await writeFile(destino, generarCsvRevisionR3(corridas[indice], solicitudes, otra), 'utf8');
-      process.stdout.write(`Tabla de revisión R3 generada: ${destino}\n`);
+      try {
+        await escribirCsvNuevo(destino, generarCsvRevisionR3(corridas[indice], solicitudes, otra));
+        process.stdout.write(`Tabla de revisión R3 generada: ${destino}\n`);
+      } catch (error) {
+        // Se sigue con el otro archivo: que una tabla ya exista no frena a la otra.
+        process.stderr.write(`${error.message}\n`);
+        process.exitCode = 1;
+      }
     }
   } catch (error) {
     process.stderr.write(`No se pudo generar la tabla de revisión R3: ${error.message}\n`);

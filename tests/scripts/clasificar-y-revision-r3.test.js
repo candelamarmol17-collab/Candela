@@ -209,3 +209,36 @@ describe('escribirCsvNuevo', () => {
     }
   });
 });
+
+describe('comando revision:r3', () => {
+  test('no sobrescribe una tabla que ya existe, pero sí crea la que falta', async () => {
+    const { execFile } = await import('node:child_process');
+    const { copyFile, writeFile } = await import('node:fs/promises');
+    const carpeta = await mkdtemp(join(tmpdir(), 'r3-cli-'));
+    try {
+      const corrida = join(carpeta, 'clasificaciones-prueba.json');
+      const otra = join(carpeta, 'clasificaciones-otra.json');
+      await copyFile('data/resultados/clasificaciones-simulado.json', corrida);
+      await copyFile('data/resultados/clasificaciones-simulado.json', otra);
+      const existente = join(carpeta, 'revision-r3-prueba.csv');
+      await writeFile(existente, 'con comentarios de la revisora', 'utf8');
+
+      const salida = await new Promise((resolver) => {
+        execFile(
+          process.execPath,
+          ['scripts/generar-csv-revision-r3.js', corrida, otra],
+          (error, stdout, stderr) => resolver({ codigo: error?.code ?? 0, stdout, stderr }),
+        );
+      });
+
+      expect(salida.codigo).toBe(1);
+      expect(salida.stderr).toContain('No se sobrescribe');
+      expect(await readFile(existente, 'utf8')).toBe('con comentarios de la revisora');
+      expect(await readFile(join(carpeta, 'revision-r3-otra.csv'), 'utf8')).toContain(
+        'id_solicitud',
+      );
+    } finally {
+      await rm(carpeta, { recursive: true, force: true });
+    }
+  });
+});
