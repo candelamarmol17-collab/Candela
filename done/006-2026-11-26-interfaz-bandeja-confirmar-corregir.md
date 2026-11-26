@@ -1,6 +1,6 @@
 # [006] Interfaz de bandeja con confirmar o corregir
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-26
 **Rama asociada**: `feat/006-interfaz-bandeja`
 
@@ -88,7 +88,7 @@ Candela pidió que, hasta la tarea 009, tome yo las decisiones técnicas y visua
 
 Cada uno lleva su cantidad.
 
-**Etiqueta de los datos siempre visible**, en una franja lavanda bajo el título: la etiqueta de la decisión 007 más "Modelo: minimaxai/minimax-m3.1-flash · Prompt v1". El pie de la caja "Sugerencia IA" repite el modelo, la versión del prompt y "Reproducido desde archivo".
+**De dónde vienen los datos, siempre visible** en la franja gris de arriba (ver los ajustes más abajo). El modelo y la versión del prompt van en el pie de la caja "Sugerencia IA" de cada solicitud: "Modelo: minimaxai/minimax-m3.1-flash · Prompt v1 · Reproducido desde archivo".
 
 **En cada fila:**
 - "Pidió X → Y": el profesional que pidió el vecino y el sugerido;
@@ -122,6 +122,43 @@ Cada uno lleva su cantidad.
 
 **Toda la API está en `/api/bandeja`** (ver la decisión 008).
 
+## Ajustes pedidos por Candela después de revisar la pantalla (2026-11-26)
+
+Candela probó la pantalla y pidió cuatro cambios. Así quedaron:
+
+**1. Las tarjetas de resumen filtran la lista.**
+- "Total en bandeja" quita todos los filtros.
+- "Con alerta crítica", "Prioridad alta" y "Pendientes de revisión" muestran solo esas solicitudes. Al hacer clic se quitan los demás filtros (también la búsqueda), para que se vea exactamente lo que dice la tarjeta.
+- Un segundo clic en la tarjeta activa quita su filtro.
+- "No clasificadas" lleva a la sección "Requiere revisión manual". Si no hay ninguna (como en la corrida de MiniMax), muestra el aviso "No hay solicitudes sin clasificar".
+- La tarjeta activa tiene borde azul petróleo, y las listas desplegables de filtros cambian para coincidir. También al revés: si se elige un filtro en la lista desplegable que coincide con una tarjeta, esa tarjeta se marca.
+- La página baja suavemente hasta los filtros, para que se vea qué quedó elegido.
+- Los números de las tarjetas siempre muestran el total de la bandeja, no lo filtrado.
+- Mi decisión: "Total" aparece marcado cuando no hay ningún filtro.
+- Las tarjetas son botones: se pueden usar con el teclado (Tab y Enter).
+- Arreglo de paso: con el filtro "Con alerta crítica", las no clasificadas ya no aparecen (no tienen alerta porque la IA no respondió).
+
+**2. Se quitó la franja lavanda.** La franja gris de arriba ahora dice: "Prototipo de demostración · Datos 100% ficticios · Resultados de MiniMax reproducidos desde archivo · La IA sugiere, el equipo clínico decide".
+- Mi decisión: la parte "Resultados de MiniMax reproducidos desde archivo" la arma el programa con la corrida que esté cargada. Si alguien carga la corrida simulada, dice "Resultados SIMULADOS por reglas fijas (no son IA), reproducidos desde archivo". Así nunca dice "MiniMax" si los datos no son de MiniMax.
+- Para eso, la descripción de los datos trae dos campos nuevos: `nombre_corto` ("MiniMax") y `texto_franja`.
+
+**3. "Datos ficticios" aparece una sola vez**, en la franja gris. Revisé la pantalla completa: no aparece en ningún otro lugar.
+
+**4. Pantalla de carga** al abrir la página y al presionar "Reiniciar demo".
+- Al centro, en una tarjeta blanca: el logo de Pulso, un título que cambia por pasos, una barra de avance y, fijo abajo, "La IA sugiere, el equipo clínico decide."
+- Pasos (0,8 segundos cada uno, unos 2,7 segundos en total con la salida):
+  1. "Cargando la exportación de Telesalud… (59 solicitudes)";
+  2. "Aplicando las sugerencias de MiniMax…";
+  3. "Ordenando la bandeja…".
+- El número de solicitudes y el nombre del modelo salen de los datos cargados, no están escritos a mano.
+- No dice "Clasificando" ni nada que haga creer que la IA responde en vivo.
+- Mis decisiones:
+  - la barra es azul petróleo y no lavanda como en Figma, porque el lavanda en esta pantalla significa "lo dijo la IA", y cargar un archivo no es la IA;
+  - "Reiniciar demo" también deja los filtros en blanco;
+  - mientras se ve la pantalla de carga, los atajos de teclado no hacen nada;
+  - si la persona pidió menos movimiento en su computador, la barra y la salida no se animan.
+- Referencia: `docs/diseno/cargando.png` (Figma), con el logo arriba como en la versión de Bolt.
+
 ## Plan técnico
 
 - **Capas:**
@@ -144,8 +181,9 @@ Cada uno lleva su cantidad.
 - [x] Diseño de Figma con los elementos de Bolt: logo, favicon, tarjetas con íconos, animaciones y esquinas de 12 px.
 - [x] La API valida con Zod lo que llega, responde JSON con 200, 201, 400, 404 y 500, y maneja los errores en un solo middleware.
 - [x] `npm test` y `npm run lint` pasan. Sin `console.log`.
-- [ ] Candela revisó la pantalla en su navegador.
-- [ ] `TASKS.md` actualizado y rama unida a `main` por Pull Request.
+- [x] Candela revisó la pantalla en su navegador y pidió 4 ajustes, que ya están hechos y probados en el navegador.
+- [x] Tarjetas que filtran, franja gris con el origen de los datos, "Datos ficticios" una sola vez y pantalla de carga.
+- [x] `TASKS.md` actualizado. La rama se une a `main` con el Pull Request de esta tarea.
 
 ## Archivos modificados/creados
 
@@ -158,7 +196,7 @@ Cada uno lleva su cantidad.
   - `src/schemas/correccion.schema.js`: la validación con Zod;
   - `src/services/demo-bandeja.service.js`: el estado de la demo;
   - `src/middlewares/errores.js`.
-- `src/services/bandeja.service.js`: la etiqueta ahora trae también el nombre del modelo para mostrar.
+- `src/services/bandeja.service.js`: la etiqueta ahora trae también el nombre del modelo para mostrar, su nombre corto y el texto de la franja.
 - **Pantalla:** `public/index.html`, `public/estilos.css`, `public/app.js`, `public/iconos.js`, `public/logo-pulso.svg`, `public/fuentes/` (Inter y su licencia) y `public/LICENCIA-Lucide.txt`.
 - **Pruebas:**
   - `tests/services/demo-bandeja.service.test.js`;
@@ -166,7 +204,8 @@ Cada uno lleva su cantidad.
   - `tests/config/app.test.js`.
 - `package.json` (comando `iniciar`, `express` y `supertest`), `.env.example` (`BANDEJA_ARCHIVO_CORRIDA`), `eslint.config.js` (reglas para el código del navegador) y `README.md`.
 - `docs/decisiones/008-pantalla-html-con-express.md`.
-- `docs/diseno/`: las referencias de Figma y el logo de Candela.
+- `docs/diseno/`: las referencias de Figma (incluida `cargando.png`) y el logo de Candela.
+- `tests/services/bandeja.service.test.js`: pruebas del nombre corto y del texto de la franja.
 
 ## Cómo probarlo
 
@@ -178,9 +217,25 @@ Cada uno lleva su cantidad.
    - presionar "Deshacer";
    - corregir otra (por ejemplo, quitar "Urgencia") y ver cómo cambia de lugar;
    - presionar "Simular ingreso de nueva solicitud": entra SINT-0009;
-   - presionar "Reiniciar demo".
+   - hacer clic en las tarjetas de resumen: cada una filtra, y un segundo clic quita el filtro;
+   - presionar "Reiniciar demo": aparece la pantalla de carga y la bandeja vuelve al inicio.
 4. Para apagar: Ctrl + C en la terminal.
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Cerrada el 2026-11-26.**
+
+**Qué quedó hecho:** la pantalla de la bandeja para el video. Muestra las 59 solicitudes ordenadas por grupos con las sugerencias guardadas de MiniMax, deja confirmar, corregir, deshacer y clasificar a mano, simula el ingreso de SINT-0009, y tiene filtros, búsqueda, atajos de teclado, tarjetas que filtran y pantalla de carga. Siempre dice que los resultados se reproducen desde archivo y que decide una persona.
+
+**Pruebas:** 365 pruebas automáticas pasan y `npm run lint` no muestra errores. Todo el recorrido se probó en el navegador sin errores.
+
+**Pendiente para otras tareas:**
+- el registro permanente de confirmaciones y correcciones (tarea 007): hoy se guardan solo mientras el programa está encendido;
+- la pestaña "Evaluación" (tarea 008) y "Cómo funciona" (tarea 009).
+
+**Uso de IA en esta tarea:** se usó Claude Code (asistente de programación con IA) para:
+- proponer el plan y las decisiones visuales;
+- escribir el código, las pruebas y esta documentación;
+- probar la pantalla en un navegador.
+
+Candela entregó el diseño de Figma y Bolt, aprobó el plan, revisó la pantalla y pidió los ajustes. Solo se usaron datos sintéticos (inventados).
