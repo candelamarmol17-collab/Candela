@@ -7,7 +7,7 @@ export const crearRutasBandeja = (demo) => {
   const rutas = Router();
   rutas.get('/', controlador.obtener);
   rutas.post('/deshacer', controlador.deshacer);
-  rutas.post('/simular-ingreso', controlador.simularIngreso);
+  rutas.post('/cargar-exportacion', controlador.cargarExportacion);
   rutas.post('/reiniciar', controlador.reiniciar);
   rutas.post('/:id/confirmar', controlador.confirmar);
   rutas.post('/:id/corregir', controlador.corregir);

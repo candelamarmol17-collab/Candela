@@ -95,7 +95,7 @@ Profesional sugerido: el de la lista que mejor calza con lo que pide el texto. S
 Confianza: "baja" solo cuando no se entiende qué pide la persona (texto vago). Un trámite claro, aunque no describa síntomas, no tiene confianza baja.`;
 
 /** Campos de la solicitud que se envían al modelo. La fecha no se envía porque no se usa. */
-const CAMPOS_PARA_MODELO = [
+export const CAMPOS_PARA_MODELO = [
   'id_solicitud',
   'tipo_profesional',
   'motivo',

@@ -29,4 +29,4 @@
 - Respuestas JSON iguales en toda la API:
   - éxito: `{ ok: true, datos }`;
   - error: `{ ok: false, error: { mensaje, detalles? } }`.
-- Códigos: 200, 201 (ingreso simulado), 400, 404 y 500. Los errores pasan por un solo middleware (una función que los atrapa todos en un lugar).
+- Códigos: 200, 400, 404 y 500. (Hasta la tarea 011 también 201, para el "ingreso simulado", que se reemplazó por cargar exportaciones: ver la decisión 010.) Los errores pasan por un solo middleware (una función que los atrapa todos en un lugar).

@@ -8,7 +8,12 @@ import {
   TIPOS_PRESTADOR,
 } from '../schemas/catalogos.js';
 import { validarClasificacion } from '../schemas/clasificacion.schema.js';
-import { aplicarReglaPersonaMayor } from './clasificacion.service.js';
+import { aplicarReglaPersonaMayor } from './regla-persona-mayor.js';
+import {
+  crearTablaDeCodigos,
+  ErrorExportacion,
+  seudonimizarExportacion,
+} from './seudonimizacion.service.js';
 import { armarBandejaDesdeCorrida, GRUPOS } from './bandeja.service.js';
 
 /**
@@ -17,14 +22,24 @@ import { armarBandejaDesdeCorrida, GRUPOS } from './bandeja.service.js';
  * Guarda en memoria las confirmaciones y correcciones del triajista. Se pierden al apagar el
  * programa o con "Reiniciar demo". El registro permanente es de la tarea 007.
  *
- * "Simular ingreso" no llama a la IA: hace entrar una solicitud que se dejó fuera al comienzo,
- * con la clasificación que ya está guardada en la corrida (decisión 007: nada parece en vivo).
+ * La bandeja parte VACÍA y se llena al "cargar" las exportaciones de demostración (tareas 011 y
+ * 012), que tienen el formato real de Telesalud (48 columnas):
+ *   1. la primera trae 59 solicitudes;
+ *   2. la segunda trae SINT-0009.
+ * Al cargar, PRIMERO se separan los datos personales (seudonimizacion.service.js). Las filas
+ * originales y la tabla de códigos se quedan aquí, en el programa del centro de salud: nunca
+ * salen hacia la pantalla ni hacia la IA.
+ * Cargar no llama a la IA: usa la clasificación que ya está guardada en la corrida (decisión 007).
+ * Por la regla R1, no se recibe ningún archivo de afuera: solo existen estas exportaciones.
  */
 
 export const TRIAJISTA_DEMO = 'Triajista de demostración';
 
-/** Solicitud que se deja fuera al comienzo y entra con "Simular ingreso" (decisión de la tarea 006). */
-export const ID_INGRESO_SIMULADO = 'SINT-0009';
+/** Respuesta cuando alguien intenta mandar un archivo o datos al cargar (regla R1). */
+export const MENSAJE_SOLO_DEMOSTRACION =
+  'Solo se puede cargar la exportación de demostración: Pulso no recibe archivos (regla R1).';
+
+const nombreExportacion = (numero) => `Exportación de demostración ${numero}`;
 
 export const ESTADOS_REVISION = Object.freeze({
   pendiente: 'pendiente',
@@ -51,32 +66,47 @@ const CATALOGOS = Object.freeze({
   largo_maximo_motivo: LARGOS_MAXIMOS.justificacion,
 });
 
+/**
+ * Lo que recibió la IA (prompt v1) y lo que no. Debe coincidir con CAMPOS del prompt: una prueba
+ * lo revisa. Especificidad no está porque el prompt v1 no la envía (tarea 012, [PENDIENTE] v2).
+ */
+export const NOTA_DATOS_IA =
+  'La IA recibió: profesional pedido, motivo, texto y edad. No recibió: nombre, RUT, contacto ni dirección.';
+
 const JUSTIFICACION_TRIAJISTA = 'Clasificación decidida por el triajista.';
 
 /**
  * Crea la demo.
- * @param opciones.solicitudes las solicitudes sintéticas.
+ * @param opciones.exportaciones las exportaciones de demostración, en orden: cada una es la lista
+ *   de filas del CSV (la primera fila es el encabezado de 48 columnas).
  * @param opciones.corrida la corrida guardada que se muestra.
- * @param opciones.idIngresoSimulado la solicitud que entra con "Simular ingreso" (null: ninguna).
+ * @param opciones.codigoFijo códigos internos ya conocidos (la demo hace que DEMO-ID-0001 sea
+ *   SINT-0001, para que coincidan con la corrida). Sin él, los códigos son PUL-0001, …
  * @param opciones.ahora reloj (se cambia en las pruebas).
  */
 export const crearDemoBandeja = ({
-  solicitudes,
+  exportaciones,
   corrida,
-  idIngresoSimulado = ID_INGRESO_SIMULADO,
+  codigoFijo = () => null,
   ahora = () => new Date(),
 }) => {
-  const solicitudPorId = new Map(solicitudes.map((s) => [s.id_solicitud, s]));
   const resultadoPorId = new Map(corrida.resultados.map((r) => [r.id_solicitud, r]));
-  const idSimulado = solicitudPorId.has(idIngresoSimulado) ? idIngresoSimulado : null;
+  const describirExportacion = (numero) => ({
+    numero,
+    nombre: nombreExportacion(numero),
+    solicitudes_nuevas: Math.max(exportaciones[numero - 1].length - 1, 0),
+  });
 
   // Estado que cambia durante la demo.
-  let ingresoHecho = false;
+  let exportacionesCargadas = 0;
+  let tablaDeCodigos = crearTablaDeCodigos({ codigoFijo }); // se queda en el centro de salud
+  let solicitudPorId = new Map(); // solo solicitudes YA separadas de sus datos personales
+  let separacion = null; // resumen de la última separación (cuántas columnas, cuántos datos)
   let decisiones = new Map(); // id -> { estado, motivo, clasificacion, en }
   let historial = []; // para "Deshacer": [{ id, anterior }]
   let ultimaCambiada = null; // id de la última solicitud que cambió (para el resaltado)
 
-  const visible = (id) => id !== idSimulado || ingresoHecho;
+  const visible = (id) => solicitudPorId.has(id);
 
   const sugerenciaIa = (id) => {
     const resultado = resultadoPorId.get(id);
@@ -104,7 +134,7 @@ export const crearDemoBandeja = ({
       .filter(([, decision]) => decision.estado === ESTADOS_REVISION.corregida)
       .map(([id, decision]) => ({ id_solicitud: id, clasificacion: decision.clasificacion }));
     const bandeja = armarBandejaDesdeCorrida(
-      solicitudes.filter((s) => visible(s.id_solicitud)),
+      [...solicitudPorId.values()],
       {
         ...corrida,
         resultados: corrida.resultados.filter((r) => visible(r.id_solicitud)),
@@ -146,9 +176,20 @@ export const crearDemoBandeja = ({
       },
       ordenadas,
       no_clasificadas: noClasificadas,
-      ingreso_simulado: { disponible: idSimulado !== null && !ingresoHecho, id: idSimulado },
+      exportaciones: {
+        cargadas: exportacionesCargadas,
+        ultima:
+          exportacionesCargadas > 0
+            ? { ...describirExportacion(exportacionesCargadas), ...separacion }
+            : null,
+        siguiente:
+          exportacionesCargadas < exportaciones.length
+            ? describirExportacion(exportacionesCargadas + 1)
+            : null,
+      },
       se_puede_deshacer: historial.length > 0,
       catalogos: CATALOGOS,
+      nota_datos_ia: NOTA_DATOS_IA,
       ultima_cambiada: ultimaCambiada,
     };
   };
@@ -210,17 +251,40 @@ export const crearDemoBandeja = ({
       return armar();
     },
 
-    simularIngreso: () => {
-      if (idSimulado === null || ingresoHecho) {
-        throw new ErrorDemo('No hay más solicitudes por ingresar. Usa "Reiniciar demo".', 400);
+    /** Carga la siguiente exportación de demostración. No recibe nada de afuera. */
+    cargarExportacion: () => {
+      if (exportacionesCargadas >= exportaciones.length) {
+        throw new ErrorDemo('No hay más exportaciones de demostración. Usa "Reiniciar demo".', 400);
       }
-      ingresoHecho = true;
-      ultimaCambiada = idSimulado;
+      let separadas;
+      try {
+        // Primero se separan los datos personales; solo el resultado entra a la bandeja.
+        separadas = seudonimizarExportacion(exportaciones[exportacionesCargadas], tablaDeCodigos);
+      } catch (error) {
+        if (error instanceof ErrorExportacion) {
+          throw new ErrorDemo(`No se pudo cargar la exportación. ${error.message}`, 500);
+        }
+        throw error;
+      }
+      exportacionesCargadas += 1;
+      const nuevas = separadas.solicitudes.filter((s) => !solicitudPorId.has(s.id_solicitud));
+      for (const solicitud of separadas.solicitudes) {
+        solicitudPorId.set(solicitud.id_solicitud, solicitud);
+      }
+      separacion = {
+        columnas_personales_separadas: separadas.resumen.columnas_personales_separadas,
+        datos_tapados_en_texto: separadas.resumen.datos_tapados_en_texto,
+      };
+      // La primera carga llena la bandeja; en las siguientes se resalta la que llegó.
+      ultimaCambiada = exportacionesCargadas > 1 ? (nuevas[0]?.id_solicitud ?? null) : null;
       return armar();
     },
 
     reiniciar: () => {
-      ingresoHecho = false;
+      exportacionesCargadas = 0;
+      tablaDeCodigos = crearTablaDeCodigos({ codigoFijo });
+      solicitudPorId = new Map();
+      separacion = null;
       decisiones = new Map();
       historial = [];
       ultimaCambiada = null;

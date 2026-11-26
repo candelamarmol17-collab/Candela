@@ -32,6 +32,8 @@ Para leer bien los resultados de la evaluación, hay que tener en cuenta dos cos
 
 **Qué significa la alerta "urgencia"** (criterio provisional, nuestro y no clínico): se agrega cuando hay riesgo inmediato. Esto incluye un intento reciente o una autolesión activa; señales de alarma vital en una descompensación; o violencia con amenaza grave, o contra una víctima vulnerable (una embarazada, un niño o niña, o una persona mayor) que convive con quien la agrede o depende de esa persona. Esta alerta indica que la gestora tiene que gestionar el caso de inmediato, sin esperar el plazo de la prioridad.
 
+**Exportación de demostración**: la pantalla carga `data/sinteticos/exportacion-demo-1.csv` y `-2.csv`, que tienen las 48 columnas de la exportación real de Telesalud. Lo único real es el encabezado (`docs/formato-exportacion-telesalud.csv`); los datos personales son inventados ("Vecina Demo 01", "demo01@example.com"…). Al cargar, Pulso separa los datos personales **antes de la IA**: se queda solo con lo que la IA necesita, le pone un código a cada solicitud y tapa los RUT, teléfonos y correos del texto (ver la decisión 011).
+
 Para revisar los casos en Excel, ejecuta `npm run revision:csv`. Así se genera `data/sinteticos/revision.csv`, una tabla con cada solicitud junto a su referencia.
 
 ## Cómo instalarlo
@@ -76,6 +78,8 @@ Para cambiar de proveedor (NVIDIA, OpenAI u otro compatible con OpenAI) basta co
 | `npm run ia:probar` | Manda una solicitud sintética al modelo real para confirmar que la clave y el modelo funcionan. |
 | `npm run clasificar:sinteticos` | Clasifica las 60 solicitudes sintéticas de a una y guarda los resultados en `data/resultados/`, con el tiempo de cada respuesta. Con `-- --modelo <id>` usa otro modelo solo para esa corrida, sin cambiar el `.env`. Con `--tiempo-espera <ms>` y `--pausa <ms>` cambia la espera máxima por respuesta y la pausa entre casos, también solo para esa corrida. Con `-- --reintentar data/resultados/<archivo>.json` vuelve a clasificar solo las no clasificadas de esa corrida, con el mismo modelo, y actualiza el archivo. |
 | `npm run revision:r3 -- <archivo> [<otro archivo>]` | Genera una tabla para Excel con las justificaciones del modelo, para revisar a mano que no den indicaciones clínicas (regla R3). Con dos archivos, genera una tabla por modelo y marca los casos donde difieren en prioridad, profesional o alertas críticas. Nunca sobrescribe una tabla que ya existe, para no borrar los comentarios de la revisión. |
+| `npm run exportacion:demo` | Vuelve a generar las dos exportaciones de demostración (`data/sinteticos/exportacion-demo-1.csv` y `-2.csv`) con el formato real de Telesalud (48 columnas) y datos personales claramente inventados. Solo hace falta si cambian las solicitudes sintéticas. |
+| `npm run exportar:diseno` | Genera una copia de la pantalla en un solo archivo (`../Pulso-para-diseno/pulso-diseno.html`, fuera del repositorio) para revisar el diseño con doble clic, sin servidor ni internet. No lleva la clave ni el `.env`. Con `-- --salida <ruta.html>` la guarda en otro lugar (siempre fuera del repositorio). |
 
 ## Cómo está organizado
 

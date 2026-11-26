@@ -16,10 +16,13 @@
     "clasificar:sinteticos": "node scripts/clasificar-sinteticos.js",
     "ia:probar": "node scripts/probar-ia.js",
     "revision:r3": "node scripts/generar-csv-revision-r3.js",
-    "ia:modelos": "node scripts/listar-modelos.js"
+    "ia:modelos": "node scripts/listar-modelos.js",
+    "exportar:diseno": "node scripts/exportar-diseno.js",
+    "exportacion:demo": "node scripts/generar-exportacion-demo.js"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "globals": "^17.14.0",
     "jest": "^30.5.2",
