@@ -43,6 +43,24 @@ No sirvieron: `google/gemma-3-12b-it` (respondió "no encontrado" para la cuenta
 
 **Límites de esta prueba:** fue un solo caso. La documentación no dice nada sobre la calidad en español. La corrida de los 60 casos y la revisión R3 son las que lo muestran.
 
+## Corrida de los 60 casos y modelo del video (2026-11-26)
+
+| | Mistral | MiniMax |
+|---|---|---|
+| Clasificadas | 56 de 60 | 60 de 60 |
+| Fallaron en la primera pasada | 14, por tiempo agotado | 7: 5 con HTTP 503 y 2 con HTTP 429 |
+| Siguen sin clasificar tras un reintento | 4, por tiempo agotado: SINT-0016, 0017, 0021 (con alerta crítica) y 0030 | 0 |
+| Tiempo promedio por solicitud | 154 s | 57 s |
+
+Ningún caso fue bloqueado por su contenido. La revisión R3 de Candela encontró problemas en las justificaciones de los dos modelos (ver la tarea 004 y la columna `comentario_revision` de los CSV). El más importante: MiniMax **inventó un dato** en SINT-0016.
+
+**Decisión de Candela:**
+- La bandeja del video usa la **corrida de MiniMax en modo repetición**, porque tiene 60 de 60 clasificadas y ninguna alerta crítica sin clasificar.
+- La pantalla de evaluación (tarea 008) compara los dos modelos.
+- Los criterios y el prompt quedan **congelados**: los hallazgos no cambian el prompt ni las clasificaciones guardadas.
+
+**Hallazgo de confiabilidad:** el catálogo gratuito de NVIDIA sirve para el prototipo, pero falló de dos maneras: tiempo agotado con Mistral, y servicio no disponible o "demasiadas consultas" con MiniMax. Un piloto necesita un servicio con disponibilidad garantizada.
+
 ## Detalles
 
 - Temperatura 0 (para que repita las mismas respuestas).

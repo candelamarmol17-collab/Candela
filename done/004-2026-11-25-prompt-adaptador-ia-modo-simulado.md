@@ -1,6 +1,6 @@
 # [004] Prompt del modelo y adaptador de IA con modo simulado
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-25
 **Rama asociada**: `feat/004-prompt-adaptador-ia`
 
@@ -166,12 +166,12 @@ Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 
 - [x] El prompt tiene versión, la regla R3 y los criterios [PROVISIONALES].
 - [x] Una respuesta que no cumple el esquema queda "no clasificada", sin inventar datos.
 - [x] Cada resultado indica su origen: modelo real, simulado o repetición.
-- [x] El script clasifica los 60 casos de a uno, con pausa, y guarda los resultados. (Probado en modo simulado; falta la corrida con el modelo real.)
-- [ ] Hay un CSV con BOM para la revisión R3 después de la primera corrida real. (El comando está listo; falta la corrida real, que necesita la clave de Candela.)
-- [x] `npm test` y `npm run lint` pasan, sin llamadas a internet en las pruebas (13 grupos, 237 pruebas).
+- [x] El script clasifica los 60 casos de a uno, con pausa, y guarda los resultados. (Corridas reales de Mistral y MiniMax hechas.)
+- [x] Hay un CSV con BOM para la revisión R3 de cada corrida real, con la revisión de Candela anotada.
+- [x] `npm test` y `npm run lint` pasan, sin llamadas a internet en las pruebas (14 grupos, 278 pruebas).
 - [x] Sin `console.log`.
 - [x] Decisiones técnicas 005 y 006 escritas.
-- [ ] `TASKS.md` actualizado y rama unida a `main` por Pull Request.
+- [x] `TASKS.md` actualizado. La rama se une a `main` con el Pull Request de esta tarea.
 
 ## Archivos modificados/creados
 
@@ -198,6 +198,15 @@ Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 
 - `src/schemas/catalogos.js`: nueva lista `ALERTAS_CRITICAS`.
 - `data/sinteticos/referencia.json`, `revision.csv`, `tests/datos/sinteticos.test.js` y `done/003-...md`: ajustes de coherencia y criterios por área (ver más arriba).
 
+**Agregados después de las corridas reales (2026-11-25 y 26)**
+
+- `scripts/clasificar-sinteticos.js`: opciones `--reintentar`, `--tiempo-espera` y `--pausa`.
+- `src/services/clasificacion.service.js`: función `reintentarNoClasificadas`.
+- `scripts/generar-csv-revision-r3.js`: no sobrescribe una tabla que ya existe.
+- `data/resultados/`: corridas de Mistral y MiniMax y sus tablas de revisión R3, con los comentarios de Candela.
+- `.env.example`: el ejemplo de repetición apunta a la corrida de MiniMax.
+- Las pruebas de todo lo anterior.
+
 **Cosas que no estaban en el plan** (se avisan para que no sorprendan)
 
 - `MODO_IA=repeticion`: permite elegir la repetición desde el `.env`, igual que los otros modos (ver decisión 006).
@@ -211,9 +220,11 @@ Revisé los criterios nuevos contra los criterios [PROVISIONALES] de la tarea 3 
    - `npm run clasificar:sinteticos`: crea `data/resultados/clasificaciones-simulado.json`. Cada resultado dice `"origen": "simulado_reglas"` y su justificación empieza con "SIMULADO".
 2. Con la clave en el `.env` (modo real):
    - `npm run ia:probar`: manda un solo caso sintético. Debe mostrar "Modo: MODELO REAL", "Clave: configurada (oculta)" y una clasificación.
-   - `npm run clasificar:sinteticos`: clasifica los 60 casos (tarda unos 3 a 5 minutos por las pausas) y crea `data/resultados/clasificaciones-meta-llama-3.3-70b-instruct.json`.
-   - `npm run revision:r3 -- data/resultados/clasificaciones-meta-llama-3.3-70b-instruct.json`: crea el CSV para revisar las justificaciones en Excel.
-3. Repetición: en el `.env`, poner `MODO_IA=repeticion` e `IA_ARCHIVO_REPETICION=` con la ruta del archivo de la corrida real. Las respuestas salen sin internet y con `"origen": "repeticion"`.
+   - `npm.cmd run clasificar:sinteticos -- --tiempo-espera 240000 --pausa 10000`: clasifica los 60 casos con el modelo del `.env` (Mistral). Tarda alrededor de una a tres horas, según el día. Crea `data/resultados/clasificaciones-mistralai-mistral-large-4-1t-a52b.json`.
+   - Agregando `--modelo minimaxai/minimax-m3.1-flash` se corre MiniMax sin cambiar el `.env`.
+   - `npm.cmd run clasificar:sinteticos -- --reintentar data/resultados/<archivo>.json --tiempo-espera 240000 --pausa 10000`: vuelve a clasificar solo las no clasificadas.
+   - `npm.cmd run revision:r3 -- <archivo de MiniMax> <archivo de Mistral>`: crea los CSV para revisar las justificaciones en Excel. Si ya existen, no los sobrescribe.
+3. Repetición (la que se usa en el video): en el `.env`, poner `MODO_IA=repeticion` e `IA_ARCHIVO_REPETICION=data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json`. Las respuestas salen sin internet y con `"origen": "repeticion"`.
 
 ## Cambios después del HTTP 410 (2026-11-25)
 
@@ -244,6 +255,19 @@ Candela pidió dejar esto anotado para cuando se cree la tarea 008:
 - Muestra, por modelo, **cuántos casos se agotaron en la primera pasada y necesitaron reintento**. El dato está en cada corrida: la lista `reintentos` y, en cada caso reintentado, `intento` e `intento_anterior`.
   - Es un hallazgo de **confiabilidad**: el catálogo gratuito de NVIDIA sirve para el prototipo, pero el piloto necesita un servicio con disponibilidad garantizada.
 - El tiempo promedio de una corrida con reintento usa la duración del último intento de cada caso. La duración del intento fallido queda en `intento_anterior.duracion_ms`.
+- **Decisión de Candela (2026-11-26):** la bandeja del video usa la corrida de **MiniMax** en modo repetición (60 de 60 clasificadas, ninguna alerta crítica sin clasificar). La pantalla de evaluación compara los dos modelos.
+- **Hallazgos de la revisión R3 de Candela** (ninguna justificación da tratamientos ni consejos). Están anotados también en la columna `comentario_revision` de cada CSV:
+
+  | Modelo | Caso | Hallazgo |
+  |---|---|---|
+  | MiniMax | SINT-0016 | **Inventó un dato (hallazgo importante):** dice "la golpeó en la cara", pero el texto dice "en la guata". |
+  | MiniMax | SINT-0022 | Lenguaje de diagnóstico: "compatible con descompensación respiratoria". |
+  | Mistral | SINT-0009 | Juicio clínico: "Estos síntomas indican descompensación grave". |
+  | Mistral | SINT-0012 | Supone quién escribe ("Madre reporta") sin que el texto lo diga. |
+  | Mistral | SINT-0013 | Supone quién escribe ("Hijo refiere") sin que el texto lo diga. |
+
+  - La pantalla debe mostrar estos hallazgos por modelo. Que un modelo clasifique todo no significa que sus justificaciones sean confiables: el triajista siempre debe leer el texto original.
+  - **Los criterios y el prompt están congelados.** Estos hallazgos no cambian el prompt ni las clasificaciones guardadas: se informan como resultado.
 
 ## Corrida de Mistral: tiempo agotado y reintento (2026-11-25)
 
@@ -277,4 +301,27 @@ El reintento sirve de comprobación.
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Cerrada el 2026-11-26.**
+
+**Qué quedó hecho:**
+- El prompt (versión 1, con la regla R3 y los criterios [PROVISIONALES], ahora congelados).
+- Tres modos de trabajo: modelo real, simulado y repetición. Cada resultado dice de dónde viene.
+- Un adaptador para cualquier proveedor compatible con OpenAI. Cambiar de modelo es editar una línea del `.env`.
+- Comandos para listar modelos, clasificar los 60 casos, reintentar solo los que fallaron y generar las tablas de revisión R3.
+
+**Resultados:**
+- Mistral: 56 de 60 clasificadas. Quedaron 3 alertas críticas sin clasificar por tiempo agotado.
+- MiniMax: 60 de 60 clasificadas.
+- Ningún caso fue bloqueado por su contenido.
+- La revisión R3 encontró 5 problemas en las justificaciones (ver "Notas para la tarea 008").
+- El video usará la corrida de MiniMax en modo repetición.
+
+**Pendiente para otras tareas:** la comparación de los dos modelos es de la tarea 008, con las notas de arriba.
+
+**Uso de IA en esta tarea:** se usó Claude Code (asistente de programación con IA) para:
+- proponer el plan y escribir el código y las pruebas;
+- diagnosticar los errores del proveedor;
+- correr los comandos;
+- redactar esta documentación.
+
+Candela tomó las decisiones, revisó y aprobó cada paso, e hizo a mano la revisión R3 de las justificaciones. Los modelos Mistral y MiniMax se usaron solo con datos sintéticos (inventados).
