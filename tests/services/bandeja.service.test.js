@@ -1,5 +1,8 @@
 import {
   armarBandeja,
+  armarBandejaDesdeCorrida,
+  describirDatosBandeja,
+  fechaCorta,
   FUENTES,
   GRUPOS,
   grupoSegunAlertas,
@@ -248,5 +251,72 @@ describe('armarBandeja: casos borde', () => {
     ],
   ])('rechaza %s con id repetido', (nombre, solicitudes, resultados) => {
     expect(() => armarBandeja(solicitudes, resultados)).toThrow(`Hay dos ${nombre}`);
+  });
+});
+
+describe('fechaCorta', () => {
+  test('muestra la fecha en español y en hora de Chile', () => {
+    // 01:42 del 26 en Chile = 04:42 del 26 en UTC.
+    expect(fechaCorta('2026-11-26T04:42:50.445Z')).toBe('26 nov. 2026');
+    // 23:30 del 25 en Chile = 02:30 del 26 en UTC: se muestra el 25.
+    expect(fechaCorta('2026-11-26T02:30:00Z')).toBe('25 nov. 2026');
+  });
+
+  test.each([[undefined], [null], [''], ['no es fecha'], [42]])(
+    'devuelve null si la fecha no sirve: %p',
+    (valor) => {
+      expect(fechaCorta(valor)).toBeNull();
+    },
+  );
+});
+
+describe('describirDatosBandeja', () => {
+  test('una corrida real dice el modelo, la fecha y que se reproduce desde archivo', () => {
+    expect(
+      describirDatosBandeja({
+        origen: 'modelo_real',
+        modelo: 'minimaxai/minimax-m3.1-flash',
+        generado_en: '2026-11-26T04:42:50.445Z',
+      }),
+    ).toEqual({
+      origen: 'modelo_real',
+      modelo: 'minimaxai/minimax-m3.1-flash',
+      fecha_corrida: '2026-11-26T04:42:50.445Z',
+      reproducido_desde_archivo: true,
+      etiqueta:
+        'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
+    });
+  });
+
+  test('un modelo sin nombre para mostrar usa su id, y una fecha mala no inventa una', () => {
+    expect(
+      describirDatosBandeja({ origen: 'modelo_real', modelo: 'otro/modelo', generado_en: 'x' })
+        .etiqueta,
+    ).toBe(
+      'Resultados reales de otro/modelo (fecha de la corrida desconocida), reproducidos desde archivo',
+    );
+  });
+
+  test('una corrida simulada dice claramente que es simulada', () => {
+    expect(describirDatosBandeja({ origen: 'simulado_reglas' }).etiqueta).toMatch(
+      /^Resultados SIMULADOS por reglas fijas/,
+    );
+  });
+
+  test.each([[{ origen: 'repeticion' }], [{}], [null]])('rechaza %p', (corrida) => {
+    expect(() => describirDatosBandeja(corrida)).toThrow('corrida original');
+  });
+});
+
+describe('armarBandejaDesdeCorrida', () => {
+  test('junta la descripción de los datos con la bandeja ordenada', () => {
+    const bandeja = armarBandejaDesdeCorrida([solicitud('SINT-A')], {
+      origen: 'modelo_real',
+      modelo: 'minimaxai/minimax-m3.1-flash',
+      generado_en: '2026-11-26T04:42:50.445Z',
+      resultados: [resultado('SINT-A', 'alta', [])],
+    });
+    expect(bandeja.datos.reproducido_desde_archivo).toBe(true);
+    expect(ids(bandeja.ordenadas)).toEqual(['SINT-A']);
   });
 });

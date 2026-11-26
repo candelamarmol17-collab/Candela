@@ -1,6 +1,6 @@
 # [005] Orden de la bandeja
 
-**Estado**: in-progress
+**Estado**: done
 **Fecha creación**: 2026-11-25
 **Rama asociada**: `feat/005-orden-bandeja`
 
@@ -18,9 +18,10 @@ Esta tarea prepara el orden y los datos. La pantalla y la dirección web que la 
 | 2 | Dentro de las alertas críticas, ¿va primero la "urgencia"? | **Sí.** Primero las que tienen "urgencia" (la gestora debe gestionarlas de inmediato). Después, las que tienen otra alerta crítica (violencia, ideación suicida o descompensación), todas con el mismo peso. |
 | 3 | ¿Cómo se resuelve un empate total (mismo grupo, prioridad, fecha y hora)? | Por número de solicitud (`SINT-0001` antes que `SINT-0002`), para que el orden salga siempre igual. |
 | 4 | ¿Con qué clasificación se ordena? | Con la **clasificación vigente**: la corregida por el triajista si existe (tarea 006); si no, la de la IA. |
-| 5 | ¿De dónde salen los datos? | De las 60 solicitudes sintéticas más una corrida guardada en `data/resultados/`. En el video, la de Mistral en modo repetición. |
+| 5 | ¿De dónde salen los datos? | De las 60 solicitudes sintéticas más una corrida guardada en `data/resultados/`. En el video, la de Mistral en modo repetición. **Cambio del 2026-11-26:** Candela eligió la corrida de **MiniMax** para el video (60 de 60 clasificadas). |
 | 6 | ¿Qué entra en esta tarea? | Solo el servicio que ordena, la lectura de los datos y sus pruebas. La dirección web (por ejemplo `GET /api/bandeja`) y Express (una librería para crear el servidor web) quedan para la tarea 006, junto con la pantalla. |
 | 7 | ¿Cómo se ordenan las "no clasificadas"? | En su lista aparte, **la más antigua primero** (y por número de solicitud si empatan). |
+| 8 | La corrida de MiniMax, ¿se marca como "modelo real" o como "repetición"? | **Las dos cosas juntas**, con una etiqueta como "Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo". Así no parece que responde en vivo, pero queda claro que no es una simulación (decisión 007). |
 
 ## Plan técnico
 
@@ -47,22 +48,55 @@ Esta tarea prepara el orden y los datos. La pantalla y la dirección web que la 
 
 ## Criterios de aceptación
 
-- [ ] Las solicitudes con "urgencia" quedan primero; después las con otra alerta crítica; después el resto.
-- [ ] Dentro de cada grupo, el orden es: prioridad alta, media y baja; la más antigua primero; luego el número de solicitud.
-- [ ] Las no clasificadas (o sin resultado) quedan en una lista aparte, la más antigua primero.
-- [ ] Si hay una corrección del triajista, el orden usa la corrección.
-- [ ] Cada elemento indica su origen (modelo real, simulado o repetición).
-- [ ] `npm test` y `npm run lint` pasan. Sin `console.log`.
-- [ ] `TASKS.md` actualizado y rama unida a `main` por Pull Request.
+- [x] Las solicitudes con "urgencia" quedan primero; después las con otra alerta crítica; después el resto.
+- [x] Dentro de cada grupo, el orden es: prioridad alta, media y baja; la más antigua primero; luego el número de solicitud.
+- [x] Las no clasificadas (o sin resultado) quedan en una lista aparte, la más antigua primero.
+- [x] Si hay una corrección del triajista, el orden usa la corrección.
+- [x] Cada elemento indica su origen, y la bandeja trae una etiqueta que dice si los datos son reales o simulados y que se reproducen desde archivo.
+- [x] Con la referencia de la 004, la bandeja tiene 16 solicitudes con "urgencia" y 5 con otra alerta crítica (prueba automática).
+- [x] `npm test` y `npm run lint` pasan (17 grupos, 332 pruebas). Sin `console.log`.
+- [x] `TASKS.md` actualizado. La rama se une a `main` con el Pull Request de esta tarea.
 
 ## Archivos modificados/creados
 
-(se completa al implementar)
+- `src/services/bandeja.service.js` (nuevo):
+  - `armarBandeja` ordena las solicitudes y separa las no clasificadas;
+  - `describirDatosBandeja` arma la etiqueta de los datos;
+  - `armarBandejaDesdeCorrida` junta las dos cosas.
+- `src/repositories/bandeja.repository.js` (nuevo): lee las 60 solicitudes sintéticas y una corrida de `data/resultados/`. Por la regla R1, rechaza cualquier otro archivo, incluida la referencia.
+- `src/schemas/catalogos.js`: lista `ALERTAS_CRITICAS` (la misma de la tarea 004).
+- `tests/services/bandeja.service.test.js`: cada regla del orden, empates, listas vacías, no clasificadas, correcciones del triajista y la etiqueta.
+- `tests/services/bandeja.datos-del-proyecto.test.js`: los conteos 16 y 5 con la referencia, y la bandeja del video con MiniMax.
+- `tests/repositories/bandeja.repository.test.js`: lectura de archivos y rechazo de rutas no permitidas.
+- `docs/decisiones/007-etiqueta-de-los-datos-de-la-bandeja.md`.
+- `TASKS.md`.
 
 ## Cómo probarlo
 
-(se completa al implementar)
+1. `npm.cmd test` y `npm.cmd run lint`: todo debe pasar.
+2. La prueba "bandeja con la clasificación de referencia" verifica los conteos pedidos por Candela: 16 con urgencia, 5 con otra alerta crítica (incluida SINT-0008) y 39 sin alerta crítica.
+3. La prueba "bandeja del video" verifica la corrida de MiniMax:
+   - 60 de 60 clasificadas;
+   - 14 con urgencia, 7 con otra alerta crítica y 39 sin alerta crítica;
+   - la etiqueta "Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo".
+
+   Todavía no hay pantalla: la bandeja se ve en la tarea 006.
 
 ## Notas de cierre
 
-(se completa al mover a /done; incluir si se usó Claude Code y para qué)
+**Cerrada el 2026-11-26.**
+
+**Qué quedó hecho:** el orden de la bandeja (primero urgencia, después otra alerta crítica, después el resto; dentro de cada grupo, por prioridad, antigüedad y número), la lista aparte de no clasificadas, el uso de las correcciones del triajista, la lectura segura de los datos y la etiqueta que dice de dónde vienen.
+
+**Para saber antes del video:** con la corrida de MiniMax la bandeja queda con **14 con urgencia y 7 con otra alerta crítica**, y no con 16 y 5 como la referencia. MiniMax no marcó "urgencia" en algunos casos que la referencia sí marca (por ejemplo SINT-0015 y SINT-0018). Igual quedan arriba, en "otra alerta crítica", porque tienen violencia.
+
+**Pendiente para la tarea 006:**
+- la dirección web y la pantalla que muestran la bandeja y la etiqueta;
+- el formato definitivo de las correcciones del triajista (hoy es [PROVISIONAL]).
+
+**Uso de IA en esta tarea:** se usó Claude Code (asistente de programación con IA) para:
+- proponer el plan y escribir el código y las pruebas;
+- actualizar la rama con `main`;
+- redactar esta documentación.
+
+Candela respondió las preguntas, definió el orden y la etiqueta, y aprobó cada paso. Solo se usaron datos sintéticos (inventados).

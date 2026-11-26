@@ -155,3 +155,86 @@ export const armarBandeja = (solicitudes, resultados, { correcciones = [] } = {}
       .sort(),
   };
 };
+
+/**
+ * Nombres para mostrar de los modelos. Si un modelo no está en la lista, se muestra su id.
+ * "MiniMax M3.1 Flash" lo definió Candela (tarea 005).
+ */
+const NOMBRES_MODELOS = Object.freeze({
+  'minimaxai/minimax-m3.1-flash': 'MiniMax M3.1 Flash',
+});
+
+const MESES = Object.freeze([
+  'ene.',
+  'feb.',
+  'mar.',
+  'abr.',
+  'may.',
+  'jun.',
+  'jul.',
+  'ago.',
+  'sept.',
+  'oct.',
+  'nov.',
+  'dic.',
+]);
+
+/** Zona horaria para mostrar la fecha de la corrida (las corridas guardan la hora en UTC). */
+const ZONA_HORARIA = 'America/Santiago';
+
+/** Fecha corta en español, por ejemplo "26 nov. 2026". Devuelve null si la fecha no sirve. */
+export const fechaCorta = (fechaIso, zonaHoraria = ZONA_HORARIA) => {
+  const fecha = new Date(fechaIso ?? '');
+  if (typeof fechaIso !== 'string' || Number.isNaN(fecha.getTime())) {
+    return null;
+  }
+  const partes = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      timeZone: zonaHoraria,
+    })
+      .formatToParts(fecha)
+      .map((parte) => [parte.type, parte.value]),
+  );
+  return `${partes.day} ${MESES[Number(partes.month) - 1]} ${partes.year}`;
+};
+
+/**
+ * Describe de dónde vienen los datos de la bandeja, para mostrarlo siempre en la pantalla.
+ * La bandeja lee una corrida guardada: los resultados no se generan en vivo. Por eso la etiqueta
+ * dice las dos cosas: si son reales o simulados, y que se reproducen desde un archivo.
+ */
+export const describirDatosBandeja = (corrida) => {
+  if (corrida?.origen === 'modelo_real') {
+    const nombre = NOMBRES_MODELOS[corrida.modelo] ?? corrida.modelo ?? 'modelo sin nombre';
+    const fecha = fechaCorta(corrida.generado_en);
+    return {
+      origen: corrida.origen,
+      modelo: corrida.modelo ?? null,
+      fecha_corrida: corrida.generado_en ?? null,
+      reproducido_desde_archivo: true,
+      etiqueta: `Resultados reales de ${nombre} (${fecha ? `corrida del ${fecha}` : 'fecha de la corrida desconocida'}), reproducidos desde archivo`,
+    };
+  }
+  if (corrida?.origen === 'simulado_reglas') {
+    return {
+      origen: corrida.origen,
+      modelo: null,
+      fecha_corrida: corrida.generado_en ?? null,
+      reproducido_desde_archivo: true,
+      etiqueta:
+        'Resultados SIMULADOS por reglas fijas (no son de un modelo de IA), reproducidos desde archivo',
+    };
+  }
+  throw new Error(
+    'La bandeja solo muestra corridas del modelo real o del modo simulado. Usa el archivo de la corrida original.',
+  );
+};
+
+/** Arma la bandeja a partir de una corrida guardada y agrega la descripción de sus datos. */
+export const armarBandejaDesdeCorrida = (solicitudes, corrida, opciones) => ({
+  datos: describirDatosBandeja(corrida),
+  ...armarBandeja(solicitudes, corrida?.resultados ?? [], opciones),
+});
