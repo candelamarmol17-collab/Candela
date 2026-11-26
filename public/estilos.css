@@ -250,19 +250,6 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-.origen-datos {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 18px 0 0;
-  padding: 10px 14px;
-  background: var(--ia-fondo);
-  color: var(--ia);
-  border: 1px solid #d6d6ee;
-  border-radius: var(--radio);
-  font-weight: 500;
-}
-
 /* ── Tarjetas de resumen ────────────────────────────────────── */
 
 .resumen {
@@ -272,12 +259,36 @@ textarea:focus-visible {
   margin-top: 20px;
 }
 
+/* Cada tarjeta es un botón que filtra la lista; la activa lleva borde azul petróleo. */
 .tarjeta {
+  display: block;
+  width: 100%;
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   padding: 16px 18px;
   box-shadow: var(--sombra);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.tarjeta:hover {
+  border-color: #b9d3d6;
+}
+
+.tarjeta[aria-pressed='true'] {
+  border-color: var(--principal);
+  box-shadow: 0 0 0 1px var(--principal);
+}
+
+.tarjeta:focus-visible {
+  outline: 3px solid #9ccfd4;
+  outline-offset: 2px;
 }
 
 .tarjeta__icono {
@@ -290,12 +301,14 @@ textarea:focus-visible {
 }
 
 .tarjeta__etiqueta {
+  display: block;
   margin: 10px 0 2px;
   font-size: 14px;
   color: var(--texto-suave);
 }
 
 .tarjeta__valor {
+  display: block;
   margin: 0;
   font-size: 30px;
   font-weight: 700;
@@ -333,6 +346,7 @@ textarea:focus-visible {
 /* ── Filtros ────────────────────────────────────────────────── */
 
 .filtros {
+  scroll-margin-top: 16px;
   display: flex;
   gap: 12px;
   margin-top: 20px;
@@ -387,6 +401,7 @@ textarea:focus-visible {
 /* ── Grupos y filas ─────────────────────────────────────────── */
 
 .grupo {
+  scroll-margin-top: 16px;
   margin-top: 22px;
 }
 
@@ -863,6 +878,61 @@ textarea:focus-visible {
   cursor: pointer;
 }
 
+/* ── Pantalla de carga ──────────────────────────────────────── */
+
+.carga {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fondo);
+  transition: opacity 0.3s;
+}
+
+.carga--saliendo {
+  opacity: 0;
+}
+
+.carga__tarjeta {
+  width: min(460px, 90vw);
+  padding: 36px 40px 32px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: 0 8px 24px rgba(35, 48, 58, 0.08);
+  text-align: center;
+}
+
+.carga__titulo {
+  margin: 18px 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+  min-height: 1.4em;
+}
+
+.carga__barra {
+  height: 8px;
+  background: var(--neutro-fondo);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.carga__avance {
+  width: 0;
+  height: 100%;
+  background: var(--principal);
+  border-radius: 999px;
+  transition: width 0.6s ease-out;
+}
+
+.carga__lema {
+  margin: 18px 0 0;
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
 /* ── Animaciones ────────────────────────────────────────────── */
 
 /* Solicitud nueva o recién cambiada: fondo azul petróleo muy suave que se desvanece en 2,5 s. */
@@ -903,6 +973,11 @@ textarea:focus-visible {
   .panel,
   .ingresando__punto {
     animation: none;
+  }
+  .carga,
+  .carga__avance,
+  .tarjeta {
+    transition: none;
   }
 }
 

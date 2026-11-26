@@ -9,8 +9,21 @@
     <script type="module" src="/app.js"></script>
   </head>
   <body>
+    <div class="carga" id="carga" role="status" aria-live="polite">
+      <div class="carga__tarjeta">
+        <img src="/logo-pulso.svg" alt="" width="64" height="64" />
+        <p class="carga__titulo" id="carga-titulo">Cargando la exportación de Telesalud…</p>
+        <div class="carga__barra" aria-hidden="true">
+          <div class="carga__avance" id="carga-avance"></div>
+        </div>
+        <p class="carga__lema">La IA sugiere, el equipo clínico decide.</p>
+      </div>
+    </div>
+
     <div class="aviso-prototipo">
-      Prototipo de demostración · Datos 100% ficticios · La IA sugiere, el equipo clínico decide
+      Prototipo de demostración · Datos 100% ficticios ·
+      <span id="franja-datos">Resultados de MiniMax reproducidos desde archivo</span> · La IA
+      sugiere, el equipo clínico decide
     </div>
 
     <header class="encabezado">
@@ -54,8 +67,6 @@
           <button type="button" class="boton boton--secundario" id="boton-reiniciar"></button>
         </div>
       </div>
-
-      <p class="origen-datos" id="origen-datos" role="note"></p>
 
       <section class="resumen" id="resumen" aria-label="Resumen de la bandeja"></section>
 

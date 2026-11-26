@@ -6,6 +6,13 @@
       "runtimeExecutable": "node",
       "runtimeArgs": ["src/server.js"],
       "port": 3000
+    },
+    {
+      "name": "pulso-prueba",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["src/server.js"],
+      "env": { "PUERTO": "3001" },
+      "port": 3001
     }
   ]
 }

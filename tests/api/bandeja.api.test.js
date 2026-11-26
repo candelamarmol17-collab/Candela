@@ -23,6 +23,8 @@ describe('GET /api/bandeja', () => {
     expect(datos.datos.etiqueta).toBe(
       'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
     );
+    expect(datos.datos.texto_franja).toBe('Resultados de MiniMax reproducidos desde archivo');
+    expect(datos.datos.nombre_corto).toBe('MiniMax');
     expect(datos.ordenadas.map((e) => e.solicitud.id_solicitud)).not.toContain('SINT-0009');
   });
 });

@@ -282,8 +282,10 @@ describe('describirDatosBandeja', () => {
       origen: 'modelo_real',
       modelo: 'minimaxai/minimax-m3.1-flash',
       nombre_modelo: 'MiniMax M3.1 Flash',
+      nombre_corto: 'MiniMax',
       fecha_corrida: '2026-11-26T04:42:50.445Z',
       reproducido_desde_archivo: true,
+      texto_franja: 'Resultados de MiniMax reproducidos desde archivo',
       etiqueta:
         'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
     });
@@ -298,10 +300,17 @@ describe('describirDatosBandeja', () => {
     );
   });
 
+  test('un modelo sin nombre corto usa su nombre en la franja', () => {
+    expect(
+      describirDatosBandeja({ origen: 'modelo_real', modelo: 'otro/modelo', generado_en: 'x' })
+        .texto_franja,
+    ).toBe('Resultados de otro/modelo reproducidos desde archivo');
+  });
+
   test('una corrida simulada dice claramente que es simulada', () => {
-    expect(describirDatosBandeja({ origen: 'simulado_reglas' }).etiqueta).toMatch(
-      /^Resultados SIMULADOS por reglas fijas/,
-    );
+    const datos = describirDatosBandeja({ origen: 'simulado_reglas' });
+    expect(datos.etiqueta).toMatch(/^Resultados SIMULADOS por reglas fijas/);
+    expect(datos.texto_franja).toMatch(/^Resultados SIMULADOS por reglas fijas/);
   });
 
   test.each([[{ origen: 'repeticion' }], [{}], [null]])('rechaza %p', (corrida) => {

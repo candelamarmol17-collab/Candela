@@ -35,6 +35,59 @@ const AVISO_R2 =
 /** Tiempo que se muestra "Aplicando la sugerencia guardada…" antes de que entre la solicitud. */
 const ESPERA_INGRESO_MS = 1200;
 const DURACION_AVISO_MS = 8000;
+/** Cada paso de la pantalla de carga dura esto (3 pasos ≈ 2,4 s, más 0,3 s de salida). */
+const PASO_CARGA_MS = 800;
+const SALIDA_CARGA_MS = 300;
+
+const FILTROS_VACIOS = Object.freeze({ prioridad: '', alerta: '', estado: '', texto: '' });
+
+/**
+ * Tarjetas de resumen. Las que tienen "filtro" muestran solo esas solicitudes al hacer clic;
+ * "Total" quita todos los filtros y "No clasificadas" lleva a la sección de revisión manual.
+ * El número de cada tarjeta es siempre el total de la bandeja, sin importar los filtros.
+ */
+const TARJETAS = Object.freeze([
+  {
+    id: 'total',
+    icono: 'bandeja',
+    clase: 'icono-total',
+    etiqueta: 'Total en bandeja',
+    campo: 'total',
+    filtro: {},
+  },
+  {
+    id: 'critica',
+    icono: 'alerta',
+    clase: 'icono-critica',
+    etiqueta: 'Con alerta crítica',
+    campo: 'con_alerta_critica',
+    filtro: { alerta: 'critica' },
+    extra: 'tarjeta--critica',
+  },
+  {
+    id: 'alta',
+    icono: 'flechaDiagonal',
+    clase: 'icono-alta',
+    etiqueta: 'Prioridad alta',
+    campo: 'prioridad_alta',
+    filtro: { prioridad: 'alta' },
+  },
+  {
+    id: 'pendientes',
+    icono: 'pulso',
+    clase: 'icono-pendientes',
+    etiqueta: 'Pendientes de revisión',
+    campo: 'pendientes',
+    filtro: { estado: 'pendiente' },
+  },
+  {
+    id: 'no_clasificadas',
+    icono: 'documentoAdvertencia',
+    clase: 'icono-no-clasificadas',
+    etiqueta: 'No clasificadas',
+    campo: 'no_clasificadas',
+  },
+]);
 
 const estado = {
   bandeja: null,
@@ -42,7 +95,7 @@ const estado = {
   modo: 'detalle', // 'detalle' o 'corregir'
   ingresando: false,
   destellar: null, // id que debe destellar en el próximo dibujo
-  filtros: { prioridad: '', alerta: '', estado: '', texto: '' },
+  filtros: { ...FILTROS_VACIOS },
 };
 
 let temporizadorAviso = null;
@@ -73,6 +126,9 @@ const svg = (nombre, opciones) => {
 };
 
 const $ = (id) => document.getElementById(id);
+
+const sinMovimiento = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));
 
 /** "2026-11-17T12:15:00" → "17-11 12:15". Se lee el texto tal cual, sin cambiar de zona horaria. */
 const fechaCorta = (texto) => {
@@ -114,32 +170,33 @@ const actualizar = (bandeja, { destellar = bandeja.ultima_cambiada } = {}) => {
 
 // ── Dibujo de la página ──────────────────────────────────────────
 
+/** Una tarjeta está activa cuando los filtros son exactamente los suyos. */
+const tarjetaActiva = (tarjeta) =>
+  Boolean(tarjeta.filtro) &&
+  Object.entries({ ...FILTROS_VACIOS, ...tarjeta.filtro }).every(
+    ([campo, valor]) => estado.filtros[campo] === valor,
+  );
+
 const dibujarResumen = () => {
   const { resumen } = estado.bandeja;
-  const tarjeta = (clase, nombreIcono, etiqueta, valor, extra = '') =>
-    el(
-      'article',
-      { clase: `tarjeta ${extra}` },
-      el('span', { clase: `tarjeta__icono ${clase}` }, svg(nombreIcono, { tamano: 20 })),
-      el('p', { clase: 'tarjeta__etiqueta' }, etiqueta),
-      el('p', { clase: 'tarjeta__valor' }, valor),
-    );
   $('resumen').replaceChildren(
-    tarjeta('icono-total', 'bandeja', 'Total en bandeja', resumen.total),
-    tarjeta(
-      'icono-critica',
-      'alerta',
-      'Con alerta crítica',
-      resumen.con_alerta_critica,
-      'tarjeta--critica',
-    ),
-    tarjeta('icono-alta', 'flechaDiagonal', 'Prioridad alta', resumen.prioridad_alta),
-    tarjeta('icono-pendientes', 'pulso', 'Pendientes de revisión', resumen.pendientes),
-    tarjeta(
-      'icono-no-clasificadas',
-      'documentoAdvertencia',
-      'No clasificadas',
-      resumen.no_clasificadas,
+    ...TARJETAS.map((tarjeta) =>
+      el(
+        'button',
+        {
+          type: 'button',
+          clase: `tarjeta ${tarjeta.extra ?? ''}`,
+          'aria-pressed': tarjeta.filtro ? String(tarjetaActiva(tarjeta)) : undefined,
+          alClick: () => alElegirTarjeta(tarjeta),
+        },
+        el(
+          'span',
+          { clase: `tarjeta__icono ${tarjeta.clase}` },
+          svg(tarjeta.icono, { tamano: 20 }),
+        ),
+        el('span', { clase: 'tarjeta__etiqueta' }, tarjeta.etiqueta),
+        el('span', { clase: 'tarjeta__valor' }, resumen[tarjeta.campo]),
+      ),
     ),
   );
 };
@@ -200,7 +257,10 @@ const pasaFiltros = (elemento) => {
     return false;
   }
   if (prioridad && clasificacion?.prioridad_sugerida !== prioridad) return false;
-  if (alerta === 'critica' && elemento.grupo === 'sin_alerta_critica') return false;
+  // Las no clasificadas no tienen grupo: no aparecen al filtrar por alerta.
+  if (alerta === 'critica' && (!elemento.grupo || elemento.grupo === 'sin_alerta_critica')) {
+    return false;
+  }
   if (alerta === 'sin' && elemento.grupo !== 'sin_alerta_critica') return false;
   if (filtroEstado && elemento.revision.estado !== filtroEstado) return false;
   return true;
@@ -325,7 +385,7 @@ const dibujarLista = () => {
     partes.push(
       el(
         'section',
-        { clase: 'grupo' },
+        { clase: 'grupo', id: 'seccion-revision-manual' },
         el(
           'h3',
           { clase: 'grupo__titulo' },
@@ -380,10 +440,7 @@ const dibujarBotones = () => {
 
 const dibujar = () => {
   const { datos, triajista } = estado.bandeja;
-  $('origen-datos').replaceChildren(
-    svg('archivo', { tamano: 18 }),
-    `${datos.etiqueta} · Modelo: ${datos.modelo ?? 'simulado por reglas'} · Prompt v${datos.version_prompt ?? '?'}`,
-  );
+  $('franja-datos').textContent = datos.texto_franja;
   $('triajista').textContent = triajista;
   dibujarBotones();
   dibujarResumen();
@@ -680,9 +737,11 @@ const dibujarPanel = ({ animar = false } = {}) => {
 
 // ── Acciones ─────────────────────────────────────────────────────
 
-const mostrarAviso = (texto, { deshacer = false } = {}) => {
+const mostrarAviso = (texto, { deshacer = false, icono: nombreIcono = 'check' } = {}) => {
   const aviso = $('aviso-flotante');
-  const partes = [el('span', {}, svg('check', { tamano: 18 }), ` ${texto}`)];
+  const partes = [
+    el('span', {}, nombreIcono ? [svg(nombreIcono, { tamano: 18 }), ' '] : null, texto),
+  ];
   if (deshacer) {
     partes.push(
       el(
@@ -757,12 +816,77 @@ const simularIngreso = () =>
     }
   });
 
+// ── Filtros y tarjetas de resumen ────────────────────────────────
+
+/** Cambia los filtros y deja las listas desplegables y el buscador iguales a ellos. */
+const aplicarFiltros = (filtros) => {
+  estado.filtros = { ...FILTROS_VACIOS, ...filtros };
+  $('filtro-prioridad').value = estado.filtros.prioridad;
+  $('filtro-alerta').value = estado.filtros.alerta;
+  $('filtro-estado').value = estado.filtros.estado;
+  $('buscar').value = estado.filtros.texto;
+  dibujarResumen();
+  dibujarLista();
+};
+
+const desplazarA = (nodo) =>
+  nodo?.scrollIntoView({ block: 'start', behavior: sinMovimiento() ? 'auto' : 'smooth' });
+
+const alElegirTarjeta = (tarjeta) => {
+  if (tarjeta.id === 'no_clasificadas') {
+    if (estado.bandeja.resumen.no_clasificadas === 0) {
+      mostrarAviso('No hay solicitudes sin clasificar', { icono: null });
+      return;
+    }
+    if (!$('seccion-revision-manual')) aplicarFiltros({});
+    desplazarA($('seccion-revision-manual'));
+    return;
+  }
+  // Un segundo clic en la tarjeta activa quita su filtro.
+  aplicarFiltros(tarjeta.id !== 'total' && tarjetaActiva(tarjeta) ? {} : tarjeta.filtro);
+  desplazarA(document.querySelector('.filtros'));
+};
+
+// ── Pantalla de carga ────────────────────────────────────────────
+
+/**
+ * Muestra la pantalla de carga mientras pide la bandeja, y luego sus tres pasos.
+ * Los textos describen lo que de verdad pasa: se leen resultados guardados, no se clasifica en vivo.
+ */
+const conPantallaDeCarga = async (pedirBandeja) => {
+  const carga = $('carga');
+  const paso = (titulo, avance) => {
+    $('carga-titulo').textContent = titulo;
+    $('carga-avance').style.width = `${avance}%`;
+  };
+  carga.classList.remove('carga--saliendo');
+  carga.hidden = false;
+  paso('Cargando la exportación de Telesalud…', 0);
+  try {
+    const bandeja = await pedirBandeja();
+    paso(`Cargando la exportación de Telesalud… (${bandeja.resumen.total} solicitudes)`, 33);
+    await esperar(PASO_CARGA_MS);
+    paso(`Aplicando las sugerencias de ${bandeja.datos.nombre_corto}…`, 66);
+    await esperar(PASO_CARGA_MS);
+    paso('Ordenando la bandeja…', 100);
+    await esperar(PASO_CARGA_MS);
+    return bandeja;
+  } finally {
+    carga.classList.add('carga--saliendo');
+    await esperar(sinMovimiento() ? 0 : SALIDA_CARGA_MS);
+    carga.hidden = true;
+  }
+};
+
 const reiniciar = () =>
   conError(async () => {
     estado.seleccionada = null;
     $('panel').hidden = true;
-    actualizar(await llamar('POST', '/api/bandeja/reiniciar'), { destellar: null });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const bandeja = await conPantallaDeCarga(() => llamar('POST', '/api/bandeja/reiniciar'));
+    estado.filtros = { ...FILTROS_VACIOS };
+    actualizar(bandeja, { destellar: null });
+    aplicarFiltros({});
+    window.scrollTo({ top: 0 });
     mostrarAviso('Demo reiniciada');
   });
 
@@ -774,6 +898,7 @@ const idsVisibles = () =>
 const alPresionarTecla = (evento) => {
   const escribiendo = ['INPUT', 'TEXTAREA', 'SELECT'].includes(evento.target.tagName);
   if (escribiendo || evento.ctrlKey || evento.metaKey || evento.altKey) return;
+  if (!$('carga').hidden) return;
   if (evento.key === 'Escape' && estado.seleccionada) {
     cerrarPanel();
     return;
@@ -819,17 +944,21 @@ const iniciar = async () => {
   ]) {
     $(id).addEventListener('change', (evento) => {
       estado.filtros[campo] = evento.target.value;
+      dibujarResumen();
       dibujarLista();
     });
   }
   $('buscar').addEventListener('input', (evento) => {
     estado.filtros.texto = evento.target.value.trim();
+    dibujarResumen();
     dibujarLista();
   });
   document.addEventListener('keydown', alPresionarTecla);
 
   try {
-    actualizar(await llamar('GET', '/api/bandeja'), { destellar: null });
+    actualizar(await conPantallaDeCarga(() => llamar('GET', '/api/bandeja')), {
+      destellar: null,
+    });
   } catch (error) {
     $('lista').replaceChildren(
       el('p', { clase: 'vacio' }, `No se pudo cargar la bandeja: ${error.message}`),
