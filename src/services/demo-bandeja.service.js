@@ -8,7 +8,7 @@ import {
   TIPOS_PRESTADOR,
 } from '../schemas/catalogos.js';
 import { validarClasificacion } from '../schemas/clasificacion.schema.js';
-import { aplicarReglaPersonaMayor } from './clasificacion.service.js';
+import { aplicarReglaPersonaMayor } from './regla-persona-mayor.js';
 import { armarBandejaDesdeCorrida, GRUPOS } from './bandeja.service.js';
 
 /**
