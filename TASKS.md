@@ -6,7 +6,7 @@
 | 002 | Esquemas de entrada y salida | done | 2026-11-19 |
 | 003 | Datos sintéticos con clasificación de referencia | done | 2026-11-24 |
 | 004 | Prompt del modelo y adaptador de IA con modo simulado | done | 2026-11-26 |
-| 005 | Orden de la bandeja | backlog | 2026-11-25 |
+| 005 | Orden de la bandeja | done | 2026-11-26 |
 
 ## Pendientes que no son código
 
