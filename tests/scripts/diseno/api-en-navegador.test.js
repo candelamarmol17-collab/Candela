@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { crearApp } from '../../../src/app.js';
-import { leerDatosBandeja } from '../../../src/repositories/bandeja.repository.js';
+import { leerDatosDemo } from '../../../src/repositories/bandeja.repository.js';
+import { codigoFijoDemo } from '../../../src/services/exportacion-demo.service.js';
 import { crearDemoBandeja } from '../../../src/services/demo-bandeja.service.js';
 import { crearFetchDeDemo } from '../../../scripts/diseno/api-en-navegador.js';
 
@@ -8,9 +9,10 @@ import { crearFetchDeDemo } from '../../../scripts/diseno/api-en-navegador.js';
 let fetchDeDemo;
 let app;
 beforeEach(async () => {
-  const datos = await leerDatosBandeja({
-    archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json',
-  });
+  const datos = {
+    ...(await leerDatosDemo({ archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json' })),
+    codigoFijo: codigoFijoDemo,
+  };
   fetchDeDemo = crearFetchDeDemo(crearDemoBandeja(datos));
   app = crearApp({ demo: crearDemoBandeja(datos) });
   // Las dos parten igual: con la primera exportación cargada.

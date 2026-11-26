@@ -11,11 +11,16 @@
   <body>
     <div class="carga" id="carga" role="status" aria-live="polite" hidden>
       <div class="carga__tarjeta">
-        <img src="/logo-pulso.svg" alt="" width="64" height="64" />
-        <p class="carga__titulo" id="carga-titulo">Cargando la exportación de Telesalud…</p>
-        <div class="carga__barra" aria-hidden="true">
-          <div class="carga__avance" id="carga-avance"></div>
+        <img src="/logo-pulso.svg" alt="" width="56" height="56" />
+        <!-- Anillo de avance: el porcentaje va al centro. Los lectores de pantalla leen el paso. -->
+        <div class="carga__anillo" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="148" height="148">
+            <circle class="carga__pista" cx="60" cy="60" r="52" />
+            <circle class="carga__progreso" id="carga-progreso" cx="60" cy="60" r="52" />
+          </svg>
+          <span class="carga__porcentaje" id="carga-porcentaje">0%</span>
         </div>
+        <p class="carga__titulo" id="carga-titulo">Cargando la exportación de Telesalud…</p>
         <p class="carga__lema">La IA sugiere, el equipo clínico decide.</p>
       </div>
     </div>

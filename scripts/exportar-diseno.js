@@ -3,7 +3,7 @@ import { dirname, extname, isAbsolute, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
 import { build } from 'esbuild';
-import { leerDatosBandeja } from '../src/repositories/bandeja.repository.js';
+import { leerDatosDemo } from '../src/repositories/bandeja.repository.js';
 
 /**
  * Genera una copia de la pantalla de la bandeja en UN SOLO archivo HTML, para revisar el diseño
@@ -13,7 +13,7 @@ import { leerDatosBandeja } from '../src/repositories/bandeja.repository.js';
  *      npm run exportar:diseno -- --salida <ruta.html>
  *
  * Lleva dentro el CSS, el JavaScript, la fuente Inter, el logo y los datos de la bandeja
- * (las solicitudes sintéticas y la corrida de MiniMax). No lleva la clave, el .env ni el servidor.
+ * (las exportaciones de demostración, con datos sintéticos, y la corrida de MiniMax). No lleva la clave, el .env ni el servidor.
  * El archivo se guarda FUERA del repositorio, para que no se suba a GitHub.
  */
 
@@ -156,7 +156,7 @@ export const generarCopiaDeDiseno = async ({ salida = SALIDA_POR_DEFECTO } = {})
     readFile(resolve(PUBLICO, 'logo-pulso.svg'), 'utf8'),
     readFile(resolve(PUBLICO, 'fuentes/inter-latin-variable.woff2')),
     empaquetar(),
-    leerDatosBandeja({ archivoCorrida: ARCHIVO_CORRIDA }),
+    leerDatosDemo({ archivoCorrida: ARCHIVO_CORRIDA }),
     leerEnvSiExiste(),
   ]);
   const pagina = armarHtml({ html, css, js, logoSvg, fuenteWoff2, datos });

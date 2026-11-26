@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
+import { ARCHIVOS_EXPORTACION_DEMO } from '../src/repositories/bandeja.repository.js';
 import { armarExportacionesDemo } from '../src/services/exportacion-demo.service.js';
 import { escribirCsv } from '../src/utilidades/csv.js';
 
@@ -12,10 +13,6 @@ import { escribirCsv } from '../src/utilidades/csv.js';
  */
 
 const CARPETA = new URL('../data/sinteticos/', import.meta.url);
-export const ARCHIVOS_EXPORTACION_DEMO = Object.freeze([
-  fileURLToPath(new URL('exportacion-demo-1.csv', CARPETA)),
-  fileURLToPath(new URL('exportacion-demo-2.csv', CARPETA)),
-]);
 
 const principal = async () => {
   try {

@@ -1,15 +1,17 @@
 import request from 'supertest';
 import { crearApp } from '../../src/app.js';
-import { leerDatosBandeja } from '../../src/repositories/bandeja.repository.js';
+import { leerDatosDemo } from '../../src/repositories/bandeja.repository.js';
+import { codigoFijoDemo } from '../../src/services/exportacion-demo.service.js';
 import { crearDemoBandeja } from '../../src/services/demo-bandeja.service.js';
 
-// Usa las 60 solicitudes sintéticas y la corrida de MiniMax del proyecto.
+// Usa las dos exportaciones de demostración (formato real, datos sintéticos) y la corrida de MiniMax.
 let app;
 let appVacia;
 beforeEach(async () => {
-  const datos = await leerDatosBandeja({
-    archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json',
-  });
+  const datos = {
+    ...(await leerDatosDemo({ archivoCorrida: 'data/resultados/clasificaciones-minimaxai-minimax-m3.1-flash.json' })),
+    codigoFijo: codigoFijoDemo,
+  };
   appVacia = crearApp({ demo: crearDemoBandeja(datos) });
   // La mayoría de las pruebas parte con la primera exportación ya cargada.
   const demo = crearDemoBandeja(datos);

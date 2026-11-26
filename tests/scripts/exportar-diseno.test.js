@@ -128,7 +128,7 @@ describe('revisarQueNoTengaClave', () => {
 });
 
 describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)', () => {
-  test('genera un solo archivo autónomo, con las 60 solicitudes y la corrida de MiniMax', async () => {
+  test('genera un solo archivo autónomo, con las exportaciones de demostración y la corrida de MiniMax', async () => {
     // Carpeta temporal del sistema: el sistema la limpia solo.
     const carpeta = await mkdtemp(join(tmpdir(), 'pulso-diseno-'));
     const salida = join(carpeta, 'sub', 'pulso-diseno.html');
@@ -146,7 +146,12 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
     expect(pagina).toContain('// src/services/demo-bandeja.service.js');
 
     const datos = leerDatosDeLaPagina(pagina);
-    expect(datos.solicitudes).toHaveLength(60);
+    expect(datos).not.toHaveProperty('solicitudes');
+    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 1]);
+    expect(datos.exportaciones[0][0]).toHaveLength(48);
+    // Los únicos datos "personales" que lleva son los de demostración, claramente inventados.
+    expect(pagina).toContain('Vecina Demo 01');
+    expect(pagina).toContain('DEMO-ID-0001');
     expect(datos.corrida.modelo).toBe('minimaxai/minimax-m3.1-flash');
     expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
   }, 30_000);

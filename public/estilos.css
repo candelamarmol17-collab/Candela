@@ -940,6 +940,13 @@ textarea:focus-visible {
   cursor: pointer;
 }
 
+.nota-datos-ia {
+  margin: 8px 0 0;
+  color: var(--texto-suave);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 /* ── Pantalla de carga ──────────────────────────────────────── */
 
 .carga {
@@ -967,30 +974,58 @@ textarea:focus-visible {
   text-align: center;
 }
 
+.carga__anillo {
+  position: relative;
+  width: 148px;
+  height: 148px;
+  margin: 20px auto 0;
+}
+
+.carga__anillo svg {
+  display: block;
+  /* El avance parte arriba (a las 12) y gira como el reloj. */
+  transform: rotate(-90deg);
+}
+
+.carga__pista,
+.carga__progreso {
+  fill: none;
+  stroke-width: 9;
+}
+
+.carga__pista {
+  stroke: var(--principal-suave);
+}
+
+.carga__progreso {
+  stroke: var(--principal);
+  stroke-linecap: round;
+  /* Largo del círculo (2·π·52 ≈ 326,7). app.js mueve stroke-dashoffset de 326,7 a 0. */
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: 326.73;
+}
+
+.carga__porcentaje {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--principal);
+  font-size: 30px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 .carga__titulo {
-  margin: 18px 0 20px;
-  font-size: 18px;
+  margin: 20px 0 0;
+  font-size: 17px;
   font-weight: 600;
-  min-height: 1.4em;
-}
-
-.carga__barra {
-  height: 8px;
-  background: var(--neutro-fondo);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.carga__avance {
-  width: 0;
-  height: 100%;
-  background: var(--principal);
-  border-radius: 999px;
-  transition: width 0.6s ease-out;
+  min-height: 2.8em;
 }
 
 .carga__lema {
-  margin: 18px 0 0;
+  margin: 6px 0 0;
   color: var(--texto-suave);
   font-size: 14px;
 }
@@ -1026,7 +1061,6 @@ textarea:focus-visible {
     animation: none;
   }
   .carga,
-  .carga__avance,
   .tarjeta {
     transition: none;
   }

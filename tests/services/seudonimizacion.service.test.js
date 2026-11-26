@@ -160,13 +160,13 @@ describe('seudonimizarExportacion', () => {
     }
   });
 
-  test('sin edad, la solicitud no la trae; con especificidad, la conserva', () => {
+  test('sin edad, la solicitud no la trae; la especificidad no pasa (queda para un prompt v2)', () => {
     const { solicitudes } = seudonimizarExportacion(
       [ENCABEZADO_EXPORTACION, filaCompleta({ Edad: '', Especificidad: 'Control' })],
       crearTablaDeCodigos(),
     );
     expect(solicitudes[0]).not.toHaveProperty('edad');
-    expect(solicitudes[0].especificidad_consulta).toBe('Control');
+    expect(solicitudes[0]).not.toHaveProperty('especificidad_consulta');
   });
 
   test.each([

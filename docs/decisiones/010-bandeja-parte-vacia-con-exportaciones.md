@@ -15,6 +15,7 @@
 - La ventana **no tiene** cómo elegir ni subir un archivo del computador.
 - La dirección `POST /api/bandeja/cargar-exportacion` no acepta cuerpo: si llega cualquier dato o archivo, responde 400 y no carga nada.
 - Las dos "exportaciones" no son archivos aparte: son las mismas 60 solicitudes sintéticas de `data/sinteticos/solicitudes.json`, separadas en dos entregas (59 y 1). Por eso la pantalla las llama "Exportación de demostración" y no les inventa un nombre de archivo.
+  - **Actualizado en la tarea 012** (decisión 011): ahora sí son dos archivos fijos del proyecto, con el formato real de Telesalud y datos sintéticos. La regla R1 no cambia: la demo solo lee esos dos archivos.
 
 ## Por qué
 

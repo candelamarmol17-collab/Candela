@@ -1,7 +1,8 @@
 import { crearApp } from './app.js';
 import { cargarArchivoEnv } from './config/ia.js';
 import { leerConfiguracionApp } from './config/app.js';
-import { leerDatosBandeja } from './repositories/bandeja.repository.js';
+import { leerDatosDemo } from './repositories/bandeja.repository.js';
+import { codigoFijoDemo } from './services/exportacion-demo.service.js';
 import { crearDemoBandeja } from './services/demo-bandeja.service.js';
 import { describirDatosBandeja } from './services/bandeja.service.js';
 
@@ -13,10 +14,10 @@ const iniciar = async () => {
   try {
     cargarArchivoEnv();
     const configuracion = leerConfiguracionApp();
-    const { solicitudes, corrida } = await leerDatosBandeja({
+    const { exportaciones, corrida } = await leerDatosDemo({
       archivoCorrida: configuracion.archivoCorrida,
     });
-    const demo = crearDemoBandeja({ solicitudes, corrida });
+    const demo = crearDemoBandeja({ exportaciones, corrida, codigoFijo: codigoFijoDemo });
     const servidor = crearApp({ demo }).listen(configuracion.puerto, () => {
       process.stdout.write(`${describirDatosBandeja(corrida).etiqueta}\n`);
       process.stdout.write(

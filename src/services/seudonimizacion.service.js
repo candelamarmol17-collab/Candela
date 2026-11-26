@@ -140,8 +140,7 @@ export const seudonimizarExportacion = (filas, tablaDeCodigos) => {
     };
     const edad = leerEdad(campos.edad);
     if (edad !== undefined) solicitud.edad = edad;
-    const especificidad = campos.especificidad_consulta.trim();
-    if (especificidad !== '') solicitud.especificidad_consulta = especificidad;
+    // Especificidad (columna T) queda para un prompt v2 [PENDIENTE]: hoy no pasa a la IA.
 
     const validada = validarSolicitud(solicitud);
     if (!validada.exito) {
