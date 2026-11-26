@@ -51,9 +51,7 @@
         <a class="pestana pestana--activa" href="#bandeja" id="pestana-bandeja" aria-current="page"
           >Bandeja</a
         >
-        <span class="pestana pestana--inactiva" aria-disabled="true"
-          >Registro <small>Próximamente</small></span
-        >
+        <a class="pestana" href="#registro" id="pestana-registro">Registro</a>
         <a class="pestana" href="#evaluacion" id="pestana-evaluacion">Evaluación</a>
         <a class="pestana" href="#como-funciona" id="pestana-como-funciona">Cómo funciona</a>
       </nav>
@@ -189,6 +187,43 @@
         </div>
       </form>
     </dialog>
+
+    <!-- Pestaña "Registro" (tarea 007): la dibuja registro.js con el estado de /api/bandeja. -->
+    <main class="contenedor principal" id="vista-registro" hidden>
+      <div class="reg-cabeza">
+        <div>
+          <h2 class="titulo">Registro</h2>
+          <p class="subtitulo" id="registro-aviso">Registro de esta sesión de demostración.</p>
+        </div>
+        <div class="reg-contadores" id="registro-contadores" aria-live="polite"></div>
+      </div>
+      <div class="reg-barra">
+        <input
+          class="reg-buscar"
+          id="registro-buscar"
+          type="search"
+          placeholder="Buscar por número de solicitud"
+          aria-label="Buscar por número de solicitud"
+          autocomplete="off"
+        />
+        <label class="reg-filtro">
+          <span>Acción</span>
+          <select id="registro-accion">
+            <option value="">Todas</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="corregida">Corregida</option>
+            <option value="deshecha">Deshecha</option>
+            <option value="exportacion_cargada">Exportación cargada</option>
+          </select>
+        </label>
+        <span class="reg-cantidad" id="registro-cantidad"></span>
+      </div>
+      <section class="reg-tarjeta" aria-label="Eventos">
+        <h3 class="reg-tarjeta__titulo">Eventos</h3>
+        <div id="registro-tabla"></div>
+      </section>
+      <section class="reg-tarjeta reg-ficha" id="registro-ficha" aria-live="polite"></section>
+    </main>
 
     <!-- Pestaña "Evaluación" (tarea 008): la dibuja evaluacion.js con los datos de /api/evaluacion. -->
     <main class="contenedor principal" id="vista-evaluacion" hidden>

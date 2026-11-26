@@ -1,6 +1,7 @@
 import { $, el, NOMBRES_ALERTAS, NOMBRES_PRIORIDAD } from './dom.js';
 import { mostrarComoFunciona } from './como-funciona.js';
 import { mostrarEvaluacion } from './evaluacion.js';
+import { mostrarRegistro } from './registro.js';
 import { icono } from './iconos.js';
 
 /**
@@ -967,10 +968,15 @@ const alPresionarTecla = (evento) => {
 
 // ── Pestañas ─────────────────────────────────────────────────────
 
-/** Muestra la pestaña que indica la dirección (#bandeja o #evaluacion). */
 /** Pestañas: dirección (#…), vista y qué se dibuja al abrirla. */
 const PESTANAS = [
   { hash: '#bandeja', vista: 'vista-bandeja', pestana: 'pestana-bandeja' },
+  {
+    hash: '#registro',
+    vista: 'vista-registro',
+    pestana: 'pestana-registro',
+    abrir: () => mostrarRegistro(llamar),
+  },
   {
     hash: '#evaluacion',
     vista: 'vista-evaluacion',

@@ -176,3 +176,38 @@ describe('deshacer, reiniciar y direcciones que no existen', () => {
     expect(respuesta.body.ok).toBe(false);
   });
 });
+
+describe('registro de la sesión (tarea 007)', () => {
+  test('confirmar y corregir quedan en el registro; reiniciar lo limpia', async () => {
+    await request(app).post('/api/bandeja/SINT-0001/confirmar');
+    const corregida = await request(app)
+      .post('/api/bandeja/SINT-0002/corregir')
+      .send({
+        prioridad: 'alta',
+        profesional: 'Medicina',
+        alertas: [],
+        motivo: 'Motivo de prueba',
+      });
+    expect(corregida.status).toBe(200);
+
+    const { registro } = (await request(app).get('/api/bandeja')).body.datos;
+    expect(registro.aviso).toBe('Registro de esta sesión de demostración.');
+    expect(registro.eventos.map((e) => [e.accion, e.id_solicitud])).toEqual([
+      ['corregida', 'SINT-0002'],
+      ['confirmada', 'SINT-0001'],
+      ['exportacion_cargada', null],
+    ]);
+    expect(registro.eventos[0].ficha.motivo).toBe('Motivo de prueba');
+    expect(registro.resumen).toEqual({ confirmadas: 1, corregidas: 1, porcentaje_correccion: 50 });
+
+    const reiniciada = await request(app).post('/api/bandeja/reiniciar');
+    expect(reiniciada.body.datos.registro.eventos).toEqual([]);
+  });
+
+  test('una acción rechazada no queda en el registro', async () => {
+    const respuesta = await request(app).post('/api/bandeja/SINT-0999/confirmar');
+    expect(respuesta.status).toBe(404);
+    const { registro } = (await request(app).get('/api/bandeja')).body.datos;
+    expect(registro.eventos).toHaveLength(1);
+  });
+});

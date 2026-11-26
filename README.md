@@ -40,6 +40,7 @@ Para revisar los casos en Excel, ejecuta `npm run revision:csv`. Así se genera 
 
 - **Arquitectura**: `docs/arquitectura.md` (diagrama Mermaid). La pestaña "Cómo funciona" muestra el mismo recorrido.
 - **Guion de la demo** (máximo 4:40): `docs/guion-demo.md`.
+- **Registro**: la pestaña "Registro" muestra lo que pasó en esta sesión de demostración (confirmaciones, correcciones, deshacer y cargas) con su ficha de decisión. Vive en memoria y se borra con "Reiniciar demo" (ver la decisión 013).
 
 ## Cómo instalarlo
 

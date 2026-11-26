@@ -1876,3 +1876,300 @@ textarea:focus-visible {
 [hidden] {
   display: none !important;
 }
+
+/* ── Registro (tarea 007): estilo de registro de auditoría ─────── */
+
+.reg-cabeza {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.reg-contadores {
+  display: flex;
+  gap: 12px;
+}
+
+.reg-contador {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  padding: 12px 16px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.reg-contador__valor {
+  font-size: 26px;
+  font-weight: 650;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.reg-contador__texto {
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.reg-contador--confirmada .reg-contador__valor {
+  color: var(--principal);
+}
+
+.reg-contador--corregida .reg-contador__valor {
+  color: var(--media);
+}
+
+.reg-barra {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.reg-buscar {
+  flex: 0 1 320px;
+  padding: 8px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: var(--superficie);
+  font-size: 14px;
+}
+
+.reg-filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--texto-suave);
+}
+
+.reg-filtro select {
+  padding: 7px 10px;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  font-size: 14px;
+}
+
+.reg-cantidad {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--texto-suave);
+}
+
+.reg-tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.reg-tarjeta__titulo {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.reg-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.reg-tabla th {
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  border-bottom: 1px solid var(--borde);
+}
+
+.reg-tabla td {
+  padding: 11px 10px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.reg-tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.reg-fila {
+  cursor: pointer;
+}
+
+.reg-fila:hover {
+  background: var(--fondo);
+}
+
+.reg-fila:focus-visible {
+  outline: 2px solid var(--principal);
+  outline-offset: -2px;
+}
+
+.reg-fila--elegida,
+.reg-fila--elegida:hover {
+  background: var(--principal-suave);
+}
+
+.reg-hora,
+.reg-solicitud,
+.reg-ficha__dato {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.reg-hora,
+.reg-quien {
+  color: var(--texto-suave);
+}
+
+.reg-tabla .reg-celda-resultado {
+  text-align: right;
+}
+
+.reg-resultado {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Colores de resultado: sin rojo (el rojo es solo para lo crítico). */
+.reg-resultado--confirmada {
+  color: var(--principal);
+  background: var(--principal-suave);
+}
+
+.reg-resultado--corregida {
+  color: var(--media);
+  background: var(--media-fondo);
+}
+
+.reg-resultado--deshecha {
+  color: var(--texto-suave);
+  background: var(--neutro-fondo);
+}
+
+.reg-resultado--exportacion_cargada {
+  color: var(--ia);
+  background: var(--ia-fondo);
+}
+
+.reg-vacio {
+  margin: 8px 0;
+  color: var(--texto-suave);
+  font-size: 14px;
+}
+
+.reg-ficha__cabeza {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.reg-ficha__titulo {
+  margin: 0;
+  font-size: 16px;
+}
+
+.reg-ficha__dato {
+  margin-left: auto;
+  color: var(--texto-suave);
+}
+
+.reg-ficha__renglones {
+  margin: 0;
+}
+
+.reg-renglon {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--borde);
+  font-size: 14px;
+}
+
+.reg-renglon:last-child {
+  border-bottom: none;
+}
+
+.reg-renglon dt {
+  color: var(--texto-suave);
+}
+
+.reg-renglon dd {
+  margin: 0;
+}
+
+.reg-clasificacion {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.reg-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--fondo);
+}
+
+.reg-chip--alta {
+  color: var(--alta);
+  background: var(--alta-fondo);
+  border-color: transparent;
+}
+
+.reg-chip--media {
+  color: var(--media);
+  background: var(--media-fondo);
+  border-color: transparent;
+}
+
+.reg-chip--baja {
+  color: var(--baja);
+  background: var(--baja-fondo);
+  border-color: transparent;
+}
+
+.reg-chip--alerta {
+  color: var(--ia);
+  background: var(--ia-fondo);
+  border-color: transparent;
+}
+
+.reg-suave {
+  color: var(--texto-suave);
+}
+
+@media (max-width: 720px) {
+  .reg-renglon {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .reg-quien {
+    display: none;
+  }
+}

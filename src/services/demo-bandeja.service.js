@@ -14,13 +14,17 @@ import {
   ErrorExportacion,
   seudonimizarExportacion,
 } from './seudonimizacion.service.js';
-import { armarBandejaDesdeCorrida, GRUPOS } from './bandeja.service.js';
+import { armarBandejaDesdeCorrida, describirDatosBandeja, GRUPOS } from './bandeja.service.js';
 
 /**
  * Estado de la demo de la bandeja (tarea 006).
  *
  * Guarda en memoria las confirmaciones y correcciones del triajista. Se pierden al apagar el
- * programa o con "Reiniciar demo". El registro permanente es de la tarea 007.
+ * programa o con "Reiniciar demo".
+ *
+ * Registro (tarea 007): cada acción deja un evento en memoria, solo de esta sesión. Un evento
+ * guarda códigos y catálogos (prioridad, profesional, alertas), el motivo de la corrección que
+ * escribió el triajista y la hora. Nunca guarda el texto de la solicitud ni datos personales.
  *
  * La bandeja parte VACÍA y se llena al "cargar" las exportaciones de demostración (tareas 011 y
  * 012), que tienen el formato real de Telesalud (48 columnas):
@@ -75,6 +79,36 @@ export const NOTA_DATOS_IA =
 
 const JUSTIFICACION_TRIAJISTA = 'Clasificación decidida por el triajista.';
 
+/** Aviso fijo de la pestaña Registro. No promete guardar nada: el registro vive en memoria. */
+export const AVISO_REGISTRO = 'Registro de esta sesión de demostración.';
+
+export const ACCIONES_REGISTRO = Object.freeze({
+  confirmada: 'confirmada',
+  corregida: 'corregida',
+  deshecha: 'deshecha',
+  exportacionCargada: 'exportacion_cargada',
+});
+
+/** Solo prioridad, profesional y alertas: lo que el registro necesita de una clasificación. */
+const resumirClasificacion = (clasificacion) =>
+  clasificacion
+    ? {
+        prioridad: clasificacion.prioridad_sugerida,
+        profesional: clasificacion.profesional_sugerido,
+        alertas: [...clasificacion.alertas],
+      }
+    : null;
+
+/** Nombre del modelo para la ficha (o que fueron reglas simuladas, que no son IA). */
+const modeloDeLaCorrida = (corrida) => {
+  try {
+    const datos = describirDatosBandeja(corrida);
+    return datos.origen === 'simulado_reglas' ? 'Reglas simuladas (no es IA)' : datos.nombre_modelo;
+  } catch {
+    return corrida?.modelo ?? 'desconocido';
+  }
+};
+
 /**
  * Crea la demo.
  * @param opciones.exportaciones las exportaciones de demostración, en orden: cada una es la lista
@@ -105,6 +139,45 @@ export const crearDemoBandeja = ({
   let decisiones = new Map(); // id -> { estado, motivo, clasificacion, en }
   let historial = []; // para "Deshacer": [{ id, anterior }]
   let ultimaCambiada = null; // id de la última solicitud que cambió (para el resaltado)
+  let registro = []; // eventos de esta sesión, del más antiguo al más nuevo (tarea 007)
+
+  const modelo = modeloDeLaCorrida(corrida);
+  const versionPrompt = corrida.version_prompt ?? null;
+
+  const anotar = (evento) => {
+    registro.push({
+      numero: registro.length + 1,
+      hora: ahora().toISOString(),
+      quien: TRIAJISTA_DEMO,
+      id_solicitud: null,
+      ficha: null,
+      ...evento,
+    });
+  };
+
+  /** Ficha de decisión: qué sugirió la IA, qué decidió el triajista y con qué modelo. */
+  const fichaDecision = (id, decision) => ({
+    sugerencia_ia: resumirClasificacion(sugerenciaIa(id)),
+    decision:
+      decision.estado === ESTADOS_REVISION.corregida
+        ? resumirClasificacion(decision.clasificacion)
+        : resumirClasificacion(sugerenciaIa(id)),
+    motivo: decision.motivo ?? null,
+    modelo,
+    version_prompt: versionPrompt,
+  });
+
+  const resumenRegistro = () => {
+    const estados = [...decisiones.values()].map((d) => d.estado);
+    const confirmadas = estados.filter((e) => e === ESTADOS_REVISION.confirmada).length;
+    const corregidas = estados.filter((e) => e === ESTADOS_REVISION.corregida).length;
+    const revisadas = confirmadas + corregidas;
+    return {
+      confirmadas,
+      corregidas,
+      porcentaje_correccion: revisadas === 0 ? null : Math.round((corregidas / revisadas) * 100),
+    };
+  };
 
   const visible = (id) => solicitudPorId.has(id);
 
@@ -191,6 +264,11 @@ export const crearDemoBandeja = ({
       catalogos: CATALOGOS,
       nota_datos_ia: NOTA_DATOS_IA,
       ultima_cambiada: ultimaCambiada,
+      registro: {
+        aviso: AVISO_REGISTRO,
+        resumen: resumenRegistro(),
+        eventos: [...registro].reverse(), // el más nuevo primero
+      },
     };
   };
 
@@ -208,7 +286,14 @@ export const crearDemoBandeja = ({
           400,
         );
       }
-      guardarDecision(id, { estado: ESTADOS_REVISION.confirmada, motivo: null, en: ahora() });
+      const decision = { estado: ESTADOS_REVISION.confirmada, motivo: null, en: ahora() };
+      guardarDecision(id, decision);
+      anotar({
+        accion: ACCIONES_REGISTRO.confirmada,
+        id_solicitud: id,
+        resultado: 'Sugerencia aceptada',
+        ficha: fichaDecision(id, decision),
+      });
       return armar();
     },
 
@@ -228,11 +313,18 @@ export const crearDemoBandeja = ({
         },
         solicitud.edad,
       );
-      guardarDecision(id, {
+      const decision = {
         estado: ESTADOS_REVISION.corregida,
         motivo: motivo?.trim() ? motivo.trim() : null,
         clasificacion,
         en: ahora(),
+      };
+      guardarDecision(id, decision);
+      anotar({
+        accion: ACCIONES_REGISTRO.corregida,
+        id_solicitud: id,
+        resultado: sugerenciaIa(id) ? 'Sugerencia corregida' : 'Clasificada a mano',
+        ficha: fichaDecision(id, decision),
       });
       return armar();
     },
@@ -242,6 +334,17 @@ export const crearDemoBandeja = ({
       if (!ultima) {
         throw new ErrorDemo('No hay nada que deshacer.', 400);
       }
+      const anulada = decisiones.get(ultima.id);
+      anotar({
+        accion: ACCIONES_REGISTRO.deshecha,
+        id_solicitud: ultima.id,
+        resultado: 'Decisión anulada',
+        ficha: {
+          ...fichaDecision(ultima.id, anulada),
+          accion_anulada: anulada.estado,
+          vuelve_a: ultima.anterior?.estado ?? ESTADOS_REVISION.pendiente,
+        },
+      });
       if (ultima.anterior) {
         decisiones.set(ultima.id, ultima.anterior);
       } else {
@@ -275,6 +378,18 @@ export const crearDemoBandeja = ({
         columnas_personales_separadas: separadas.resumen.columnas_personales_separadas,
         datos_tapados_en_texto: separadas.resumen.datos_tapados_en_texto,
       };
+      anotar({
+        accion: ACCIONES_REGISTRO.exportacionCargada,
+        resultado:
+          nuevas.length === 1 ? '1 solicitud nueva' : `${nuevas.length} solicitudes nuevas`,
+        ficha: {
+          exportacion: nombreExportacion(exportacionesCargadas),
+          solicitudes_nuevas: nuevas.length,
+          ...separacion,
+          modelo,
+          version_prompt: versionPrompt,
+        },
+      });
       // La primera carga llena la bandeja; en las siguientes se resalta la que llegó.
       ultimaCambiada = exportacionesCargadas > 1 ? (nuevas[0]?.id_solicitud ?? null) : null;
       return armar();
@@ -288,6 +403,7 @@ export const crearDemoBandeja = ({
       decisiones = new Map();
       historial = [];
       ultimaCambiada = null;
+      registro = [];
       return armar();
     },
   };

@@ -8,6 +8,7 @@
 | 004 | Prompt del modelo y adaptador de IA con modo simulado | done | 2026-11-26 |
 | 005 | Orden de la bandeja | done | 2026-11-26 |
 | 006 | Interfaz de bandeja con confirmar o corregir | done | 2026-11-26 |
+| 007 | Registro de la sesión | done | 2026-11-26 |
 | 008 | Script y pantalla de evaluación de los modelos | done | 2026-11-26 |
 | 009 | Cómo funciona, diagrama de arquitectura y guion de la demo | done | 2026-11-26 |
 | 010 | Copia de la pantalla para revisar el diseño | done | 2026-11-26 |

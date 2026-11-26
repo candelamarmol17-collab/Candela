@@ -43,9 +43,11 @@ const pedirAlServidor = async (metodo, ruta, cuerpo) => {
   return peticion.set('Content-Type', 'application/json').send(comoTexto(cuerpo));
 };
 
-// Las fechas de la revisión dependen del reloj: se comparan sin ellas.
+// Las fechas de la revisión y la hora del registro dependen del reloj: se comparan sin ellas.
 const sinFechas = (cuerpo) =>
-  JSON.parse(JSON.stringify(cuerpo, (clave, valor) => (clave === 'en' ? null : valor)));
+  JSON.parse(
+    JSON.stringify(cuerpo, (clave, valor) => (clave === 'en' || clave === 'hora' ? null : valor)),
+  );
 
 const correccion = { prioridad: 'baja', profesional: 'Medicina', alertas: [], motivo: 'prueba' };
 
