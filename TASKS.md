@@ -8,6 +8,7 @@
 | 004 | Prompt del modelo y adaptador de IA con modo simulado | done | 2026-11-26 |
 | 005 | Orden de la bandeja | done | 2026-11-26 |
 | 006 | Interfaz de bandeja con confirmar o corregir | done | 2026-11-26 |
+| 008 | Script y pantalla de evaluación de los modelos | backlog | 2026-11-26 |
 
 ## Pendientes que no son código
 
