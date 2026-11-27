@@ -8,8 +8,7 @@ import { leerCsv } from '../utilidades/csv.js';
  *
  * Por seguridad (regla R1), solo lee:
  *   - las solicitudes sintéticas (data/sinteticos/solicitudes.json), y
- *   - una corrida guardada (.json) de la carpeta data/resultados/, más los casos adicionales para
- *     el video del mismo modelo (clasificaciones-adicionales-<modelo>.json, tarea 015), y
+ *   - una corrida guardada (.json) de la carpeta data/resultados/, y
  *   - las dos exportaciones de demostración (data/sinteticos/exportacion-demo-1.csv y -2.csv).
  * Nunca lee la clasificación de referencia ni archivos de otras carpetas.
  */
@@ -129,7 +128,9 @@ export const nombreArchivoAdicional = (modelo) =>
     .replace(/[^a-z0-9.-]+/g, '-')}.json`;
 
 /**
- * Suma a la corrida los casos adicionales para el video, si el MISMO modelo los clasificó.
+ * Suma a la corrida los casos adicionales (tarea 015), si el MISMO modelo los clasificó.
+ * Desde la tarea 017 la demo NO la usa (Rosa quedó fuera del video); se conserva para volver a
+ * agregar un caso adicional si se decide.
  * Solo en memoria: el archivo de la corrida no cambia. Si no hay archivo, la corrida queda igual
  * (y el caso adicional aparece como "sin clasificar").
  */
@@ -166,8 +167,7 @@ export const sumarCasosAdicionales = async (corrida, carpetaResultados = CARPETA
 };
 
 /**
- * Todo lo que la demo necesita: las exportaciones de demostración y la corrida guardada (con los
- * casos adicionales del mismo modelo).
+ * Todo lo que la demo necesita: las exportaciones de demostración y la corrida guardada.
  * @returns {Promise<{ exportaciones: string[][][], corrida: object }>}
  */
 export const leerDatosDemo = async ({
@@ -179,5 +179,5 @@ export const leerDatosDemo = async ({
     leerDatosBandeja({ archivoCorrida, carpetaResultados }),
     leerExportacionesDemo(archivosExportacion),
   ]);
-  return { exportaciones, corrida: await sumarCasosAdicionales(corrida, carpetaResultados) };
+  return { exportaciones, corrida };
 };

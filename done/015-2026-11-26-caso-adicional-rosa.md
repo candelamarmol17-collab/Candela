@@ -69,6 +69,19 @@ Si se midiera contra su referencia, sería una **alerta crítica no detectada** 
 4. Abre "Evaluación": los números son los mismos de antes (60 casos).
 5. Pruebas automáticas: `npm.cmd test` (518 pruebas).
 
+## Actualización (tarea 017): Rosa sale de la demo
+
+El 26 nov 2026, Candela decidió sacar a Rosa de la "Exportación de demostración 2" para el video: esa exportación vuelve a traer solo SINT-0009, igual que antes de esta tarea.
+
+**Qué se conserva**, guardado y sin cambios:
+
+- la solicitud, en `data/sinteticos/casos-adicionales.json`;
+- su referencia, con la urgencia [PENDIENTE], en `data/sinteticos/referencia-casos-adicionales.json`;
+- la respuesta de MiniMax, en `data/resultados/clasificaciones-adicionales-minimaxai-minimax-m3.1-flash.json`;
+- el comando `npm run clasificar:adicionales`, que no vuelve a llamar al modelo porque el caso ya está clasificado.
+
+**Qué cambió**: la demo ya no lee estos archivos. La función que sumaba su resultado a la bandeja (`sumarCasosAdicionales`) sigue en el código y en sus pruebas, pero la demo no la usa. El detalle está en la tarea 017.
+
 ## Notas de cierre
 
 Rosa está en la demo y la clasificó MiniMax de verdad. El resultado es honesto y no se tocó: el modelo la dejó en prioridad media y sin la alerta de descompensación. Por eso no sube a los grupos críticos.
