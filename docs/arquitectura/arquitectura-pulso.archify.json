@@ -1,0 +1,762 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Pulso · Arquitectura tecnológica del prototipo",
+    "output": ".archify/architecture-pulso-20261126-165907/arquitectura-pulso.html",
+    "locale": "es",
+    "quality_profile": "showcase",
+    "feedback_links": false,
+    "repository": {
+      "url": "https://github.com/candelamarmol17-collab/Candela.git",
+      "provider": "github",
+      "revision": "5f4dddcf32d2a639d115237c7b32ab4e2f648fb4"
+    },
+    "legend": {
+      "entries": {
+        "frontend": {
+          "label": "Pantalla"
+        },
+        "backend": {
+          "label": "Servidor y servicios"
+        },
+        "database": {
+          "label": "Datos"
+        },
+        "cloud": {
+          "label": "Conexión con IA"
+        },
+        "security": {
+          "label": "Privacidad y validación"
+        },
+        "external": {
+          "label": "Fuera del centro / propuesta"
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "id": "pantalla",
+      "type": "frontend",
+      "label": "Pantalla (navegador)",
+      "sublabel": "HTML, CSS y JavaScript",
+      "explanation": "Una sola página con las pestañas Bandeja, Registro, Evaluación y Cómo funciona. Pide los datos a la API con fetch y los muestra como texto.",
+      "sources": [
+        {
+          "path": "public/index.html"
+        },
+        {
+          "path": "public/app.js",
+          "line": 127,
+          "end_line": 140,
+          "label": "llamada a la API"
+        }
+      ],
+      "pos": [
+        1510,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "servidor",
+      "type": "backend",
+      "label": "Servidor Node.js + Express",
+      "sublabel": "API JSON: bandeja y evaluación",
+      "explanation": "Express sirve la pantalla y la API JSON (/api/bandeja y /api/evaluacion). Las rutas de la bandeja cargan la exportación, confirman, corrigen, deshacen y reinician la demo.",
+      "sources": [
+        {
+          "path": "src/app.js",
+          "line": 17,
+          "end_line": 19
+        },
+        {
+          "path": "src/routes/bandeja.routes.js",
+          "line": 8,
+          "end_line": 13
+        },
+        {
+          "path": "src/server.js",
+          "line": 28,
+          "end_line": 33
+        }
+      ],
+      "pos": [
+        1220,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "lector",
+      "type": "backend",
+      "label": "Lector de la exportación",
+      "sublabel": "CSV de Telesalud · 48 columnas",
+      "sources": [
+        {
+          "path": "src/repositories/bandeja.repository.js",
+          "line": 102,
+          "end_line": 125
+        },
+        {
+          "path": "src/schemas/exportacion-telesalud.js",
+          "line": 92,
+          "end_line": 92
+        },
+        {
+          "path": "src/utilidades/csv.js",
+          "line": 15,
+          "end_line": 15
+        }
+      ],
+      "pos": [
+        350,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "seudonimizacion",
+      "type": "security",
+      "label": "Seudonimización",
+      "sublabel": "quita datos personales · código",
+      "sources": [
+        {
+          "path": "src/services/seudonimizacion.service.js",
+          "line": 106,
+          "end_line": 163
+        },
+        {
+          "path": "src/services/seudonimizacion.service.js",
+          "line": 46,
+          "end_line": 59,
+          "label": "tapar datos en el texto"
+        }
+      ],
+      "tag": "tapa RUT, teléfonos y correos",
+      "pos": [
+        640,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "personales",
+      "type": "database",
+      "label": "Datos personales y tabla de códigos",
+      "sublabel": "en memoria · no salen del centro",
+      "sources": [
+        {
+          "path": "src/services/demo-bandeja.service.js",
+          "line": 136,
+          "end_line": 136
+        },
+        {
+          "path": "src/services/seudonimizacion.service.js",
+          "line": 69,
+          "end_line": 85
+        }
+      ],
+      "pos": [
+        615,
+        60
+      ],
+      "size": [
+        240,
+        64
+      ]
+    },
+    {
+      "id": "orden",
+      "type": "backend",
+      "label": "Orden de la bandeja",
+      "sublabel": "lo urgente primero",
+      "sources": [
+        {
+          "path": "src/services/bandeja.service.js",
+          "line": 19,
+          "end_line": 64
+        },
+        {
+          "path": "src/services/bandeja.service.js",
+          "line": 248,
+          "end_line": 248
+        }
+      ],
+      "pos": [
+        930,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "explanation": "Orden: urgencia, luego otra alerta crítica, luego prioridad y, al final, antigüedad."
+    },
+    {
+      "id": "registro",
+      "type": "database",
+      "label": "Decisiones y registro de la sesión",
+      "sublabel": "confirmar · corregir · deshacer",
+      "sources": [
+        {
+          "path": "src/services/demo-bandeja.service.js",
+          "line": 142,
+          "end_line": 156
+        },
+        {
+          "path": "src/services/demo-bandeja.service.js",
+          "line": 278,
+          "end_line": 278
+        }
+      ],
+      "tag": "en memoria",
+      "pos": [
+        1195,
+        60
+      ],
+      "size": [
+        240,
+        64
+      ]
+    },
+    {
+      "id": "csv",
+      "type": "database",
+      "label": "Exportación de demostración",
+      "sublabel": "CSV · formato real de Telesalud",
+      "sources": [
+        {
+          "path": "data/sinteticos/exportacion-demo-1.csv"
+        },
+        {
+          "path": "data/sinteticos/exportacion-demo-2.csv"
+        }
+      ],
+      "pos": [
+        60,
+        220
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "json",
+      "type": "database",
+      "label": "Archivos JSON",
+      "sublabel": "solicitudes, corridas, referencia",
+      "sources": [
+        {
+          "path": "data/sinteticos/solicitudes.json"
+        },
+        {
+          "path": "data/resultados"
+        },
+        {
+          "path": "data/sinteticos/referencia.json"
+        }
+      ],
+      "pos": [
+        930,
+        380
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "clasificacion",
+      "type": "backend",
+      "label": "Clasificación",
+      "sublabel": "se corre antes de la demo",
+      "explanation": "Se corre aparte, antes de la demo. Guarda cada corrida en un JSON; la bandeja la reproduce desde ese archivo y no llama a la IA en vivo.",
+      "sources": [
+        {
+          "path": "scripts/clasificar-sinteticos.js",
+          "line": 169,
+          "end_line": 175
+        },
+        {
+          "path": "src/services/clasificacion.service.js",
+          "line": 66,
+          "end_line": 66
+        }
+      ],
+      "tag": "npm run clasificar:sinteticos",
+      "pos": [
+        930,
+        540
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "conexion-ia",
+      "type": "cloud",
+      "label": "Conexión con IA",
+      "sublabel": "compatible con OpenAI · prompt v1",
+      "sources": [
+        {
+          "path": "src/adaptadores/adaptador-compatible-openai.js",
+          "line": 76,
+          "end_line": 95
+        },
+        {
+          "path": "src/prompts/clasificacion.js",
+          "line": 19,
+          "end_line": 19,
+          "label": "versión del prompt"
+        },
+        {
+          "path": "src/services/clasificacion.service.js",
+          "line": 33,
+          "end_line": 46,
+          "label": "elige real, simulado o repetición"
+        }
+      ],
+      "tag": "real · simulado · repetición",
+      "pos": [
+        640,
+        540
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "explanation": "Adaptador compatible con la API de OpenAI, prompt versionado (v1) y tres modos: modelo real, simulado por reglas (sin internet ni clave) y repetición de una corrida guardada."
+    },
+    {
+      "id": "validacion",
+      "type": "security",
+      "label": "Validación con Zod",
+      "sublabel": "si falla → revisión manual",
+      "sources": [
+        {
+          "path": "src/schemas/clasificacion.schema.js",
+          "line": 29,
+          "end_line": 53
+        },
+        {
+          "path": "src/services/clasificacion.service.js",
+          "line": 100,
+          "end_line": 101
+        }
+      ],
+      "pos": [
+        640,
+        380
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "explanation": "Esquema Zod de la respuesta. Si la respuesta no cumple, la solicitud queda sin clasificar y se revisa a mano."
+    },
+    {
+      "id": "secretos",
+      "type": "security",
+      "label": "Secretos en .env",
+      "sublabel": "clave de IA · no se sube a Git",
+      "sources": [
+        {
+          "path": ".gitignore",
+          "line": 5,
+          "end_line": 7
+        },
+        {
+          "path": "src/config/ia.js",
+          "line": 27,
+          "end_line": 31
+        }
+      ],
+      "pos": [
+        350,
+        540
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "evaluacion",
+      "type": "backend",
+      "label": "Evaluación",
+      "sublabel": "contra referencia, sin veredicto",
+      "sources": [
+        {
+          "path": "src/services/evaluacion.service.js",
+          "line": 359,
+          "end_line": 359
+        },
+        {
+          "path": "src/server.js",
+          "line": 14,
+          "end_line": 14
+        },
+        {
+          "path": "scripts/evaluar.js",
+          "line": 20,
+          "end_line": 21
+        }
+      ],
+      "pos": [
+        1220,
+        380
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "nvidia",
+      "type": "external",
+      "label": "Catálogo de NVIDIA",
+      "sublabel": "Mistral Large 4 · MiniMax M3.1 Flash",
+      "sources": [
+        {
+          "path": ".env.example",
+          "line": 11,
+          "end_line": 14
+        },
+        {
+          "path": "src/adaptadores/adaptador-compatible-openai.js",
+          "line": 89,
+          "end_line": 89
+        }
+      ],
+      "pos": [
+        615,
+        720
+      ],
+      "size": [
+        240,
+        64
+      ]
+    },
+    {
+      "id": "pruebas",
+      "type": "external",
+      "label": "Pruebas automáticas",
+      "sublabel": "Jest + Supertest · 523 pruebas",
+      "sources": [
+        {
+          "path": "jest.config.js"
+        },
+        {
+          "path": "tests"
+        }
+      ],
+      "pos": [
+        930,
+        720
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "eslint",
+      "type": "external",
+      "label": "ESLint + Prettier",
+      "sublabel": "estilo y errores comunes",
+      "sources": [
+        {
+          "path": "eslint.config.js"
+        },
+        {
+          "path": ".prettierrc"
+        }
+      ],
+      "pos": [
+        1220,
+        720
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "git",
+      "type": "external",
+      "label": "Git / GitHub",
+      "sublabel": "una rama por tarea",
+      "sources": [
+        {
+          "path": "CLAUDE.md"
+        }
+      ],
+      "pos": [
+        1510,
+        720
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "p-alojamiento",
+      "type": "external",
+      "label": "Alojamiento",
+      "sublabel": "por definir · no construido",
+      "pos": [
+        60,
+        900
+      ],
+      "size": [
+        290,
+        64
+      ]
+    },
+    {
+      "id": "p-ia",
+      "type": "external",
+      "label": "Proveedor de IA sin retención de datos",
+      "sublabel": "por definir · no construido",
+      "pos": [
+        400,
+        900
+      ],
+      "size": [
+        290,
+        64
+      ]
+    },
+    {
+      "id": "p-bd",
+      "type": "external",
+      "label": "Base de datos para el registro permanente",
+      "sublabel": "por definir · no construido",
+      "pos": [
+        740,
+        900
+      ],
+      "size": [
+        290,
+        64
+      ]
+    },
+    {
+      "id": "p-login",
+      "type": "external",
+      "label": "Inicio de sesión de usuarios",
+      "sublabel": "por definir · no construido",
+      "pos": [
+        1080,
+        900
+      ],
+      "size": [
+        290,
+        64
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Centro de salud · aquí se quedan los datos personales y la tabla de códigos",
+      "wraps": [
+        "personales",
+        "registro",
+        "csv",
+        "lector",
+        "seudonimizacion",
+        "orden",
+        "servidor",
+        "pantalla",
+        "validacion",
+        "json",
+        "evaluacion",
+        "secretos",
+        "conexion-ia",
+        "clasificacion"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Proveedor de IA · FUERA del centro",
+      "wraps": [
+        "nvidia"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Calidad",
+      "wraps": [
+        "pruebas",
+        "eslint",
+        "git"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Propuesta para el piloto (por definir con la UAI)",
+      "wraps": [
+        "p-alojamiento",
+        "p-ia",
+        "p-bd",
+        "p-login"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "pantalla-api",
+      "from": "pantalla",
+      "to": "servidor",
+      "label": "fetch · JSON",
+      "variant": "emphasis"
+    },
+    {
+      "id": "csv-lector",
+      "from": "csv",
+      "to": "lector",
+      "label": "48 columnas"
+    },
+    {
+      "id": "lector-seudo",
+      "from": "lector",
+      "to": "seudonimizacion",
+      "label": "filas"
+    },
+    {
+      "id": "seudo-personales",
+      "from": "seudonimizacion",
+      "to": "personales",
+      "label": "guarda",
+      "variant": "security"
+    },
+    {
+      "id": "seudo-orden",
+      "from": "seudonimizacion",
+      "to": "orden",
+      "label": "con código"
+    },
+    {
+      "id": "json-orden",
+      "from": "json",
+      "to": "orden",
+      "label": "corrida guardada"
+    },
+    {
+      "id": "orden-servidor",
+      "from": "orden",
+      "to": "servidor",
+      "label": "bandeja"
+    },
+    {
+      "id": "servidor-registro",
+      "from": "servidor",
+      "to": "registro",
+      "label": "confirmar · corregir"
+    },
+    {
+      "id": "json-evaluacion",
+      "from": "json",
+      "to": "evaluacion",
+      "label": "corridas"
+    },
+    {
+      "id": "evaluacion-servidor",
+      "from": "evaluacion",
+      "to": "servidor",
+      "label": "métricas"
+    },
+    {
+      "id": "json-clasificacion",
+      "from": "json",
+      "to": "clasificacion",
+      "label": "solicitudes sintéticas"
+    },
+    {
+      "id": "clasificacion-conexion",
+      "from": "clasificacion",
+      "to": "conexion-ia",
+      "label": "solicitud"
+    },
+    {
+      "id": "secretos-conexion",
+      "from": "secretos",
+      "to": "conexion-ia",
+      "label": "clave",
+      "variant": "dashed"
+    },
+    {
+      "id": "conexion-nvidia",
+      "from": "conexion-ia",
+      "to": "nvidia",
+      "label": "profesional, motivo, texto tapado, edad, código",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "nvidia-conexion",
+      "from": "nvidia",
+      "to": "conexion-ia",
+      "label": "sugerencia",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "conexion-validacion",
+      "from": "conexion-ia",
+      "to": "validacion",
+      "label": "respuesta"
+    },
+    {
+      "id": "validacion-json",
+      "from": "validacion",
+      "to": "json",
+      "label": "corrida JSON"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Frontera de privacidad",
+      "items": [
+        "Dentro del centro: nombre, RUT, contacto, dirección y la tabla de códigos.",
+        "Al proveedor de IA solo viajan: profesional pedido, motivo, texto tapado, edad y código.",
+        "Datos 100 % sintéticos: lo único real es el encabezado de la exportación."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "IA en la demo",
+      "items": [
+        "La bandeja reproduce corridas guardadas: no llama a la IA en vivo.",
+        "La IA sugiere; el triajista confirma o corrige."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Propuesta para el piloto",
+      "items": [
+        "Alojamiento, proveedor sin retención, base de datos para el registro permanente e inicio de sesión: por definir con la UAI. No está construido."
+      ]
+    }
+  ]
+}

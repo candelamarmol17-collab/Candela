@@ -2,6 +2,8 @@
 
 Pulso es una **capa de apoyo** sobre la exportación de Telesalud: no escribe en Telesalud (regla R8) y la IA solo sugiere (regla R2). La pestaña "Cómo funciona" muestra este mismo recorrido.
 
+**Diagrama tecnológico** (piezas del programa, frontera de privacidad y propuesta para el piloto): [arquitectura-pulso.html](arquitectura/arquitectura-pulso.html) · [imagen PNG](arquitectura/arquitectura-pulso.png). Ver la decisión 014.
+
 ```mermaid
 flowchart LR
   subgraph CENTRO["Centro de salud"]
