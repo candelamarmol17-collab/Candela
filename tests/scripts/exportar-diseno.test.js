@@ -158,7 +158,7 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
       'Mistral Large 4',
       'MiniMax M3.1 Flash',
     ]);
-    expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
+    expect(pagina).toContain('Clasificación con MiniMax M3.1 Flash');
     // La bienvenida (tarea 014) también va en la copia.
     expect(pagina).toContain('Hola, equipo.');
     // La pestaña "Cómo funciona" (tarea 009) también.

@@ -345,7 +345,7 @@ const hallazgosR3 = (modelos) => {
 /** Tabla "Modelos considerados" (también la usa la pestaña "Cómo funciona"). */
 export const modelosConsiderados = (filas) =>
   tabla(
-    ['Modelo', 'Lo medido (60 casos sintéticos)', 'Privacidad y retención', 'Costo', 'Alojamiento'],
+    ['Modelo', 'Lo medido (60 casos de prueba)', 'Privacidad y retención', 'Costo', 'Alojamiento'],
     filas.map((f) =>
       el(
         'tr',
@@ -369,7 +369,7 @@ const dibujar = (datos) => {
     el(
       'p',
       { clase: 'eval-nota eval-sin-veredicto' },
-      `Comparación sobre ${datos.casos} casos sintéticos. Sin veredicto: los umbrales para uso real se definirán con el equipo clínico. Esta pantalla no aprueba ni elige un modelo.`,
+      `Comparación sobre ${datos.casos} casos de prueba. Los umbrales de uso se definen con el equipo clínico del centro.`,
     ),
     evaluados.length > 0
       ? [

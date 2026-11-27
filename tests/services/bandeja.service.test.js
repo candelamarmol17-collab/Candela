@@ -285,9 +285,8 @@ describe('describirDatosBandeja', () => {
       nombre_corto: 'MiniMax',
       fecha_corrida: '2026-11-26T04:42:50.445Z',
       reproducido_desde_archivo: true,
-      texto_franja: 'Resultados de MiniMax reproducidos desde archivo',
-      etiqueta:
-        'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
+      texto_franja: 'Clasificación con MiniMax M3.1 Flash',
+      etiqueta: 'Clasificación de MiniMax M3.1 Flash (corrida del 26 nov. 2026)',
     });
   });
 
@@ -295,22 +294,20 @@ describe('describirDatosBandeja', () => {
     expect(
       describirDatosBandeja({ origen: 'modelo_real', modelo: 'otro/modelo', generado_en: 'x' })
         .etiqueta,
-    ).toBe(
-      'Resultados reales de otro/modelo (fecha de la corrida desconocida), reproducidos desde archivo',
-    );
+    ).toBe('Clasificación de otro/modelo (fecha de la corrida desconocida)');
   });
 
   test('un modelo sin nombre corto usa su nombre en la franja', () => {
     expect(
       describirDatosBandeja({ origen: 'modelo_real', modelo: 'otro/modelo', generado_en: 'x' })
         .texto_franja,
-    ).toBe('Resultados de otro/modelo reproducidos desde archivo');
+    ).toBe('Clasificación con otro/modelo');
   });
 
   test('una corrida simulada dice claramente que es simulada', () => {
     const datos = describirDatosBandeja({ origen: 'simulado_reglas' });
-    expect(datos.etiqueta).toMatch(/^Resultados SIMULADOS por reglas fijas/);
-    expect(datos.texto_franja).toMatch(/^Resultados SIMULADOS por reglas fijas/);
+    expect(datos.etiqueta).toBe('Clasificación por reglas de respaldo (sin IA)');
+    expect(datos.texto_franja).toBe('Clasificación por reglas de respaldo (sin IA)');
   });
 
   test.each([[{ origen: 'repeticion' }], [{}], [null]])('rechaza %p', (corrida) => {

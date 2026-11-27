@@ -18,6 +18,7 @@
 | 015 | Caso adicional SINT-0061 "Rosa" para la demo del video | done | 2026-11-26 |
 | 016 | Diagrama de arquitectura tecnológica con Archify | done | 2026-11-26 |
 | 017 | Sacar a Rosa (SINT-0061) de la exportación de demostración 2 | done | 2026-11-26 |
+| 018 | Presentar Pulso funcionando, sin avisos de "demo" en pantalla | done | 2026-11-26 |
 
 ## Pendientes que no son código
 

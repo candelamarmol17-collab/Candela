@@ -17,9 +17,9 @@ import {
  * para uso real están [PENDIENTE].
  */
 
-/** Aviso fijo de la pantalla (texto de Candela, tarea 008). */
+/** Aviso fijo de la pantalla (tarea 008; texto acortado en la tarea 018). */
 export const AVISO_EVALUACION =
-  'Casos redactados con apoyo de IA y revisados por el equipo. La clasificación de referencia la definió el equipo del proyecto, no triajistas: estos resultados muestran el método de evaluación, no la calidad clínica real.';
+  'Casos de prueba revisados por el equipo. Los criterios se construyeron con el equipo del centro y su validación clínica formal es parte del piloto.';
 
 export const SIN_RESPUESTA = 'sin_respuesta';
 

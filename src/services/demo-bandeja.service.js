@@ -37,13 +37,13 @@ import { armarBandejaDesdeCorrida, describirDatosBandeja, GRUPOS } from './bande
  * Por la regla R1, no se recibe ningún archivo de afuera: solo existen estas exportaciones.
  */
 
-export const TRIAJISTA_DEMO = 'Triajista de demostración';
+export const TRIAJISTA_DEMO = 'Triajista de turno';
 
 /** Respuesta cuando alguien intenta mandar un archivo o datos al cargar (regla R1). */
 export const MENSAJE_SOLO_DEMOSTRACION =
-  'Solo se puede cargar la exportación de demostración: Pulso no recibe archivos (regla R1).';
+  'Solo se puede cargar la exportación de Telesalud: Pulso no recibe archivos (regla R1).';
 
-const nombreExportacion = (numero) => `Exportación de demostración ${numero}`;
+const nombreExportacion = (numero) => `Exportación de Telesalud ${numero}`;
 
 export const ESTADOS_REVISION = Object.freeze({
   pendiente: 'pendiente',
@@ -80,7 +80,7 @@ export const NOTA_DATOS_IA =
 const JUSTIFICACION_TRIAJISTA = 'Clasificación decidida por el triajista.';
 
 /** Aviso fijo de la pestaña Registro. No promete guardar nada: el registro vive en memoria. */
-export const AVISO_REGISTRO = 'Registro de esta sesión de demostración.';
+export const AVISO_REGISTRO = 'Registro de esta sesión de trabajo.';
 
 export const ACCIONES_REGISTRO = Object.freeze({
   confirmada: 'confirmada',
@@ -103,7 +103,7 @@ const resumirClasificacion = (clasificacion) =>
 const modeloDeLaCorrida = (corrida) => {
   try {
     const datos = describirDatosBandeja(corrida);
-    return datos.origen === 'simulado_reglas' ? 'Reglas simuladas (no es IA)' : datos.nombre_modelo;
+    return datos.origen === 'simulado_reglas' ? 'Reglas de respaldo (sin IA)' : datos.nombre_modelo;
   } catch {
     return corrida?.modelo ?? 'desconocido';
   }
@@ -357,7 +357,7 @@ export const crearDemoBandeja = ({
     /** Carga la siguiente exportación de demostración. No recibe nada de afuera. */
     cargarExportacion: () => {
       if (exportacionesCargadas >= exportaciones.length) {
-        throw new ErrorDemo('No hay más exportaciones de demostración. Usa "Reiniciar demo".', 400);
+        throw new ErrorDemo('No hay exportaciones nuevas por cargar.', 400);
       }
       let separadas;
       try {

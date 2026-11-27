@@ -74,7 +74,7 @@ const crear = () => {
 
 const exportacion = (numero, nuevas) => ({
   numero,
-  nombre: `Exportación de demostración ${numero}`,
+  nombre: `Exportación de Telesalud ${numero}`,
   solicitudes_nuevas: nuevas,
 });
 
@@ -152,7 +152,7 @@ describe('crearDemoBandeja', () => {
     expect(
       estado.ordenadas.find((e) => e.solicitud.id_solicitud === 'SINT-0001').revision.estado,
     ).toBe('confirmada');
-    expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
+    expect(() => demo.cargarExportacion()).toThrow('No hay exportaciones nuevas');
   });
 
   test('con una sola exportación, después de cargarla no hay más', () => {
@@ -164,7 +164,7 @@ describe('crearDemoBandeja', () => {
     });
     expect(demo.estado().exportaciones.siguiente).toEqual(exportacion(1, 1));
     expect(demo.cargarExportacion().exportaciones.siguiente).toBeNull();
-    expect(() => demo.cargarExportacion()).toThrow('No hay más exportaciones');
+    expect(() => demo.cargarExportacion()).toThrow('No hay exportaciones nuevas');
   });
 
   test('ningún dato personal de la exportación llega al estado que ve la pantalla', () => {

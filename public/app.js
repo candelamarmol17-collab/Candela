@@ -394,10 +394,9 @@ const dibujarBotones = () => {
     const boton = $(id);
     boton.replaceChildren(svg('archivo', { tamano: 18 }), textoBotonCargar());
     boton.disabled = siguiente === null;
-    boton.title =
-      siguiente === null ? 'No hay más exportaciones de demostración. Usa "Reiniciar demo".' : '';
+    boton.title = siguiente === null ? 'No hay exportaciones nuevas por cargar.' : '';
   }
-  $('boton-reiniciar').replaceChildren(svg('flechaCircular', { tamano: 18 }), 'Reiniciar demo');
+  $('boton-reiniciar').replaceChildren(svg('flechaCircular', { tamano: 18 }), 'Reiniciar bandeja');
 };
 
 const dibujar = () => {
@@ -501,7 +500,7 @@ const cajaSugerencia = (sugerencia) => {
     el(
       'p',
       { clase: 'caja-ia__pie' },
-      `Modelo: ${datos.modelo ?? 'simulado por reglas'} · Prompt v${datos.version_prompt ?? '?'} · Reproducido desde archivo`,
+      `Modelo: ${datos.modelo ?? 'simulado por reglas'} · Prompt v${datos.version_prompt ?? '?'}`,
     ),
   );
 };
@@ -592,7 +591,7 @@ const vistaCorregir = (elemento) => {
     el(
       'p',
       { clase: 'aviso-info' },
-      'Recorrido de demostración: la corrección se guarda solo mientras el programa está encendido. Puedes guardar o cancelar.',
+      'La corrección queda anotada en el Registro de la sesión. Puedes guardar o cancelar.',
     ),
     el('label', { clase: 'titulo-campo', for: 'campo-prioridad' }, 'Prioridad'),
     el(
@@ -922,7 +921,7 @@ const reiniciar = () =>
     actualizar(bandeja, { destellar: null });
     aplicarFiltros({});
     window.scrollTo({ top: 0 });
-    mostrarAviso('Demo reiniciada');
+    mostrarAviso('Bandeja reiniciada');
   });
 
 // ── Teclado ──────────────────────────────────────────────────────

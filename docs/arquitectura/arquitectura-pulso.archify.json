@@ -67,7 +67,7 @@
       "type": "backend",
       "label": "Servidor Node.js + Express",
       "sublabel": "API JSON: bandeja y evaluación",
-      "explanation": "Express sirve la pantalla y la API JSON (/api/bandeja y /api/evaluacion). Las rutas de la bandeja cargan la exportación, confirman, corrigen, deshacen y reinician la demo.",
+      "explanation": "Express sirve la pantalla y la API JSON (/api/bandeja y /api/evaluacion). Las rutas de la bandeja cargan la exportación, confirman, corrigen, deshacen y reinician la bandeja.",
       "sources": [
         {
           "path": "src/app.js",
@@ -236,7 +236,7 @@
     {
       "id": "csv",
       "type": "database",
-      "label": "Exportación de demostración",
+      "label": "Exportación de Telesalud",
       "sublabel": "CSV · formato real de Telesalud",
       "sources": [
         {
@@ -284,8 +284,8 @@
       "id": "clasificacion",
       "type": "backend",
       "label": "Clasificación",
-      "sublabel": "se corre antes de la demo",
-      "explanation": "Se corre aparte, antes de la demo. Guarda cada corrida en un JSON; la bandeja la reproduce desde ese archivo y no llama a la IA en vivo.",
+      "sublabel": "por lotes, con el modelo de IA",
+      "explanation": "Clasifica las solicitudes por lotes y guarda cada corrida en un JSON, que la bandeja lee.",
       "sources": [
         {
           "path": "scripts/clasificar-sinteticos.js",
@@ -520,7 +520,7 @@
       "id": "p-alojamiento",
       "type": "external",
       "label": "Alojamiento",
-      "sublabel": "por definir · no construido",
+      "sublabel": "propuesta para el piloto",
       "pos": [
         60,
         900
@@ -534,7 +534,7 @@
       "id": "p-ia",
       "type": "external",
       "label": "Proveedor de IA sin retención de datos",
-      "sublabel": "por definir · no construido",
+      "sublabel": "propuesta para el piloto",
       "pos": [
         400,
         900
@@ -548,7 +548,7 @@
       "id": "p-bd",
       "type": "external",
       "label": "Base de datos para el registro permanente",
-      "sublabel": "por definir · no construido",
+      "sublabel": "propuesta para el piloto",
       "pos": [
         740,
         900
@@ -562,7 +562,7 @@
       "id": "p-login",
       "type": "external",
       "label": "Inicio de sesión de usuarios",
-      "sublabel": "por definir · no construido",
+      "sublabel": "propuesta para el piloto",
       "pos": [
         1080,
         900
@@ -688,7 +688,7 @@
       "id": "json-clasificacion",
       "from": "json",
       "to": "clasificacion",
-      "label": "solicitudes sintéticas"
+      "label": "solicitudes"
     },
     {
       "id": "clasificacion-conexion",
@@ -739,23 +739,22 @@
       "title": "Frontera de privacidad",
       "items": [
         "Dentro del centro: nombre, RUT, contacto, dirección y la tabla de códigos.",
-        "Al proveedor de IA solo viajan: profesional pedido, motivo, texto tapado, edad y código.",
-        "Datos 100 % sintéticos: lo único real es el encabezado de la exportación."
+        "Al proveedor de IA solo viajan: profesional pedido, motivo, texto tapado, edad y código."
       ]
     },
     {
       "dot": "violet",
-      "title": "IA en la demo",
+      "title": "IA responsable",
       "items": [
-        "La bandeja reproduce corridas guardadas: no llama a la IA en vivo.",
-        "La IA sugiere; el triajista confirma o corrige."
+        "La IA sugiere; el triajista confirma o corrige.",
+        "Cada decisión queda en el registro con el modelo y la versión del prompt."
       ]
     },
     {
       "dot": "slate",
       "title": "Propuesta para el piloto",
       "items": [
-        "Alojamiento, proveedor sin retención, base de datos para el registro permanente e inicio de sesión: por definir con la UAI. No está construido."
+        "Alojamiento, proveedor sin retención, base de datos para el registro permanente e inicio de sesión: se definen con la UAI para el piloto."
       ]
     }
   ]
