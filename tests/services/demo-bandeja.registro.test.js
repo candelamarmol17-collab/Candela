@@ -78,7 +78,7 @@ describe('registro de la sesión (tarea 007)', () => {
       resumen: { confirmadas: 0, corregidas: 0, porcentaje_correccion: null },
       eventos: [],
     });
-    expect(AVISO_REGISTRO).toBe('Registro de esta sesión de demostración.');
+    expect(AVISO_REGISTRO).toBe('Registro de esta sesión de trabajo.');
   });
 
   test('cargar una exportación deja un evento sin solicitud, con lo que se separó', () => {
@@ -91,7 +91,7 @@ describe('registro de la sesión (tarea 007)', () => {
       id_solicitud: null,
       resultado: '3 solicitudes nuevas',
       ficha: {
-        exportacion: 'Exportación de demostración 1',
+        exportacion: 'Exportación de Telesalud 1',
         solicitudes_nuevas: 3,
         columnas_personales_separadas: 12,
         datos_tapados_en_texto: 0,
@@ -206,7 +206,7 @@ describe('registro de la sesión (tarea 007)', () => {
     expect(new Date(lista[0].hora) > new Date(lista[1].hora)).toBe(true);
   });
 
-  test('"Reiniciar demo" limpia el registro', () => {
+  test('"Reiniciar bandeja" limpia el registro', () => {
     const demo = crear();
     demo.cargarExportacion();
     demo.confirmar('SINT-0002');
@@ -238,7 +238,7 @@ describe('registro de la sesión (tarea 007)', () => {
     const demo = crear({ origen: 'simulado_reglas' });
     demo.cargarExportacion();
     expect(eventos(demo.confirmar('SINT-0002'))[0].ficha.modelo).toBe(
-      'Reglas simuladas (no es IA)',
+      'Reglas de respaldo (sin IA)',
     );
   });
 

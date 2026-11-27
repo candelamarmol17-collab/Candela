@@ -60,7 +60,7 @@ describe('bandeja del video: corrida de MiniMax reproducida desde archivo', () =
     const bandeja = armarBandejaDesdeCorrida(solicitudes, corrida);
 
     expect(bandeja.datos.etiqueta).toBe(
-      'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
+      'Clasificación de MiniMax M3.1 Flash (corrida del 26 nov. 2026)',
     );
     expect(bandeja.ordenadas).toHaveLength(60);
     expect(bandeja.no_clasificadas).toEqual([]);

@@ -147,7 +147,7 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
 
     const datos = leerDatosDeLaPagina(pagina);
     expect(datos).not.toHaveProperty('solicitudes');
-    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 2]);
+    expect(datos.exportaciones.map((filas) => filas.length - 1)).toEqual([59, 1]);
     expect(datos.exportaciones[0][0]).toHaveLength(48);
     // Los únicos datos "personales" que lleva son los de demostración, claramente inventados.
     expect(pagina).toContain('Vecina Demo 01');
@@ -158,7 +158,7 @@ describe('generarCopiaDeDiseno (con la pantalla y los datos reales del proyecto)
       'Mistral Large 4',
       'MiniMax M3.1 Flash',
     ]);
-    expect(pagina).toContain('Resultados de MiniMax reproducidos desde archivo');
+    expect(pagina).toContain('Clasificación con MiniMax M3.1 Flash');
     // La bienvenida (tarea 014) también va en la copia.
     expect(pagina).toContain('Hola, equipo.');
     // La pestaña "Cómo funciona" (tarea 009) también.

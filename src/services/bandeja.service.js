@@ -209,7 +209,7 @@ export const fechaCorta = (fechaIso, zonaHoraria = ZONA_HORARIA) => {
 /**
  * Describe de dónde vienen los datos de la bandeja, para mostrarlo siempre en la pantalla.
  * La bandeja lee una corrida guardada: los resultados no se generan en vivo. Por eso la etiqueta
- * dice las dos cosas: si son reales o simulados, y que se reproducen desde un archivo.
+ * dice qué los generó: el modelo de IA o las reglas de respaldo (tarea 018: sin avisos de demo).
  */
 export const describirDatosBandeja = (corrida) => {
   if (corrida?.origen === 'modelo_real') {
@@ -222,8 +222,8 @@ export const describirDatosBandeja = (corrida) => {
       nombre_corto: NOMBRES_CORTOS_MODELOS[corrida.modelo] ?? nombre,
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
-      texto_franja: `Resultados de ${NOMBRES_CORTOS_MODELOS[corrida.modelo] ?? nombre} reproducidos desde archivo`,
-      etiqueta: `Resultados reales de ${nombre} (${fecha ? `corrida del ${fecha}` : 'fecha de la corrida desconocida'}), reproducidos desde archivo`,
+      texto_franja: `Clasificación con ${nombre}`,
+      etiqueta: `Clasificación de ${nombre} (${fecha ? `corrida del ${fecha}` : 'fecha de la corrida desconocida'})`,
     };
   }
   if (corrida?.origen === 'simulado_reglas') {
@@ -234,9 +234,8 @@ export const describirDatosBandeja = (corrida) => {
       nombre_corto: 'las reglas simuladas',
       fecha_corrida: corrida.generado_en ?? null,
       reproducido_desde_archivo: true,
-      texto_franja: 'Resultados SIMULADOS por reglas fijas (no son IA), reproducidos desde archivo',
-      etiqueta:
-        'Resultados SIMULADOS por reglas fijas (no son de un modelo de IA), reproducidos desde archivo',
+      texto_franja: 'Clasificación por reglas de respaldo (sin IA)',
+      etiqueta: 'Clasificación por reglas de respaldo (sin IA)',
     };
   }
   throw new Error(

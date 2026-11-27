@@ -10,10 +10,10 @@ import { ENCABEZADO_EXPORTACION } from '../schemas/exportacion-telesalud.js';
  */
 
 /**
- * La segunda exportación trae solo estas solicitudes: SINT-0009 (tareas 006 y 011) y SINT-0061,
- * "Rosa", el caso adicional para el video (tarea 015).
+ * La segunda exportación trae solo SINT-0009 (tareas 006 y 011). SINT-0061, "Rosa" (tarea 015),
+ * estuvo aquí y se sacó para el video (tarea 017): su caso sigue guardado, fuera de la demo.
  */
-export const IDS_SEGUNDA_EXPORTACION = Object.freeze(['SINT-0009', 'SINT-0061']);
+export const IDS_SEGUNDA_EXPORTACION = Object.freeze(['SINT-0009']);
 
 const numeroDe = (idSolicitud) => {
   const partes = /^SINT-(\d{4})$/.exec(idSolicitud);

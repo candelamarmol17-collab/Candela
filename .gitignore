@@ -22,3 +22,6 @@ Thumbs.db
 
 # Archivos temporales de Excel/Word abiertos
 ~$*
+
+# Carpeta de trabajo de la skill Archify (borradores y comprobantes; el diagrama final va en docs/arquitectura/)
+.archify/

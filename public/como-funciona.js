@@ -67,17 +67,17 @@ const TARJETAS_IA_RESPONSABLE = [
   {
     titulo: 'Privacidad',
     texto:
-      'Los datos personales se separan antes de la IA y se quedan en el centro (Ley 20.584 y Ley 21.719). Esta demo usa solo datos ficticios.',
+      'Los datos personales se separan antes de la IA y se quedan en el centro (Ley 20.584 y Ley 21.719).',
   },
   {
     titulo: 'Sin depender de un proveedor',
     texto:
-      'El proveedor de IA se puede cambiar, y existe un modo simulado que funciona sin internet ni clave.',
+      'El proveedor de IA se puede cambiar, y existe un modo de respaldo por reglas que funciona sin internet.',
   },
   {
     titulo: 'Evaluación transparente',
     texto:
-      'Se mide sobre todo cuántas alertas críticas no se detectan. Los resultados muestran el método, no la calidad clínica real.',
+      'Se mide sobre todo cuántas alertas críticas no se detectan. Los criterios se construyeron con el equipo del centro y su validación clínica formal es parte del piloto.',
   },
 ];
 
@@ -148,7 +148,7 @@ export const mostrarComoFunciona = async (llamar) => {
       el(
         'p',
         { clase: 'eval-nota' },
-        'Ningún modelo está elegido. Mistral y MiniMax se probaron con 60 casos sintéticos; el resto está por evaluar.',
+        'Mistral y MiniMax se probaron con 60 casos de prueba; el resto está por evaluar. El modelo final se elige con el equipo clínico.',
       ),
     ),
     seccion('IA responsable', tarjetasIaResponsable()),

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pulso · Bandeja de Telesalud (prototipo)</title>
+    <title>Pulso · Bandeja de Telesalud</title>
     <link rel="icon" type="image/svg+xml" href="/logo-pulso.svg" />
     <link rel="stylesheet" href="/estilos.css" />
     <script type="module" src="/app.js"></script>
@@ -26,9 +26,8 @@
     </div>
 
     <div class="aviso-prototipo">
-      Prototipo de demostración · Datos 100% ficticios ·
-      <span id="franja-datos">Resultados de MiniMax reproducidos desde archivo</span> · La IA
-      sugiere, el equipo clínico decide
+      <span id="franja-datos">Clasificación con MiniMax M3.1 Flash</span> · La IA sugiere, el equipo
+      clínico decide
     </div>
 
     <header class="encabezado">
@@ -44,7 +43,7 @@
         </div>
         <div class="encabezado__derecha">
           <p class="encabezado__centro">CESFAM Boris Soler · Bandeja de Telesalud</p>
-          <span class="etiqueta-usuario" id="triajista">Triajista de demostración</span>
+          <span class="etiqueta-usuario" id="triajista">Triajista de turno</span>
         </div>
       </div>
       <nav class="contenedor pestanas" aria-label="Secciones">
@@ -163,8 +162,8 @@
       </div>
     </main>
 
-    <!-- Regla R1: esta ventana NO permite subir archivos del computador. Solo carga el archivo
-         de demostración que ya trae el programa. -->
+    <!-- Regla R1: esta ventana NO permite subir archivos del computador. Solo carga la exportación
+         de Telesalud que ya trae el programa. -->
     <dialog class="ventana" id="ventana-carga" aria-labelledby="ventana-titulo">
       <form method="dialog" class="ventana__contenido">
         <h2 class="ventana__titulo" id="ventana-titulo"></h2>
@@ -175,9 +174,9 @@
             <p class="ventana__detalle" id="ventana-detalle"></p>
           </div>
         </div>
-        <p class="ventana__nota">En el piloto: archivo exportado desde Telesalud</p>
+        <p class="ventana__nota">Archivo exportado desde Telesalud</p>
         <p class="ventana__aviso">
-          En esta demostración solo se puede usar este archivo: no se suben archivos del computador.
+          Pulso solo lee la exportación de Telesalud: no se suben otros archivos.
         </p>
         <div class="ventana__botones">
           <button type="submit" class="boton boton--secundario" value="cancelar">Cancelar</button>
@@ -193,7 +192,7 @@
       <div class="reg-cabeza">
         <div>
           <h2 class="titulo">Registro</h2>
-          <p class="subtitulo" id="registro-aviso">Registro de esta sesión de demostración.</p>
+          <p class="subtitulo" id="registro-aviso">Registro de esta sesión de trabajo.</p>
         </div>
         <div class="reg-contadores" id="registro-contadores" aria-live="polite"></div>
       </div>

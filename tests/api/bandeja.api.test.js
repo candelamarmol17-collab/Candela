@@ -29,7 +29,7 @@ describe('GET /api/bandeja', () => {
     expect(respuesta.body.datos.resumen.total).toBe(0);
     expect(respuesta.body.datos.exportaciones.siguiente).toEqual({
       numero: 1,
-      nombre: 'Exportación de demostración 1',
+      nombre: 'Exportación de Telesalud 1',
       solicitudes_nuevas: 59,
     });
   });
@@ -42,9 +42,9 @@ describe('GET /api/bandeja', () => {
     expect(datos.ordenadas).toHaveLength(59);
     expect(datos.resumen.total).toBe(59);
     expect(datos.datos.etiqueta).toBe(
-      'Resultados reales de MiniMax M3.1 Flash (corrida del 26 nov. 2026), reproducidos desde archivo',
+      'Clasificación de MiniMax M3.1 Flash (corrida del 26 nov. 2026)',
     );
-    expect(datos.datos.texto_franja).toBe('Resultados de MiniMax reproducidos desde archivo');
+    expect(datos.datos.texto_franja).toBe('Clasificación con MiniMax M3.1 Flash');
     expect(datos.datos.nombre_corto).toBe('MiniMax');
     expect(datos.ordenadas.map((e) => e.solicitud.id_solicitud)).not.toContain('SINT-0009');
   });
@@ -68,7 +68,7 @@ describe('POST /api/bandeja/cargar-exportacion', () => {
     expect(tercera.status).toBe(400);
     expect(tercera.body).toEqual({
       ok: false,
-      error: { mensaje: 'No hay más exportaciones de demostración. Usa "Reiniciar demo".' },
+      error: { mensaje: 'No hay exportaciones nuevas por cargar.' },
     });
   });
 
@@ -189,7 +189,7 @@ describe('registro de la sesión (tarea 007)', () => {
     expect(corregida.status).toBe(200);
 
     const { registro } = (await request(app).get('/api/bandeja')).body.datos;
-    expect(registro.aviso).toBe('Registro de esta sesión de demostración.');
+    expect(registro.aviso).toBe('Registro de esta sesión de trabajo.');
     expect(registro.eventos.map((e) => [e.accion, e.id_solicitud])).toEqual([
       ['corregida', 'SINT-0002'],
       ['confirmada', 'SINT-0001'],
@@ -210,25 +210,16 @@ describe('registro de la sesión (tarea 007)', () => {
   });
 });
 
-describe('caso adicional SINT-0061 "Rosa" (tarea 015)', () => {
-  test('llega en la segunda exportación junto a SINT-0009, clasificada como cualquier otra', async () => {
-    const antes = (await request(app).get('/api/bandeja')).body.datos;
-    expect(antes.ordenadas.map((e) => e.solicitud.id_solicitud)).not.toContain('SINT-0061');
-
+describe('Rosa (SINT-0061) fuera de la demo (tarea 017)', () => {
+  test('la segunda exportación trae solo SINT-0009 y Rosa no aparece en la bandeja', async () => {
     const respuesta = await request(app).post('/api/bandeja/cargar-exportacion');
     expect(respuesta.status).toBe(200);
     const { datos } = respuesta.body;
-    expect(datos.resumen.total).toBe(61);
-    expect(datos.exportaciones.ultima.solicitudes_nuevas).toBe(2);
-    const rosa = datos.ordenadas.find((e) => e.solicitud.id_solicitud === 'SINT-0061');
-    // Lo que respondió MiniMax, sin cambios a mano.
-    expect(rosa.clasificacion).toMatchObject({
-      prioridad_sugerida: 'media',
-      profesional_sugerido: 'Medicina',
-      alertas: ['persona_mayor_60'],
-    });
-    expect(rosa.revision.estado).toBe('pendiente');
-    // En pantalla no lleva nada especial: solo el texto y los datos que ya separó la demo.
-    expect(JSON.stringify(rosa)).not.toMatch(/Rosa|adicional|video/i);
+    expect(datos.resumen.total).toBe(60);
+    expect(datos.exportaciones.ultima.solicitudes_nuevas).toBe(1);
+    const ids = [...datos.ordenadas, ...datos.no_clasificadas].map((e) => e.solicitud.id_solicitud);
+    expect(ids).toContain('SINT-0009');
+    expect(ids).not.toContain('SINT-0061');
+    expect(JSON.stringify(datos)).not.toContain('SINT-0061');
   });
 });
